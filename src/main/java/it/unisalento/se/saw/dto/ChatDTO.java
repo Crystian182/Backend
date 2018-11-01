@@ -8,7 +8,7 @@ public class ChatDTO {
 	private String title;
 	private MessageDTO lastMessage;
 	private List<MessageDTO> allMessages;
-	private SubjectOfStudyDTO subjectOfStudy;
+	private SubjectDTO subject;
 	private UserDTO user;
 	private boolean isPublic;
 	private boolean isSubscribed;

@@ -2,8 +2,6 @@ package it.unisalento.se.saw.dto;
 
 import java.util.Date;
 
-import it.unisalento.se.saw.domain.Classroom;
-import it.unisalento.se.saw.domain.Subjectofstudy;
 
 public class ConfirmationDTO {
 	
@@ -12,9 +10,9 @@ public class ConfirmationDTO {
 	private String nameuser;
 	private String surnameuser;
 	private Date date;
-	private Subjectofstudy subjectofstudy;
+	private SubjectDTO subject;
 	private String type;
-	private Classroom classroom;
+	private ClassroomDTO classroom;
 	
 	public Integer getIdexam() {
 		return idexam;
@@ -46,24 +44,26 @@ public class ConfirmationDTO {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public Subjectofstudy getSubjectofstudy() {
-		return subjectofstudy;
-	}
-	public void setSubjectofstudy(Subjectofstudy subjectofstudy) {
-		this.subjectofstudy = subjectofstudy;
-	}
+
 	public String getType() {
 		return type;
 	}
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Classroom getClassroom() {
+	public SubjectDTO getSubject() {
+		return subject;
+	}
+	public void setSubject(SubjectDTO subject) {
+		this.subject = subject;
+	}
+	public ClassroomDTO getClassroom() {
 		return classroom;
 	}
-	public void setClassroom(Classroom classroom) {
+	public void setClassroom(ClassroomDTO classroom) {
 		this.classroom = classroom;
 	}
+	
 	
 
 }

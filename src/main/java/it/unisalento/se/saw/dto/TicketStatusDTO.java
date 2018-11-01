@@ -1,6 +1,6 @@
 package it.unisalento.se.saw.dto;
 
-public class StatusDTO {
+public class TicketStatusDTO {
 
 	
 	private int idstatus;

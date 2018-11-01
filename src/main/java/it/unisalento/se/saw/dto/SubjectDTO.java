@@ -1,12 +1,15 @@
 package it.unisalento.se.saw.dto;
 
-public class SubjectOfStudyDTO {
+public class SubjectDTO {
+
 	
 	private int id;
 	private String name;
 	private String description;
-	private CourseDTO courseDTO;
+	private DegreeCourseDTO degreecourseDTO;
 	private TeacherDTO teacherDTO;
+	private int cfu;
+	
 	public int getId() {
 		return id;
 	}
@@ -25,19 +28,25 @@ public class SubjectOfStudyDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public CourseDTO getCourseDTO() {
-		return courseDTO;
-	}
-	public void setCourseDTO(CourseDTO courseDTO) {
-		this.courseDTO = courseDTO;
-	}
+	
 	public TeacherDTO getTeacherDTO() {
 		return teacherDTO;
 	}
 	public void setTeacherDTO(TeacherDTO teacherDTO) {
 		this.teacherDTO = teacherDTO;
 	}
+	public DegreeCourseDTO getDegreecourseDTO() {
+		return degreecourseDTO;
+	}
+	public void setDegreecourseDTO(DegreeCourseDTO degreecourseDTO) {
+		this.degreecourseDTO = degreecourseDTO;
+	}
+	public int getCfu() {
+		return cfu;
+	}
+	public void setCfu(int cfu) {
+		this.cfu = cfu;
+	}
 	
 	
-
 }

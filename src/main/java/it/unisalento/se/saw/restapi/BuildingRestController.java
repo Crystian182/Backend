@@ -76,8 +76,8 @@ public class BuildingRestController {
 		buildingDTO.setId(building.getIdbuilding());
 		buildingDTO.setName(building.getName());
 		buildingDTO.setAddress(building.getAddress());
-		buildingDTO.setLatitude(building.getLatitude());
-		buildingDTO.setLongitude(building.getLongitude());
+		buildingDTO.setLat(building.getLat());
+		buildingDTO.setLng(building.getLng());
 		return buildingDTO;
 	}
 	
@@ -89,8 +89,8 @@ public class BuildingRestController {
 		}
 		building.setName(buildingDTO.getName());
 		building.setAddress(buildingDTO.getAddress());
-		building.setLatitude(buildingDTO.getLatitude());
-		building.setLongitude(buildingDTO.getLongitude());
+		building.setLat(buildingDTO.getLat());
+		building.setLng(buildingDTO.getLng());
 		return building;
 		
 	}

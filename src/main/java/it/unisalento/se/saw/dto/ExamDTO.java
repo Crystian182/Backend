@@ -1,22 +1,16 @@
 package it.unisalento.se.saw.dto;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import it.unisalento.se.saw.domain.Classroom;
-import it.unisalento.se.saw.domain.ExamHasUser;
-import it.unisalento.se.saw.domain.Subjectofstudy;
 
 public class ExamDTO {
 
 	  private Integer idexam;
 	  private ClassroomDTO classroom;
-	  private SubjectOfStudyDTO subjectofstudy;
-	  private String type;
+	  private SubjectDTO subject;
+	  private int idExamType;
 	  private Date date;
-	  private Date startregistration;
-	  private Date endregistration;
+	  private Date start;
+	  private Date end;
 	  private boolean isSubscribed;
 	 
 	  
@@ -33,17 +27,19 @@ public class ExamDTO {
 		public void setClassroom(ClassroomDTO classroom) {
 			this.classroom = classroom;
 		}
-		public SubjectOfStudyDTO getSubjectofstudy() {
-			return subjectofstudy;
+		
+		public SubjectDTO getSubject() {
+			return subject;
 		}
-		public void setSubjectofstudy(SubjectOfStudyDTO subjectofstudy) {
-			this.subjectofstudy = subjectofstudy;
+		public void setSubject(SubjectDTO subject) {
+			this.subject = subject;
 		}
-		public String getType() {
-			return type;
+		
+		public int getIdExamType() {
+			return idExamType;
 		}
-		public void setType(String type) {
-			this.type = type;
+		public void setIdExamType(int idExamType) {
+			this.idExamType = idExamType;
 		}
 		public Date getDate() {
 			return date;
@@ -51,17 +47,18 @@ public class ExamDTO {
 		public void setDate(Date date) {
 			this.date = date;
 		}
-		public Date getStartregistration() {
-			return startregistration;
+	
+		public Date getStart() {
+			return start;
 		}
-		public void setStartregistration(Date startregistration) {
-			this.startregistration = startregistration;
+		public void setStart(Date start) {
+			this.start = start;
 		}
-		public Date getEndregistration() {
-			return endregistration;
+		public Date getEnd() {
+			return end;
 		}
-		public void setEndregistration(Date endregistration) {
-			this.endregistration = endregistration;
+		public void setEnd(Date end) {
+			this.end = end;
 		}
 		public boolean isSubscribed() {
 			return isSubscribed;

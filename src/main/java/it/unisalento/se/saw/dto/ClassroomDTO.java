@@ -10,7 +10,7 @@ public class ClassroomDTO {
 	private float latitude;
 	private float longitude;
 	private BuildingDTO building;
-	private List<InstrumentDTO> instruments;
+	private List<ToolDTO> tools;
 	
 	public int getId() {
 		return id;
@@ -48,13 +48,12 @@ public class ClassroomDTO {
 	public void setBuilding(BuildingDTO building) {
 		this.building = building;
 	}
-	public List<InstrumentDTO> getInstruments() {
-		return instruments;
+	public List<ToolDTO> getTools() {
+		return tools;
 	}
-	public void setInstruments(List<InstrumentDTO> instruments) {
-		this.instruments = instruments;
+	public void setTools(List<ToolDTO> tools) {
+		this.tools = tools;
 	}
-	
 	
 	
 	

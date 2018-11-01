@@ -6,8 +6,7 @@ public class UserDTO {
 	private String name;
 	private String surname;
 	private String username;
-	private TypeDTO typeDTO;
-	private CourseDTO courseDTO;
+	
 	
 	public int getId() {
 		return id;
@@ -15,12 +14,7 @@ public class UserDTO {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public CourseDTO getCourseDTO() {
-		return courseDTO;
-	}
-	public void setCourseDTO(CourseDTO courseDTO) {
-		this.courseDTO = courseDTO;
-	}
+
 	public TypeDTO getTypeDTO() {
 		return typeDTO;
 	}

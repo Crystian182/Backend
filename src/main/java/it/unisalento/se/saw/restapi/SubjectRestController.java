@@ -11,55 +11,50 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.unisalento.se.saw.Iservices.ISubjectOfStudyService;
+import it.unisalento.se.saw.Iservices.ISubjectService;
 import it.unisalento.se.saw.Iservices.ITeacherService;
 import it.unisalento.se.saw.domain.Course;
 import it.unisalento.se.saw.domain.Subjectofstudy;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.CourseDTO;
+import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.SubjectOfStudyDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
-import it.unisalento.se.saw.exceptions.SubjectOfStudyNotFoundException;
+import it.unisalento.se.saw.exceptions.SubjectNotFoundException;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 
 @RestController
 @RequestMapping("/subjectofstudy")
-public class SubjectOfStudyRestController {
+public class SubjectRestController {
 	
 	@Autowired
-	ISubjectOfStudyService subjectOfStudyService;
+	ISubjectService subjectService;
 	
 	@Autowired
 	ITeacherService teacherService;
 	
-	public SubjectOfStudyRestController() {
+	public SubjectRestController() {
 		super();
 	}
 	
-	public SubjectOfStudyRestController(ISubjectOfStudyService subjectOfStudyService) {
-		this.subjectOfStudyService = subjectOfStudyService;
+	public SubjectRestController(ISubjectService subjectOfStudyService) {
+		this.subjectService = subjectOfStudyService;
 	}
 	
 	@GetMapping(value="/getAll", produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<SubjectOfStudyDTO> getAll() throws UserNotFoundException{
-		List<Subjectofstudy> subjectsOfStudy = subjectOfStudyService.getAll();
-		List<SubjectOfStudyDTO> subjectOfStudyDTOs = new ArrayList<SubjectOfStudyDTO>();
-		for(int i=0; i<subjectsOfStudy.size(); i++) {
-			Subjectofstudy subjectOfStudy = subjectsOfStudy.get(i);
-			subjectOfStudyDTOs.add(this.entityToDTO(subjectOfStudy));
-		}
-		return subjectOfStudyDTOs;
+	public List<SubjectDTO> getAll() throws SubjectNotFoundException{
+		return subjectService.getAll();
 	}
 	
 	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public SubjectOfStudyDTO getById(@PathVariable("id")int id) throws SubjectOfStudyNotFoundException, UserNotFoundException {
+	public SubjectOfStudyDTO getById(@PathVariable("id")int id) throws SubjectNotFoundException, UserNotFoundException {
 		
 		Subjectofstudy subjectOfStudy = subjectOfStudyService.getById(id);
 		return this.entityToDTO(subjectOfStudy);
 	}
 	
 	@PostMapping(value="/edit", produces=MediaType.APPLICATION_JSON_VALUE)
-	public SubjectOfStudyDTO edit(@RequestBody SubjectOfStudyDTO subjectOfStudyDTO) throws SubjectOfStudyNotFoundException {
+	public SubjectOfStudyDTO edit(@RequestBody SubjectOfStudyDTO subjectOfStudyDTO) throws SubjectNotFoundException {
 		Subjectofstudy newSubjectOfStudy = subjectOfStudyService.edit(this.DTOtoEntity(subjectOfStudyDTO));
 		return this.entityToDTO(newSubjectOfStudy);
 	}
@@ -72,7 +67,7 @@ public class SubjectOfStudyRestController {
 	}
 	
 	@GetMapping(value="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public void delete(@PathVariable("id")int id) throws SubjectOfStudyNotFoundException {
+	public void delete(@PathVariable("id")int id) throws SubjectNotFoundException {
 		subjectOfStudyService.delete(id);
 	}	
 	

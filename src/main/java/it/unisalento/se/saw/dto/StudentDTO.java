@@ -2,22 +2,22 @@ package it.unisalento.se.saw.dto;
 
 import java.util.Date;
 
-public class TeacherDTO {
-	
-	private String ssn;
+public class StudentDTO {
+
+	private Integer serialNumber;
 	private String name;
 	private String surname;
 	private Date dateBirth;
 	private String placeBirth;
 	private String domicile;
 	private String residence;
+
 	
-	
-	public String getSsn() {
-		return ssn;
+	public Integer getSerialNumber() {
+		return serialNumber;
 	}
-	public void setSsn(String ssn) {
-		this.ssn = ssn;
+	public void setSerialNumber(Integer serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 	public String getName() {
 		return name;
@@ -43,7 +43,6 @@ public class TeacherDTO {
 	public void setPlaceBirth(String placeBirth) {
 		this.placeBirth = placeBirth;
 	}
-
 	public String getDomicile() {
 		return domicile;
 	}
@@ -58,6 +57,4 @@ public class TeacherDTO {
 	}
 	
 	
-	
-
 }

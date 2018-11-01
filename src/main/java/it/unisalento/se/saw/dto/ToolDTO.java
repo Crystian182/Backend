@@ -1,12 +1,7 @@
 package it.unisalento.se.saw.dto;
 
-import java.util.HashSet;
-import java.util.Set;
+public class ToolDTO {
 
-import it.unisalento.se.saw.domain.ClassroomHasInstruments;
-
-public class InstrumentDTO {
-	
 	private Integer id;
     private String name;
     private int quantity;
@@ -31,8 +26,5 @@ public class InstrumentDTO {
 		this.quantity = quantity;
 	}
 
-
-    
-    
 
 }

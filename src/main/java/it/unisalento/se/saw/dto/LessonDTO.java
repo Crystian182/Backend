@@ -4,21 +4,15 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import it.unisalento.se.saw.domain.Classroom;
-import it.unisalento.se.saw.domain.Feedbacklesson;
-import it.unisalento.se.saw.domain.File;
-import it.unisalento.se.saw.domain.Subjectofstudy;
 
 public class LessonDTO {
 
 	private Integer idlesson;
     private ClassroomDTO classroom;
-    private SubjectOfStudyDTO subjectofstudy;
+    private SubjectDTO subject;
     private int day;
     private Date start;
     private Date end;
-    private Set<Feedbacklesson> feedbacklessons = new HashSet<Feedbacklesson>(0);
-    private Set<File> files = new HashSet<File>(0);
     
     
 	public Integer getIdlesson() {
@@ -33,11 +27,12 @@ public class LessonDTO {
 	public void setClassroom(ClassroomDTO classroom) {
 		this.classroom = classroom;
 	}
-	public SubjectOfStudyDTO getSubjectofstudy() {
-		return subjectofstudy;
+	
+	public SubjectDTO getSubject() {
+		return subject;
 	}
-	public void setSubjectofstudy(SubjectOfStudyDTO subjectofstudy) {
-		this.subjectofstudy = subjectofstudy;
+	public void setSubject(SubjectDTO subject) {
+		this.subject = subject;
 	}
 	public int getDay() {
 		return day;
@@ -57,18 +52,7 @@ public class LessonDTO {
 	public void setEnd(Date end) {
 		this.end = end;
 	}
-	public Set<Feedbacklesson> getFeedbacklessons() {
-		return feedbacklessons;
-	}
-	public void setFeedbacklessons(Set<Feedbacklesson> feedbacklessons) {
-		this.feedbacklessons = feedbacklessons;
-	}
-	public Set<File> getFiles() {
-		return files;
-	}
-	public void setFiles(Set<File> files) {
-		this.files = files;
-	}
+	
 
     
     
