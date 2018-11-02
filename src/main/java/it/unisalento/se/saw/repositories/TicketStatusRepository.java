@@ -10,7 +10,7 @@ import it.unisalento.se.saw.domain.TicketStatus;
 @Repository
 public interface TicketStatusRepository extends JpaRepository<TicketStatus, Integer>{
 
-	@Query("select s from Status s where s.idstatus=:id")
+	@Query("select s from TicketStatus s where s.idticketStatus=:id")
 	public TicketStatus getById(@Param("id")int id);
 
 }

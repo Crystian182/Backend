@@ -18,7 +18,7 @@ public interface SubjectChatHasStudentRepository extends JpaRepository<SubjectCh
 	@Query("SELECT c FROM SubjectChatHasStudent c WHERE c.id.studentSn=:ssn AND c.subjectChat.subject.name LIKE LOWER(CONCAT('%', :keyword,'%'))")
 	public List<SubjectChatHasStudent> search(@Param("ssn")String ssn, @Param("keyword")String keyword);
 	
-	@Query("SELECT COUNT(s)>0 FROM PublicchatHasUser s WHERE s.user.iduser=:userid AND s.publicchat.idpublicchat=:chatid")
-	public boolean checkSubscribe(@Param("userid")int userid, @Param("chatid")int chatid);
+	/*@Query("SELECT COUNT(s)>0 FROM PublicchatHasUser s WHERE s.user.iduser=:userid AND s.publicchat.idpublicchat=:chatid")
+	public boolean checkSubscribe(@Param("userid")int userid, @Param("chatid")int chatid);*/
 
 }

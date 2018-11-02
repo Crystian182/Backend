@@ -23,13 +23,13 @@ public interface SubjectMessageRepository extends JpaRepository<Message, Integer
 	@Query("SELECT m FROM Message m WHERE m.subjectChat.idsubjectChat=:idsubject ORDER BY m.date DESC")
 	public Message getLastMessage(@Param("idsubject")int idsubject);
 	
-	@Query("SELECT m FROM Message m WHERE m.privatechat.idprivatechat=:idChat ORDER BY m.date DESC ")
+	/*@Query("SELECT m FROM Message m WHERE m.privatechat.idprivatechat=:idChat ORDER BY m.date DESC ")
 	public List<Message> getPrivateMessagesFromChatId(@Param("idChat")int chatId);
 	
 	@Query("SELECT m FROM Message m WHERE m.publicchat.idpublicchat=:idChat ORDER BY m.date DESC ")
 	public List<Message> getPublicMessagesFromChatId(@Param("idChat")int chatId);
 	
 	@Query("SELECT CASE WHEN COUNT(m) > 0 THEN true ELSE false END FROM Message m WHERE m.publicchat.idpublicchat=:idChat")
-    public boolean checkPublicChat(@Param("idChat")int chatId);
+    public boolean checkPublicChat(@Param("idChat")int chatId);*/
 
 }

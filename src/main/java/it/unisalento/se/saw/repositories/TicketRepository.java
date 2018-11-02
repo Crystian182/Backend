@@ -15,6 +15,6 @@ import it.unisalento.se.saw.domain.TicketMessage;
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
-	@Query("SELECT m FROM Ticketmessage m WHERE m.ticket.idticket=:idticket ORDER BY m.date DESC ")
+	@Query("SELECT m FROM TicketMessage m WHERE m.ticket.idticket=:idticket ORDER BY m.date DESC ")
 	public List<TicketMessage> getMessages(@Param("idticket")int idticket);
 }

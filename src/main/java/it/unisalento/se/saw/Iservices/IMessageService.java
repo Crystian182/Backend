@@ -8,9 +8,8 @@ import it.unisalento.se.saw.domain.Message;
 
 public interface IMessageService {
 	
-	public List<Message> getAllPrivates(int idChat);
+	/*public List<Message> getAllPrivates(int idChat);
 	public List<Message> getAllPublics(int idChat);
-	public Message save(Message message);
-	public boolean checkPublicOrNot(int idChat);
+	public Message save(Message message);*/
 
 }
