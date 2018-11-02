@@ -1,8 +1,6 @@
 package it.unisalento.se.saw.dto;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 
 public class LessonDTO {
@@ -12,7 +10,7 @@ public class LessonDTO {
     private SubjectDTO subject;
     private int day;
     private Date start;
-    private Date end;
+    private int duration;
     
     
 	public Integer getIdlesson() {
@@ -45,12 +43,13 @@ public class LessonDTO {
 	public void setStart(Date start) {
 		this.start = start;
 	}
-	public Date getEnd() {
-		return end;
+	public int getDuration() {
+		return duration;
 	}
-	public void setEnd(Date end) {
-		this.end = end;
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
+	
 	
 
     

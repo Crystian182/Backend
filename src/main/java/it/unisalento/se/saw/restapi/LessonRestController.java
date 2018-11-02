@@ -39,31 +39,18 @@ public class LessonRestController {
 	
 	@GetMapping(value="/getAll", produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<LessonDTO> getAll(){
-		List<Lesson> lessons = lessonService.getAll();
-		List<LessonDTO> newLessonDTOs = new ArrayList<LessonDTO>();
-		for(int i=0; i<lessons.size(); i++) {
-			Lesson lesson = lessons.get(i);
-			newLessonDTOs.add(this.EntityToDTO(lesson));
-		}
-		return newLessonDTOs;
+		return lessonService.getAll();
 	}
 	
 	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public LessonDTO getById(@PathVariable("id")int id) throws LessonNotFoundException{
-		Lesson lesson = lessonService.getById(id);
-		return this.EntityToDTO(lesson);
-	}
-	
-	@PostMapping(value="/edit", produces=MediaType.APPLICATION_JSON_VALUE)
-	public LessonDTO edit(@RequestBody LessonDTO lessonDTO) throws LessonNotFoundException{
-		Lesson lesson = lessonService.edit(this.DTOToEntity(lessonDTO));
-		return this.EntityToDTO(lesson);
+		return lessonService.getById(id);
 	}
 	
 	@PostMapping(value="/save", produces=MediaType.APPLICATION_JSON_VALUE)
 	public LessonDTO save(@RequestBody LessonDTO lessonDTO){
-		Lesson lesson = lessonService.save(this.DTOToEntity(lessonDTO));
-		return this.EntityToDTO(lesson);
+		return lessonService.save(lessonDTO);
+		
 	}
 	
 	@PostMapping(value="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)

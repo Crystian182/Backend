@@ -1,5 +1,6 @@
 package it.unisalento.se.saw.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.unisalento.se.saw.Iservices.ILessonService;
+import it.unisalento.se.saw.domain.Building;
+import it.unisalento.se.saw.domain.Classroom;
+import it.unisalento.se.saw.domain.DegreeCourse;
 import it.unisalento.se.saw.domain.Lesson;
+import it.unisalento.se.saw.domain.Subject;
+import it.unisalento.se.saw.dto.BuildingDTO;
+import it.unisalento.se.saw.dto.ClassroomDTO;
+import it.unisalento.se.saw.dto.DegreeCourseDTO;
+import it.unisalento.se.saw.dto.LessonDTO;
+import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.exceptions.LessonNotFoundException;
 import it.unisalento.se.saw.repositories.LessonRepository;
 
@@ -19,34 +29,207 @@ public class LessonService implements ILessonService{
 	LessonRepository lessonRepository;
 
 	@Transactional(readOnly = true)
-	public List<Lesson> getAll() {
-		// TODO Auto-generated method stub
-		return lessonRepository.findAll();
+	public List<LessonDTO> getAll() {
+		List<Lesson> lessons = lessonRepository.findAll();
+		List<LessonDTO> lessonDTOs = new ArrayList<LessonDTO>();
+		for(int i=0; i<lessons.size(); i++) {
+				
+				BuildingDTO buildingDTO = new BuildingDTO();
+				buildingDTO.setId(lessons.get(i).getClassroom().getBuilding().getIdbuilding());
+				buildingDTO.setName(lessons.get(i).getClassroom().getBuilding().getName());
+				buildingDTO.setAddress(lessons.get(i).getClassroom().getBuilding().getAddress());
+				buildingDTO.setLat(lessons.get(i).getClassroom().getBuilding().getLat());
+				buildingDTO.setLng(lessons.get(i).getClassroom().getBuilding().getLng());
+				
+				ClassroomDTO classroomDTO = new ClassroomDTO();
+				classroomDTO.setId(lessons.get(i).getClassroom().getIdclassroom());
+				classroomDTO.setName(lessons.get(i).getClassroom().getName());
+				classroomDTO.setSeats(lessons.get(i).getClassroom().getSeats());
+				classroomDTO.setLat(lessons.get(i).getClassroom().getLat());
+				classroomDTO.setLng(lessons.get(i).getClassroom().getLng());
+				classroomDTO.setBuilding(buildingDTO);
+				
+				DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
+				degreeCourseDTO.setIdcourse(lessons.get(i).getSubject().getDegreeCourse().getIddegreeCourse());
+				degreeCourseDTO.setName(lessons.get(i).getSubject().getDegreeCourse().getName());
+				degreeCourseDTO.setDescription(lessons.get(i).getSubject().getDegreeCourse().getDescription());
+				degreeCourseDTO.setAcademicYear(lessons.get(i).getSubject().getDegreeCourse().getAcademicYear());
+				
+				SubjectDTO subjectDTO = new SubjectDTO();
+				subjectDTO.setId(lessons.get(i).getSubject().getIdsubject());
+				subjectDTO.setName(lessons.get(i).getSubject().getName());
+				subjectDTO.setDescription(lessons.get(i).getSubject().getDescription());
+				/*subjectofstudyDTO.setTeacherUserIduser(lesson.getSubjectofstudy().getTeacherUserIduser());
+				subjectofstudyDTO.setLessons(lesson.getSubjectofstudy().getLessons());
+				subjectofstudyDTO.setExams(lesson.getSubjectofstudy().getExams());
+				subjectofstudyDTO.setCourse(courseDTO);
+				subjectofstudyDTO.setUsers(lesson.getSubjectofstudy().getUsers());
+				subjectofstudyDTO.setPublicchats(lesson.getSubjectofstudy().getPublicchats());*/
+			
+				LessonDTO lessonDTO = new LessonDTO();
+				
+				lessonDTO.setIdlesson(lessons.get(i).getIdlesson());
+				lessonDTO.setDay(lessons.get(i).getDay());
+				lessonDTO.setStart(lessons.get(i).getStart());
+				lessonDTO.setDuration(lessons.get(i).getDuration());
+				lessonDTO.setClassroom(classroomDTO);
+				lessonDTO.setSubject(subjectDTO);
+		
+				lessonDTOs.add(lessonDTO);
+			}
+			
+		return lessonDTOs;
+		
 	}
 
 	@Transactional(rollbackFor=LessonNotFoundException.class)
-	public Lesson getById(int id) throws LessonNotFoundException {
+	public LessonDTO getById(int id) throws LessonNotFoundException {
 		try {
-			return lessonRepository.findById(id).get();
+			Lesson lesson = lessonRepository.findById(id).get();
+			
+			BuildingDTO buildingDTO = new BuildingDTO();
+			buildingDTO.setId(lesson.getClassroom().getBuilding().getIdbuilding());
+			buildingDTO.setName(lesson.getClassroom().getBuilding().getName());
+			buildingDTO.setAddress(lesson.getClassroom().getBuilding().getAddress());
+			buildingDTO.setLat(lesson.getClassroom().getBuilding().getLat());
+			buildingDTO.setLng(lesson.getClassroom().getBuilding().getLng());
+			
+			ClassroomDTO classroomDTO = new ClassroomDTO();
+			classroomDTO.setId(lesson.getClassroom().getIdclassroom());
+			classroomDTO.setName(lesson.getClassroom().getName());
+			classroomDTO.setSeats(lesson.getClassroom().getSeats());
+			classroomDTO.setLat(lesson.getClassroom().getLat());
+			classroomDTO.setLng(lesson.getClassroom().getLng());
+			classroomDTO.setBuilding(buildingDTO);
+			
+			DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
+			degreeCourseDTO.setIdcourse(lesson.getSubject().getDegreeCourse().getIddegreeCourse());
+			degreeCourseDTO.setName(lesson.getSubject().getDegreeCourse().getName());
+			degreeCourseDTO.setDescription(lesson.getSubject().getDegreeCourse().getDescription());
+			degreeCourseDTO.setAcademicYear(lesson.getSubject().getDegreeCourse().getAcademicYear());
+			
+
+			SubjectDTO subjectDTO = new SubjectDTO();
+			subjectDTO.setId(lesson.getSubject().getIdsubject());
+			subjectDTO.setName(lesson.getSubject().getName());
+			subjectDTO.setDescription(lesson.getSubject().getDescription());
+			/*subjectofstudyDTO.setTeacherUserIduser(lesson.getSubjectofstudy().getTeacherUserIduser());
+			subjectofstudyDTO.setLessons(lesson.getSubjectofstudy().getLessons());
+			subjectofstudyDTO.setExams(lesson.getSubjectofstudy().getExams());
+			subjectofstudyDTO.setCourse(courseDTO);
+			subjectofstudyDTO.setUsers(lesson.getSubjectofstudy().getUsers());
+			subjectofstudyDTO.setPublicchats(lesson.getSubjectofstudy().getPublicchats());*/
+		
+			LessonDTO lessonDTO = new LessonDTO();
+			
+			lessonDTO.setIdlesson(lesson.getIdlesson());
+			lessonDTO.setDay(lesson.getDay());
+			lessonDTO.setStart(lesson.getStart());
+			lessonDTO.setDuration(lesson.getDuration());
+			lessonDTO.setClassroom(classroomDTO);
+			lessonDTO.setSubject(subjectDTO);
+			
+			return lessonDTO;
+
 		} catch (Exception e) {
 			throw new LessonNotFoundException();
 		}
 	}
 
-	@Transactional
-	public Lesson edit(Lesson lesson) throws LessonNotFoundException {
-		try {
-			lessonRepository.findById(lesson.getIdlesson()).get();
-			return lessonRepository.save(lesson);
-		} catch (Exception e) {
-			throw new LessonNotFoundException();
-		}
-	}
 
 	@Transactional
-	public Lesson save(Lesson lesson) {
-		// TODO Auto-generated method stub
-		return lessonRepository.save(lesson);
+	public LessonDTO save(LessonDTO lessonDTO) {
+
+		Building building = new Building();
+		building.setIdbuilding(lessonDTO.getClassroom().getBuilding().getId());
+		building.setName(lessonDTO.getClassroom().getBuilding().getName());
+		building.setAddress(lessonDTO.getClassroom().getBuilding().getAddress());
+		building.setLat(lessonDTO.getClassroom().getBuilding().getLat());
+		building.setLng(lessonDTO.getClassroom().getBuilding().getLng());
+		
+		Classroom classroom = new Classroom();
+		classroom.setIdclassroom(lessonDTO.getClassroom().getId());
+		classroom.setName(lessonDTO.getClassroom().getName());
+		classroom.setSeats(lessonDTO.getClassroom().getSeats());
+		classroom.setLat(lessonDTO.getClassroom().getLat());
+		classroom.setLng(lessonDTO.getClassroom().getLng());
+		classroom.setBuilding(building);
+		
+		DegreeCourse degreeCourse = new DegreeCourse();
+		degreeCourse.setIddegreeCourse(lessonDTO.getSubject().getDegreecourseDTO().getIdcourse());
+		degreeCourse.setName(lessonDTO.getSubject().getDegreecourseDTO().getName());
+		degreeCourse.setDescription(lessonDTO.getSubject().getDegreecourseDTO().getDescription());
+		degreeCourse.setAcademicYear(lessonDTO.getSubject().getDegreecourseDTO().getAcademicYear());
+		
+		Subject subject = new Subject();
+		subject.setIdsubject(lessonDTO.getSubject().getId());
+		subject.setName(lessonDTO.getSubject().getName());
+		subject.setDescription(lessonDTO.getSubject().getDescription());
+		/*subjectofstudy.setExams(lessonDTO.getSubjectofstudy().getExams());
+		subjectofstudy.setCourse(course);
+		subjectofstudy.setLessons(lessonDTO.getSubjectofstudy().getLessons());
+		subjectofstudy.setTeacherUserIduser(lessonDTO.getSubjectofstudy().getTeacherUserIduser());
+		subjectofstudy.setUsers(lessonDTO.getSubjectofstudy().getUsers());
+		subjectofstudy.setPublicchats(lessonDTO.getSubjectofstudy().getPublicchats());*/
+	
+		Lesson lesson = new Lesson();
+		try {
+			lesson.setIdlesson(lessonDTO.getIdlesson());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		lesson.setClassroom(classroom);
+		lesson.setDay(lessonDTO.getDay());
+		lesson.setStart(lessonDTO.getStart());
+		lesson.setDuration(lessonDTO.getDuration());
+		lesson.setSubject(subject);
+	
+		Lesson newLesson = lessonRepository.save(lesson);
+		
+		BuildingDTO buildingDTO = new BuildingDTO();
+		buildingDTO.setId(newLesson.getClassroom().getBuilding().getIdbuilding());
+		buildingDTO.setName(newLesson.getClassroom().getBuilding().getName());
+		buildingDTO.setAddress(newLesson.getClassroom().getBuilding().getAddress());
+		buildingDTO.setLat(newLesson.getClassroom().getBuilding().getLat());
+		buildingDTO.setLng(newLesson.getClassroom().getBuilding().getLng());
+		
+		ClassroomDTO classroomDTO = new ClassroomDTO();
+		classroomDTO.setId(newLesson.getClassroom().getIdclassroom());
+		classroomDTO.setName(newLesson.getClassroom().getName());
+		classroomDTO.setSeats(newLesson.getClassroom().getSeats());
+		classroomDTO.setLat(newLesson.getClassroom().getLat());
+		classroomDTO.setLng(newLesson.getClassroom().getLng());
+		classroomDTO.setBuilding(buildingDTO);
+		
+		DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
+		degreeCourseDTO.setIdcourse(newLesson.getSubject().getDegreeCourse().getIddegreeCourse());
+		degreeCourseDTO.setName(newLesson.getSubject().getDegreeCourse().getName());
+		degreeCourseDTO.setDescription(newLesson.getSubject().getDegreeCourse().getDescription());
+		degreeCourseDTO.setAcademicYear(newLesson.getSubject().getDegreeCourse().getAcademicYear());
+		
+
+		SubjectDTO subjectDTO = new SubjectDTO();
+		subjectDTO.setId(newLesson.getSubject().getIdsubject());
+		subjectDTO.setName(newLesson.getSubject().getName());
+		subjectDTO.setDescription(newLesson.getSubject().getDescription());
+		/*subjectofstudyDTO.setTeacherUserIduser(lesson.getSubjectofstudy().getTeacherUserIduser());
+		subjectofstudyDTO.setLessons(lesson.getSubjectofstudy().getLessons());
+		subjectofstudyDTO.setExams(lesson.getSubjectofstudy().getExams());
+		subjectofstudyDTO.setCourse(courseDTO);
+		subjectofstudyDTO.setUsers(lesson.getSubjectofstudy().getUsers());
+		subjectofstudyDTO.setPublicchats(lesson.getSubjectofstudy().getPublicchats());*/
+	
+		LessonDTO newLessonDTO = new LessonDTO();
+		
+		newLessonDTO.setIdlesson(newLesson.getIdlesson());
+		newLessonDTO.setDay(newLesson.getDay());
+		newLessonDTO.setStart(newLesson.getStart());
+		newLessonDTO.setDuration(newLesson.getDuration());
+		newLessonDTO.setClassroom(classroomDTO);
+		newLessonDTO.setSubject(subjectDTO);
+		
+		return newLessonDTO;
+		
 	}
 
 	@Transactional
