@@ -18,8 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import it.unisalento.se.saw.domain.Building;
 import it.unisalento.se.saw.domain.Classroom;
-import it.unisalento.se.saw.domain.ClassroomHasInstruments;
-import it.unisalento.se.saw.domain.Instruments;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 import it.unisalento.se.saw.models.Login;
@@ -28,7 +26,7 @@ import it.unisalento.se.saw.servlets.LoginServlet;
 import it.unisalento.se.saw.Iservices.IAulaService;
 import it.unisalento.se.saw.Iservices.IBuildingService;
 import it.unisalento.se.saw.Iservices.IClassroomService;
-import it.unisalento.se.saw.Iservices.IInstrumentsService;
+import it.unisalento.se.saw.Iservices.IToolService;
 import it.unisalento.se.saw.Iservices.IUserService;
 
 @Controller

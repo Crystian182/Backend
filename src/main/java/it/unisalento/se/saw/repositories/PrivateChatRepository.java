@@ -7,20 +7,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import it.unisalento.se.saw.domain.Privatechat;
-import it.unisalento.se.saw.domain.Publicchat;
+import it.unisalento.se.saw.domain.PrivateChat;
 
 
 @Repository
-public interface PrivateChatRepository extends JpaRepository<Privatechat, Integer>{
+public interface PrivateChatRepository extends JpaRepository<PrivateChat, Integer>{
 	
-	@Query("SELECT c FROM Privatechat c WHERE c.userByUserIduser.iduser=:userId OR c.userByUserIduser1.iduser=:userId")
-	public List<Privatechat> findAllByUserId(@Param("userId")int userId);
+	@Query("SELECT c FROM PrivateChat c WHERE c.id.user1Ssn=:ssn OR c.id.user2Ssn=:ssn")
+	public List<PrivateChat> getPreviews(@Param("ssn")String ssn);
 	
-	/*@Query("SELECT c FROM Privatechat c WHERE (c.userByUserIduser.iduser=:idUser AND (c.userByUserIduser1.name LIKE LOWER(CONCAT('%', :keyword,'%')) OR c.userByUserIduser1.surname LIKE LOWER(CONCAT('%', :keyword,'%')) OR c.userByUserIduser1.username LIKE LOWER(CONCAT('%', :keyword,'%')))) OR (c.userByUserIduser1.iduser=:idUser AND (c.userByUserIduser.name LIKE LOWER(CONCAT('%', :keyword,'%')) OR c.userByUserIduser.surname LIKE LOWER(CONCAT('%', :keyword,'%')) OR c.userByUserIduser.username LIKE LOWER(CONCAT('%', :keyword,'%'))))")
-	public List<Privatechat> search(@Param("idUser")int idUser, @Param("keyword")String keyword);*/
-	
-	@Query("SELECT c FROM Privatechat c WHERE (c.userByUserIduser.iduser=:userId AND c.userByUserIduser1.iduser=:userId1) OR (c.userByUserIduser.iduser=:userId1 AND c.userByUserIduser1.iduser=:userId)")
-	public Privatechat getChat(@Param("userId")int userId, @Param("userId1")int userId1);
+	@Query("SELECT c FROM PrivateChat c WHERE (c.id.user1Ssn=:ssn1 AND c.id.user2Ssn=:ssn2) OR (c.id.user1Ssn=:ssn2 AND c.id.user2Ssn=:ssn1)")
+	public PrivateChat getPreviewsWithColleague(@Param("ssn1")String ssn1, @Param("ssn2")String ssn2);
 
 }

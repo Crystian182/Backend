@@ -19,7 +19,6 @@ import it.unisalento.se.saw.domain.Classroom;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.LoginDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
-import it.unisalento.se.saw.restapi.LoginRestController;
 import it.unisalento.se.saw.restapi.UserRestController;
 
 /**

@@ -22,7 +22,7 @@ import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
 import it.unisalento.se.saw.dto.CourseDTO;
 import it.unisalento.se.saw.dto.LessonDTO;
-import it.unisalento.se.saw.dto.SubjectOfStudyDTO;
+import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.exceptions.LessonNotFoundException;
 
 @RestController
@@ -99,7 +99,7 @@ public class LessonRestController {
 		courseDTO.setDescription(lesson.getSubjectofstudy().getCourse().getDescription());
 		courseDTO.setYears(lesson.getSubjectofstudy().getCourse().getYears());
 		
-		SubjectOfStudyDTO subjectofstudyDTO = new SubjectOfStudyDTO();
+		SubjectDTO subjectofstudyDTO = new SubjectDTO();
 		subjectofstudyDTO.setId(lesson.getSubjectofstudy().getIdsubjectofstudy());
 		subjectofstudyDTO.setName(lesson.getSubjectofstudy().getName());
 		subjectofstudyDTO.setDescription(lesson.getSubjectofstudy().getDescription());

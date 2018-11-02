@@ -1,13 +1,17 @@
 package it.unisalento.se.saw.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.unisalento.se.saw.Iservices.ISubjectOfStudyService;
 import it.unisalento.se.saw.Iservices.IUserService;
 import it.unisalento.se.saw.domain.User;
+import it.unisalento.se.saw.dto.LoginDTO;
+import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 import it.unisalento.se.saw.exceptions.WrongPasswordException;
@@ -67,13 +71,33 @@ public class UserService implements IUserService{
 	}*/
 	
 	@Transactional(rollbackFor=UserNotFoundException.class)
-	public User checkUser(Login login) throws UserNotFoundException, WrongPasswordException {
+	public UserDTO login(LoginDTO request) throws UserNotFoundException, WrongPasswordException {
 		
-		User user = userRepository.checkUser(login.getEmail());
+		User user = userRepository.checkUser(request.getEmail());
 		
 		try {
-			if(user.getPassword().equals(login.getPassword())) {
-				return user;
+			if(user.getPassword().equals(request.getPassword())) {
+				UserDTO userDTO = new UserDTO();
+				userDTO.setSsn(user.getSsn());
+				userDTO.setName(user.getName());
+				userDTO.setSurname(user.getSurname());
+				userDTO.setEmail(user.getEmail());
+				userDTO.setDateBirth(user.getDateBirth());
+				userDTO.setPlaceBirth(user.getPlaceBirth());
+				userDTO.setResidence(user.getResidence());
+				userDTO.setDomicile(user.getDomicile());
+				userDTO.setPhone(user.getPhone());
+				userDTO.setSex(user.getSex());
+				userDTO.setCitizenship(user.getCitizenship());
+				if(userRepository.isStudent(user.getSsn())) {
+					userDTO.setSerial_number(userRepository.getStudent(user.getSsn()).getSerialNumber());
+					userDTO.setType("student");
+				} else if (userRepository.isTeacher(user.getSsn())) {
+					userDTO.setType("teacher");
+				} else {
+					userDTO.setType("employee");
+				}
+				return userDTO;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -93,7 +117,7 @@ public class UserService implements IUserService{
 		}
 	}
 	
-	@Transactional
+	/*@Transactional
 	public List<User> getColleagues(User user, String keyword) throws UserNotFoundException {
 		try{
 			User existingUser = userRepository.findById(user.getIduser()).get();
@@ -101,7 +125,7 @@ public class UserService implements IUserService{
 		} catch (Exception e) {
 			throw new UserNotFoundException();
 		}
-	}
+	}*/
 	
 	/*@Transactional
 	public boolean login(String email, String password){

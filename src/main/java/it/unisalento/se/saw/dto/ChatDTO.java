@@ -4,19 +4,17 @@ import java.util.List;
 
 public class ChatDTO {
 	
-	private int idChat;
+	private String idChat;
 	private String title;
-	private MessageDTO lastMessage;
 	private List<MessageDTO> allMessages;
-	private SubjectOfStudyDTO subjectOfStudy;
-	private UserDTO user;
 	private boolean isPublic;
-	private boolean isSubscribed;
+	private SubjectDTO subject;
+	private UserDTO recipient;
 	
-	public int getIdChat() {
+	public String getIdChat() {
 		return idChat;
 	}
-	public void setIdChat(int idChat) {
+	public void setIdChat(String idChat) {
 		this.idChat = idChat;
 	}
 	public String getTitle() {
@@ -25,29 +23,11 @@ public class ChatDTO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public MessageDTO getLastMessage() {
-		return lastMessage;
-	}
-	public void setLastMessage(MessageDTO lastMessage) {
-		this.lastMessage = lastMessage;
-	}
 	public List<MessageDTO> getAllMessages() {
 		return allMessages;
 	}
 	public void setAllMessages(List<MessageDTO> allMessages) {
 		this.allMessages = allMessages;
-	}
-	public UserDTO getUser() {
-		return user;
-	}
-	public void setUser(UserDTO user) {
-		this.user = user;
-	}
-	public SubjectOfStudyDTO getSubjectOfStudy() {
-		return subjectOfStudy;
-	}
-	public void setSubjectOfStudy(SubjectOfStudyDTO subjectOfStudy) {
-		this.subjectOfStudy = subjectOfStudy;
 	}
 	public boolean isPublic() {
 		return isPublic;
@@ -55,11 +35,17 @@ public class ChatDTO {
 	public void setPublic(boolean isPublic) {
 		this.isPublic = isPublic;
 	}
-	public boolean isSubscribed() {
-		return isSubscribed;
+	public SubjectDTO getSubject() {
+		return subject;
 	}
-	public void setSubscribed(boolean isSubscribed) {
-		this.isSubscribed = isSubscribed;
+	public void setSubject(SubjectDTO subject) {
+		this.subject = subject;
+	}
+	public UserDTO getRecipient() {
+		return recipient;
+	}
+	public void setRecipient(UserDTO recipient) {
+		this.recipient = recipient;
 	}
 	
 	

@@ -44,7 +44,6 @@ import org.springframework.web.servlet.view.JstlView;
 
 import it.unisalento.se.saw.Iservices.IUserService;
 import it.unisalento.se.saw.domain.User;
-import it.unisalento.se.saw.domain.Type;
 
 
 //@RunWith(MockitoJUnitRunner.class)

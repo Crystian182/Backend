@@ -6,7 +6,6 @@ public class MessageDTO {
 	
 	private int id;
 	private UserDTO sender;
-	private ChatDTO chat;
 	private String text;
 	private Date date;
 	
@@ -27,12 +26,6 @@ public class MessageDTO {
 	}
 	public void setSender(UserDTO sender) {
 		this.sender = sender;
-	}
-	public ChatDTO getChat() {
-		return chat;
-	}
-	public void setChat(ChatDTO chat) {
-		this.chat = chat;
 	}
 	public String getText() {
 		return text;

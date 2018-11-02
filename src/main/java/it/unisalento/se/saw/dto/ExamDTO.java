@@ -12,7 +12,7 @@ public class ExamDTO {
 
 	  private Integer idexam;
 	  private ClassroomDTO classroom;
-	  private SubjectOfStudyDTO subjectofstudy;
+	  private SubjectDTO subjectofstudy;
 	  private String type;
 	  private Date date;
 	  private Date startregistration;
@@ -33,10 +33,10 @@ public class ExamDTO {
 		public void setClassroom(ClassroomDTO classroom) {
 			this.classroom = classroom;
 		}
-		public SubjectOfStudyDTO getSubjectofstudy() {
+		public SubjectDTO getSubjectofstudy() {
 			return subjectofstudy;
 		}
-		public void setSubjectofstudy(SubjectOfStudyDTO subjectofstudy) {
+		public void setSubjectofstudy(SubjectDTO subjectofstudy) {
 			this.subjectofstudy = subjectofstudy;
 		}
 		public String getType() {

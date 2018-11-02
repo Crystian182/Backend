@@ -9,13 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import it.unisalento.se.saw.Iservices.ISubjectOfStudyService;
 import it.unisalento.se.saw.domain.Subjectofstudy;
 import it.unisalento.se.saw.exceptions.SubjectOfStudyNotFoundException;
-import it.unisalento.se.saw.repositories.SubjectOfStudyRepository;
+import it.unisalento.se.saw.repositories.SubjectRepository;
 
 @Service
 public class SubjectOfStudyService implements ISubjectOfStudyService{
 	
 	@Autowired
-	SubjectOfStudyRepository subjectOfStudyRepository;
+	SubjectRepository subjectOfStudyRepository;
 	
 	@Transactional(readOnly=true)
 	public List<Subjectofstudy> getAll(){

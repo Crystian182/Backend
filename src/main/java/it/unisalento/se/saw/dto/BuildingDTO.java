@@ -5,8 +5,8 @@ public class BuildingDTO {
 	private int id;
 	private String name;
 	private String address;
-	private float latitude;
-	private float longitude;
+	private float lat;
+	private float lng;
 	
 	public int getId() {
 		return id;
@@ -26,19 +26,17 @@ public class BuildingDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public float getLatitude() {
-		return latitude;
+	public float getLat() {
+		return lat;
 	}
-	public void setLatitude(float latitude) {
-		this.latitude = latitude;
+	public void setLat(float lat) {
+		this.lat = lat;
 	}
-	public float getLongitude() {
-		return longitude;
+	public float getLng() {
+		return lng;
 	}
-	public void setLongitude(float longitude) {
-		this.longitude = longitude;
-	}
-	
-	
+	public void setLng(float lng) {
+		this.lng = lng;
+	}	
 
 }

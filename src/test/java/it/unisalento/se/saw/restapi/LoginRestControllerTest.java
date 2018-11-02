@@ -45,7 +45,6 @@ import org.springframework.web.servlet.view.JstlView;
 
 import it.unisalento.se.saw.Iservices.IUserService;
 import it.unisalento.se.saw.controllers.HomeController;
-import it.unisalento.se.saw.domain.Type;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 import it.unisalento.se.saw.exceptions.WrongPasswordException;

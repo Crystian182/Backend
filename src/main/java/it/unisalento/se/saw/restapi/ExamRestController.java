@@ -23,7 +23,7 @@ import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
 import it.unisalento.se.saw.dto.CourseDTO;
 import it.unisalento.se.saw.dto.ExamDTO;
-import it.unisalento.se.saw.dto.SubjectOfStudyDTO;
+import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.ExamNotFoundException;
 
@@ -130,7 +130,7 @@ public class ExamRestController {
 		classroomDTO.setSeats(exam.getClassroom().getSeats());
 		classroomDTO.setBuilding(buildingDTO);
 		
-		SubjectOfStudyDTO subjectofstudyDTO = new SubjectOfStudyDTO();
+		SubjectDTO subjectofstudyDTO = new SubjectDTO();
 		subjectofstudyDTO.setId(exam.getSubjectofstudy().getIdsubjectofstudy());
 		subjectofstudyDTO.setName(exam.getSubjectofstudy().getName());
 		subjectofstudyDTO.setDescription(exam.getSubjectofstudy().getDescription());

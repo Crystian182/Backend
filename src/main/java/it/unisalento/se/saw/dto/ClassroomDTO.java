@@ -7,10 +7,10 @@ public class ClassroomDTO {
 	private int id;
 	private String name;
 	private int seats;
-	private float latitude;
-	private float longitude;
+	private float lat;
+	private float lng;
 	private BuildingDTO building;
-	private List<InstrumentDTO> instruments;
+	private List<ToolDTO> tools;
 	
 	public int getId() {
 		return id;
@@ -30,17 +30,17 @@ public class ClassroomDTO {
 	public void setSeats(int seats) {
 		this.seats = seats;
 	}
-	public float getLatitude() {
-		return latitude;
+	public float getLat() {
+		return lat;
 	}
-	public void setLatitude(float latitude) {
-		this.latitude = latitude;
+	public void setLat(float lat) {
+		this.lat = lat;
 	}
-	public float getLongitude() {
-		return longitude;
+	public float getLng() {
+		return lng;
 	}
-	public void setLongitude(float longitude) {
-		this.longitude = longitude;
+	public void setLng(float lng) {
+		this.lng = lng;
 	}
 	public BuildingDTO getBuilding() {
 		return building;
@@ -48,15 +48,11 @@ public class ClassroomDTO {
 	public void setBuilding(BuildingDTO building) {
 		this.building = building;
 	}
-	public List<InstrumentDTO> getInstruments() {
-		return instruments;
+	public List<ToolDTO> getTools() {
+		return tools;
 	}
-	public void setInstruments(List<InstrumentDTO> instruments) {
-		this.instruments = instruments;
+	public void setTools(List<ToolDTO> tools) {
+		this.tools = tools;
 	}
-	
-	
-	
-	
 
 }

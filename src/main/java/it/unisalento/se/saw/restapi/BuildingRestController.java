@@ -34,65 +34,22 @@ public class BuildingRestController {
 	
 	@GetMapping(value="/getAll", produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<BuildingDTO> getAll(){
-		List<Building> buildings = buildingService.getAll();
-		List<BuildingDTO> buildingDTOs = new ArrayList<BuildingDTO>();
-		for(int i=0; i<buildings.size(); i++) {
-			Building building = buildings.get(i);
-			buildingDTOs.add(this.entityToDTO(building));
-		}
-		return buildingDTOs;
+		return buildingService.getAll();
 	}
 	
 	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public BuildingDTO getById(@PathVariable("id")int id) throws BuildingNotFoundException {
-		
-		Building building = buildingService.getById(id);
-		BuildingDTO buildingDTO = this.entityToDTO(building);
-		
-		return buildingDTO;
-	}
-	
-	@PostMapping(value="/edit", produces=MediaType.APPLICATION_JSON_VALUE)
-	public BuildingDTO edit(@RequestBody BuildingDTO buildingDTO) throws BuildingNotFoundException {
-		
-		Building building = buildingService.edit(this.DTOtoEntity(buildingDTO));		
-		return this.entityToDTO(building);
+		return buildingService.getById(id);
 	}
 	
 	@PostMapping(value="/save", produces=MediaType.APPLICATION_JSON_VALUE)
-	public BuildingDTO save(@RequestBody BuildingDTO buildingDTO) {
-		
-		Building building = buildingService.save(this.DTOtoEntity(buildingDTO));		
-		return this.entityToDTO(building);
+	public BuildingDTO save(@RequestBody BuildingDTO buildingDTO) {		
+		return buildingService.save(buildingDTO);
 	}
 	
 	@GetMapping(value="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public void delete(@PathVariable("id")int id) throws BuildingNotFoundException {
 		buildingService.delete(id);
-	}
-	
-	public BuildingDTO entityToDTO(Building building) {
-		BuildingDTO buildingDTO = new BuildingDTO();
-		buildingDTO.setId(building.getIdbuilding());
-		buildingDTO.setName(building.getName());
-		buildingDTO.setAddress(building.getAddress());
-		buildingDTO.setLatitude(building.getLatitude());
-		buildingDTO.setLongitude(building.getLongitude());
-		return buildingDTO;
-	}
-	
-	public Building DTOtoEntity(BuildingDTO buildingDTO) {
-		Building building = new Building();
-		try {
-			buildingDTO.setId(building.getIdbuilding());
-		} catch (Exception e) {
-		}
-		building.setName(buildingDTO.getName());
-		building.setAddress(buildingDTO.getAddress());
-		building.setLatitude(buildingDTO.getLatitude());
-		building.setLongitude(buildingDTO.getLongitude());
-		return building;
-		
 	}
 
 }

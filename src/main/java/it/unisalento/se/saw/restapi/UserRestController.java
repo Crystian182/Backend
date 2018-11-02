@@ -16,8 +16,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import it.unisalento.se.saw.Iservices.IUserService;
 import it.unisalento.se.saw.domain.User;
+import it.unisalento.se.saw.dto.LoginDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
+import it.unisalento.se.saw.exceptions.WrongPasswordException;
 
 @RestController
 @RequestMapping("/user")
@@ -34,13 +36,19 @@ public class UserRestController {
 		this.userService = userService;
 	}
 	
-	@RequestMapping(value="/getAll", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/login", produces=MediaType.APPLICATION_JSON_VALUE)
+	public UserDTO login(@RequestBody LoginDTO request) throws UserNotFoundException, WrongPasswordException {
+		UserDTO user = userService.login(request);
+		return user;
+	}
+	
+	/*@RequestMapping(value="/getAll", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<User> getAll(){
 		return userService.getAll();
 		
 	}
 	
-	/*@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	
 	public UserDTO getById(@PathVariable("id")int id) throws UserNotFoundException{
 		User user = userService.getById(id);
@@ -49,13 +57,13 @@ public class UserRestController {
 		userDTO.setSurname("Vergallo");
 		return userDTO;
 		
-	}*/
+	}
 	
 	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public User post(@RequestBody UserDTO userDTO) {
 		User user = new User();
 		/*user.setName(userDTO.getName());
 		user.setSurname(userDTO.getSurname());*/
-		return userService.save(user);
-	}
+		/*return userService.save(user);
+	}*/
 }

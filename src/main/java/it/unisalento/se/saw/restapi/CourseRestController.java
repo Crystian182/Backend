@@ -18,7 +18,7 @@ import it.unisalento.se.saw.Iservices.ICourseService;
 import it.unisalento.se.saw.domain.Course;
 import it.unisalento.se.saw.domain.Subjectofstudy;
 import it.unisalento.se.saw.dto.CourseDTO;
-import it.unisalento.se.saw.dto.SubjectOfStudyDTO;
+import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.exceptions.CourseNotFoundException;
 
 
@@ -77,7 +77,7 @@ public class CourseRestController {
 
 	
 	
-	public Subjectofstudy DTOToEntity(SubjectOfStudyDTO subjectofstudyDTO) {
+	public Subjectofstudy DTOToEntity(SubjectDTO subjectofstudyDTO) {
 		
 		Course course = new Course();
 		course.setIdcourse(subjectofstudyDTO.getCourseDTO().getIdcourse());

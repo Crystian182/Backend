@@ -17,7 +17,7 @@ import it.unisalento.se.saw.domain.Course;
 import it.unisalento.se.saw.domain.Subjectofstudy;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.CourseDTO;
-import it.unisalento.se.saw.dto.SubjectOfStudyDTO;
+import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.exceptions.SubjectOfStudyNotFoundException;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
@@ -41,9 +41,9 @@ public class SubjectOfStudyRestController {
 	}
 	
 	@GetMapping(value="/getAll", produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<SubjectOfStudyDTO> getAll() throws UserNotFoundException{
+	public List<SubjectDTO> getAll() throws UserNotFoundException{
 		List<Subjectofstudy> subjectsOfStudy = subjectOfStudyService.getAll();
-		List<SubjectOfStudyDTO> subjectOfStudyDTOs = new ArrayList<SubjectOfStudyDTO>();
+		List<SubjectDTO> subjectOfStudyDTOs = new ArrayList<SubjectDTO>();
 		for(int i=0; i<subjectsOfStudy.size(); i++) {
 			Subjectofstudy subjectOfStudy = subjectsOfStudy.get(i);
 			subjectOfStudyDTOs.add(this.entityToDTO(subjectOfStudy));
@@ -52,20 +52,20 @@ public class SubjectOfStudyRestController {
 	}
 	
 	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public SubjectOfStudyDTO getById(@PathVariable("id")int id) throws SubjectOfStudyNotFoundException, UserNotFoundException {
+	public SubjectDTO getById(@PathVariable("id")int id) throws SubjectOfStudyNotFoundException, UserNotFoundException {
 		
 		Subjectofstudy subjectOfStudy = subjectOfStudyService.getById(id);
 		return this.entityToDTO(subjectOfStudy);
 	}
 	
 	@PostMapping(value="/edit", produces=MediaType.APPLICATION_JSON_VALUE)
-	public SubjectOfStudyDTO edit(@RequestBody SubjectOfStudyDTO subjectOfStudyDTO) throws SubjectOfStudyNotFoundException {
+	public SubjectDTO edit(@RequestBody SubjectDTO subjectOfStudyDTO) throws SubjectOfStudyNotFoundException {
 		Subjectofstudy newSubjectOfStudy = subjectOfStudyService.edit(this.DTOtoEntity(subjectOfStudyDTO));
 		return this.entityToDTO(newSubjectOfStudy);
 	}
 	
 	@PostMapping(value="/save", produces=MediaType.APPLICATION_JSON_VALUE)
-	public SubjectOfStudyDTO save(@RequestBody SubjectOfStudyDTO subjectOfStudyDTO){
+	public SubjectDTO save(@RequestBody SubjectDTO subjectOfStudyDTO){
 		
 		Subjectofstudy newSubjectOfStudy = subjectOfStudyService.save(this.DTOtoEntity(subjectOfStudyDTO));
 		return this.entityToDTO(newSubjectOfStudy);
@@ -76,7 +76,7 @@ public class SubjectOfStudyRestController {
 		subjectOfStudyService.delete(id);
 	}	
 	
-	public SubjectOfStudyDTO entityToDTO(Subjectofstudy subjectOfStudy) {
+	public SubjectDTO entityToDTO(Subjectofstudy subjectOfStudy) {
 		
 		TeacherDTO teacherDTO = new TeacherDTO();
 		teacherDTO.setId(subjectOfStudy.getUser().getIduser());
@@ -89,7 +89,7 @@ public class SubjectOfStudyRestController {
 		courseDTO.setDescription(subjectOfStudy.getCourse().getDescription());
 		courseDTO.setYears(subjectOfStudy.getCourse().getYears());
 		
-		SubjectOfStudyDTO subjectOfStudyDTO = new SubjectOfStudyDTO();
+		SubjectDTO subjectOfStudyDTO = new SubjectDTO();
 		subjectOfStudyDTO.setId(subjectOfStudy.getIdsubjectofstudy());
 		subjectOfStudyDTO.setName(subjectOfStudy.getName());
 		subjectOfStudyDTO.setDescription(subjectOfStudy.getDescription());
@@ -100,7 +100,7 @@ public class SubjectOfStudyRestController {
 		
 	}
 	
-	public Subjectofstudy DTOtoEntity(SubjectOfStudyDTO subjectOfStudyDTO) {
+	public Subjectofstudy DTOtoEntity(SubjectDTO subjectOfStudyDTO) {
 		
 		Course course = new Course();
 		course.setIdcourse(subjectOfStudyDTO.getCourseDTO().getIdcourse());

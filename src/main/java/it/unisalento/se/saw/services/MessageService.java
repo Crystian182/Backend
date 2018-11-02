@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 
 import it.unisalento.se.saw.Iservices.IMessageService;
 import it.unisalento.se.saw.domain.Message;
-import it.unisalento.se.saw.repositories.MessageRepository;
+import it.unisalento.se.saw.repositories.SubjectMessageRepository;
 
 @Service
 public class MessageService implements IMessageService {
 	
 	@Autowired
-	MessageRepository messageRepository;
+	SubjectMessageRepository messageRepository;
 	
 	/*@Transactional
 	public Privatemessage getLastMessageByChatId(int idChat) {

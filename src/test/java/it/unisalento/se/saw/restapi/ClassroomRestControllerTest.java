@@ -48,7 +48,6 @@ import it.unisalento.se.saw.Iservices.IClassroomService;
 import it.unisalento.se.saw.Iservices.IUserService;
 import it.unisalento.se.saw.domain.Building;
 import it.unisalento.se.saw.domain.Classroom;
-import it.unisalento.se.saw.domain.Type;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.exceptions.ClassroomNotFoundException;
 import it.unisalento.se.saw.repositories.ClassroomRepository;

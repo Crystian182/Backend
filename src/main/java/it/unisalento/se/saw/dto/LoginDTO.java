@@ -4,7 +4,7 @@ public class LoginDTO {
 	
 	private String email;
 	private String password;
-	private TypeDTO typeDTO;
+	private String type;
 	
 	public String getPassword() {
 		return password;
@@ -18,12 +18,13 @@ public class LoginDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public TypeDTO getTypeDTO() {
-		return typeDTO;
+	public String getType() {
+		return type;
 	}
-	public void setTypeDTO(TypeDTO typeDTO) {
-		this.typeDTO = typeDTO;
+	public void setType(String type) {
+		this.type = type;
 	}
+	
 	
 
 }
