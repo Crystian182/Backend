@@ -45,6 +45,8 @@ import org.springframework.web.servlet.view.JstlView;
 import it.unisalento.se.saw.Iservices.IUserService;
 import it.unisalento.se.saw.controllers.HomeController;
 import it.unisalento.se.saw.domain.User;
+import it.unisalento.se.saw.dto.LoginDTO;
+import it.unisalento.se.saw.dto.UserDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserRestControllerTest {
@@ -61,6 +63,30 @@ public class UserRestControllerTest {
 	public void setUp() {
 		mockMvc = MockMvcBuilders.standaloneSetup(new UserRestController(userServiceMock)).setViewResolvers(viewResolver()).build();
 				
+	}
+	
+	@Test
+	public void loginTest() throws Exception {
+		
+		LoginDTO request = new LoginDTO();
+		request.setEmail("crifede95@hotmail.it");
+		request.setPassword("password");
+
+		UserDTO userDTO = new UserDTO();
+		userDTO.setSsn("VRGCST95A21E506G");
+		userDTO.setName("Cristian");
+		userDTO.setSurname("Vergallo");
+
+		when(userServiceMock.login(request)).thenReturn(userDTO);
+		
+		mockMvc.perform(post("/user/login",request)).andExpect(status().isOk())
+			.andExpect(content().contentType(APPLICATION_JSON_UTF8))
+			.andExpect(jsonPath("$.name",is("Cristian")))
+			.andExpect(jsonPath("$.surname",is("Vergallo")))
+			.andExpect(jsonPath("$.ssn",is("VRGCST95A21E506G")));
+		
+		verify(userServiceMock, times(1)).login(request);
+		verifyNoMoreInteractions(userServiceMock);
 	}
 	
 	@Test
