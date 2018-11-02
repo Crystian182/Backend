@@ -51,5 +51,32 @@ public class BuildingRestController {
 	public void delete(@PathVariable("id")int id) throws BuildingNotFoundException {
 		buildingService.delete(id);
 	}
+<<<<<<< HEAD
+=======
+	
+	public BuildingDTO entityToDTO(Building building) {
+		BuildingDTO buildingDTO = new BuildingDTO();
+		buildingDTO.setId(building.getIdbuilding());
+		buildingDTO.setName(building.getName());
+		buildingDTO.setAddress(building.getAddress());
+		buildingDTO.setLat(building.getLat());
+		buildingDTO.setLng(building.getLng());
+		return buildingDTO;
+	}
+	
+	public Building DTOtoEntity(BuildingDTO buildingDTO) {
+		Building building = new Building();
+		try {
+			buildingDTO.setId(building.getIdbuilding());
+		} catch (Exception e) {
+		}
+		building.setName(buildingDTO.getName());
+		building.setAddress(buildingDTO.getAddress());
+		building.setLat(buildingDTO.getLat());
+		building.setLng(buildingDTO.getLng());
+		return building;
+		
+	}
+>>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098
 
 }

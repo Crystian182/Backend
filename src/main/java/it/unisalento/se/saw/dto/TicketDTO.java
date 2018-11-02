@@ -8,10 +8,10 @@ public class TicketDTO {
 	
 	private int id;
 	private String title;
-	private StatusDTO status;
 	private TeacherDTO teacher;
+	private EmployeeDTO employee;
+	private TicketStatusDTO ticketStatus;
 	private ClassroomDTO classroom;
-	private String text;
 	private Date date;
     private List<TicketMessageDTO> ticketmessages;
     
@@ -29,14 +29,6 @@ public class TicketDTO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	
-	public StatusDTO getStatus() {
-		return status;
-	}
-	public void setStatus(StatusDTO status) {
-		this.status = status;
-	}
 	public TeacherDTO getTeacher() {
 		return teacher;
 	}
@@ -49,11 +41,17 @@ public class TicketDTO {
 	public void setClassroom(ClassroomDTO classroom) {
 		this.classroom = classroom;
 	}
-	public String getText() {
-		return text;
+	public EmployeeDTO getEmployee() {
+		return employee;
 	}
-	public void setText(String text) {
-		this.text = text;
+	public void setEmployee(EmployeeDTO employee) {
+		this.employee = employee;
+	}
+	public TicketStatusDTO getTicketStatus() {
+		return ticketStatus;
+	}
+	public void setTicketStatus(TicketStatusDTO ticketStatus) {
+		this.ticketStatus = ticketStatus;
 	}
 	public Date getDate() {
 		return date;

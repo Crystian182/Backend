@@ -2,11 +2,10 @@ package it.unisalento.se.saw.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import it.unisalento.se.saw.domain.Classroom;
-import it.unisalento.se.saw.domain.Subject;
+import it.unisalento.se.saw.domain.DegreeCourse;
 
 @Repository
-public interface SubjectRepository extends JpaRepository<Subject, Integer> {
+public interface DegreeCourseRepository extends JpaRepository<DegreeCourse, Integer> {
+
 
 }

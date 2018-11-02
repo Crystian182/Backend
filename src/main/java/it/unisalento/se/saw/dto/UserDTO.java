@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class UserDTO {
 
+<<<<<<< HEAD
 	private String ssn;
     private String name;
     private String surname;
@@ -24,6 +25,26 @@ public class UserDTO {
 	}
 	public void setSsn(String ssn) {
 		this.ssn = ssn;
+=======
+	private int id;
+	private String name;
+	private String surname;
+	private String username;
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public TypeDTO getTypeDTO() {
+		return typeDTO;
+	}
+	public void setTypeDTO(TypeDTO typeDTO) {
+		this.typeDTO = typeDTO;
+>>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098
 	}
 	public String getName() {
 		return name;

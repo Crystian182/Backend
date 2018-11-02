@@ -7,6 +7,11 @@ public class ChatDTO {
 	private String idChat;
 	private String title;
 	private List<MessageDTO> allMessages;
+<<<<<<< HEAD
+=======
+	private SubjectDTO subject;
+	private UserDTO user;
+>>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098
 	private boolean isPublic;
 	private SubjectDTO subject;
 	private UserDTO recipient;

@@ -10,9 +10,9 @@ import it.unisalento.se.saw.models.Response;
 
 @ControllerAdvice  
 @RestController
-public class CourseNotFoundException extends Exception {
+public class DegreeCourseNotFoundException extends Exception {
 
-	 @ExceptionHandler(value = CourseNotFoundException.class)  
+	 @ExceptionHandler(value = DegreeCourseNotFoundException.class)  
 	  public ResponseEntity<Response> handleException(Exception e) {
 	        return new ResponseEntity<Response>(new Response("Corso non esistente"), HttpStatus.BAD_REQUEST);
 	    }

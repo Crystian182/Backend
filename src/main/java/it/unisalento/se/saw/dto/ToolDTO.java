@@ -1,10 +1,12 @@
 package it.unisalento.se.saw.dto;
 
-import java.util.HashSet;
-import java.util.Set;
+public class ToolDTO {
 
+<<<<<<< HEAD:src/main/java/it/unisalento/se/saw/dto/ToolDTO.java
 public class ToolDTO {
 	
+=======
+>>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098:src/main/java/it/unisalento/se/saw/dto/ToolDTO.java
 	private Integer id;
     private String name;
     private int quantity;
@@ -28,8 +30,5 @@ public class ToolDTO {
 		this.quantity = quantity;
 	}
 
-
-    
-    
 
 }

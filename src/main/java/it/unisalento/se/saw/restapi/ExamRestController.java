@@ -1,6 +1,6 @@
 package it.unisalento.se.saw.restapi;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unisalento.se.saw.Iservices.IExamService;
-import it.unisalento.se.saw.domain.Building;
-import it.unisalento.se.saw.domain.Classroom;
-import it.unisalento.se.saw.domain.Course;
-import it.unisalento.se.saw.domain.Exam;
-import it.unisalento.se.saw.domain.Subjectofstudy;
-import it.unisalento.se.saw.domain.User;
-import it.unisalento.se.saw.dto.BuildingDTO;
-import it.unisalento.se.saw.dto.ClassroomDTO;
-import it.unisalento.se.saw.dto.CourseDTO;
 import it.unisalento.se.saw.dto.ExamDTO;
+<<<<<<< HEAD
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.UserDTO;
+=======
+import it.unisalento.se.saw.dto.StudentDTO;
+>>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098
 import it.unisalento.se.saw.exceptions.ExamNotFoundException;
 
 @RestController
@@ -44,57 +39,32 @@ public class ExamRestController {
 	
 	@GetMapping(value="/getAll", produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<ExamDTO> getAll(){
-		List<Exam> exams = examService.getAll();
-		List<ExamDTO> newExamDTOs = new ArrayList<ExamDTO>();
-		for(int i=0; i<exams.size(); i++) {
-			Exam exam = exams.get(i);
-			newExamDTOs.add(this.EntityToDTO(exam));
-		}
-		return newExamDTOs;
+		return examService.getAll();
+
 	}
 	
 	@GetMapping(value="/getAllByCourse/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<ExamDTO> getAllByCourse(@PathVariable("id")int id) throws ExamNotFoundException {
-		List<Exam> exams = examService.getAllByCourse(id);
-		List<ExamDTO> newExamDTOs = new ArrayList<ExamDTO>();
-		for(int i=0; i<exams.size(); i++) {
-			Exam exam = exams.get(i);
-			newExamDTOs.add(this.EntityToDTO(exam));
-		}
-		return newExamDTOs;
+		return examService.getAllByCourse(id);
 	}
 	
 	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ExamDTO getById(@PathVariable("id")int id) throws ExamNotFoundException{
-		Exam exam = examService.getById(id);
-		return this.EntityToDTO(exam);
+		return examService.getById(id);
 	}
 	
-	@PostMapping(value="/edit", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ExamDTO edit(@RequestBody ExamDTO examDTO) throws ExamNotFoundException{
-		Exam exam = examService.edit(this.DTOToEntity(examDTO));
-		return this.EntityToDTO(exam);
-	}
 	
 	@PostMapping(value="/save", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ExamDTO save(@RequestBody ExamDTO examDTO){
-		Exam exam = examService.save(this.DTOToEntity(examDTO));
-		return this.EntityToDTO(exam);
+		return examService.save(examDTO);
+
 	}
 	
 	@PostMapping(value="/subscribe/{idexam}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ExamDTO subscribe(@RequestBody UserDTO userDTO, @PathVariable("idexam")int idexam) throws ExamNotFoundException{
-		
+	public ExamDTO subscribe(@RequestBody StudentDTO studentDTO, @PathVariable("idexam")int idexam) throws ExamNotFoundException{
 	
-		Exam exam = examService.subscribe(idexam, this.DTOToEntity(userDTO)); 
+		return examService.subscribe(idexam, studentDTO); 
 		
-		ExamDTO examDTO = new ExamDTO();
-		examDTO.setIdexam(exam.getIdexam());
-		examDTO.setSubscribed(true);
-		examDTO.setDate(exam.getDate());
-	
-		
-		return examDTO;
 	}
 	
 	@PostMapping(value="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -102,6 +72,7 @@ public class ExamRestController {
 		examService.delete(id);
 	}
 
+<<<<<<< HEAD
 	public User DTOToEntity(UserDTO userDTO) {
 		User user = new User();
 		user.setIduser(userDTO.getId());
@@ -203,5 +174,7 @@ public class ExamRestController {
 		
 		return exam;
 	}
+=======
+>>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098
 	
 }

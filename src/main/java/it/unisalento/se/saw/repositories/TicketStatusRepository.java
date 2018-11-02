@@ -5,12 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import it.unisalento.se.saw.domain.Status;
+import it.unisalento.se.saw.domain.TicketStatus;
 
 @Repository
-public interface StatusRepository extends JpaRepository<Status, Integer>{
+public interface TicketStatusRepository extends JpaRepository<TicketStatus, Integer>{
 
 	@Query("select s from Status s where s.idstatus=:id")
-	public Status getById(@Param("id")int id);
+	public TicketStatus getById(@Param("id")int id);
 
 }

@@ -11,36 +11,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.unisalento.se.saw.Iservices.ISubjectOfStudyService;
+import it.unisalento.se.saw.Iservices.ISubjectService;
 import it.unisalento.se.saw.Iservices.ITeacherService;
 import it.unisalento.se.saw.domain.Course;
 import it.unisalento.se.saw.domain.Subjectofstudy;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.CourseDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
+<<<<<<< HEAD:src/main/java/it/unisalento/se/saw/restapi/SubjectOfStudyRestController.java
+=======
+import it.unisalento.se.saw.dto.SubjectOfStudyDTO;
+>>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098:src/main/java/it/unisalento/se/saw/restapi/SubjectRestController.java
 import it.unisalento.se.saw.dto.TeacherDTO;
-import it.unisalento.se.saw.exceptions.SubjectOfStudyNotFoundException;
+import it.unisalento.se.saw.exceptions.SubjectNotFoundException;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 
 @RestController
 @RequestMapping("/subjectofstudy")
-public class SubjectOfStudyRestController {
+public class SubjectRestController {
 	
 	@Autowired
-	ISubjectOfStudyService subjectOfStudyService;
+	ISubjectService subjectService;
 	
 	@Autowired
 	ITeacherService teacherService;
 	
-	public SubjectOfStudyRestController() {
+	public SubjectRestController() {
 		super();
 	}
 	
-	public SubjectOfStudyRestController(ISubjectOfStudyService subjectOfStudyService) {
-		this.subjectOfStudyService = subjectOfStudyService;
+	public SubjectRestController(ISubjectService subjectOfStudyService) {
+		this.subjectService = subjectOfStudyService;
 	}
 	
 	@GetMapping(value="/getAll", produces=MediaType.APPLICATION_JSON_VALUE)
+<<<<<<< HEAD:src/main/java/it/unisalento/se/saw/restapi/SubjectOfStudyRestController.java
 	public List<SubjectDTO> getAll() throws UserNotFoundException{
 		List<Subjectofstudy> subjectsOfStudy = subjectOfStudyService.getAll();
 		List<SubjectDTO> subjectOfStudyDTOs = new ArrayList<SubjectDTO>();
@@ -53,13 +58,25 @@ public class SubjectOfStudyRestController {
 	
 	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public SubjectDTO getById(@PathVariable("id")int id) throws SubjectOfStudyNotFoundException, UserNotFoundException {
+=======
+	public List<SubjectDTO> getAll() throws SubjectNotFoundException{
+		return subjectService.getAll();
+	}
+	
+	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public SubjectOfStudyDTO getById(@PathVariable("id")int id) throws SubjectNotFoundException, UserNotFoundException {
+>>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098:src/main/java/it/unisalento/se/saw/restapi/SubjectRestController.java
 		
 		Subjectofstudy subjectOfStudy = subjectOfStudyService.getById(id);
 		return this.entityToDTO(subjectOfStudy);
 	}
 	
 	@PostMapping(value="/edit", produces=MediaType.APPLICATION_JSON_VALUE)
+<<<<<<< HEAD:src/main/java/it/unisalento/se/saw/restapi/SubjectOfStudyRestController.java
 	public SubjectDTO edit(@RequestBody SubjectDTO subjectOfStudyDTO) throws SubjectOfStudyNotFoundException {
+=======
+	public SubjectOfStudyDTO edit(@RequestBody SubjectOfStudyDTO subjectOfStudyDTO) throws SubjectNotFoundException {
+>>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098:src/main/java/it/unisalento/se/saw/restapi/SubjectRestController.java
 		Subjectofstudy newSubjectOfStudy = subjectOfStudyService.edit(this.DTOtoEntity(subjectOfStudyDTO));
 		return this.entityToDTO(newSubjectOfStudy);
 	}
@@ -72,7 +89,7 @@ public class SubjectOfStudyRestController {
 	}
 	
 	@GetMapping(value="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public void delete(@PathVariable("id")int id) throws SubjectOfStudyNotFoundException {
+	public void delete(@PathVariable("id")int id) throws SubjectNotFoundException {
 		subjectOfStudyService.delete(id);
 	}	
 	

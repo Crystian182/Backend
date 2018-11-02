@@ -10,9 +10,9 @@ import it.unisalento.se.saw.models.Response;
 
 @ControllerAdvice  
 @RestController
-public class SubjectOfStudyNotFoundException extends Exception{
+public class SubjectNotFoundException extends Exception{
 	
-	@ExceptionHandler(value = SubjectOfStudyNotFoundException.class)  
+	@ExceptionHandler(value = SubjectNotFoundException.class)  
     public ResponseEntity<Response> handleException(Exception e) {
         return new ResponseEntity<Response>(new Response("Insegnamento non esistente"), HttpStatus.BAD_REQUEST);
     }
