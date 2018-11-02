@@ -24,6 +24,7 @@ import it.unisalento.se.saw.dto.PreviewChatDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.ChatNotFoundException;
+import it.unisalento.se.saw.repositories.DegreeCourseRepository;
 import it.unisalento.se.saw.repositories.EnrollmentRepository;
 import it.unisalento.se.saw.repositories.PrivateChatRepository;
 import it.unisalento.se.saw.repositories.PrivateMessageRepository;
@@ -52,6 +53,9 @@ public class ChatService implements IChatService {
 	SubjectRepository subjectRepository;
 	
 	@Autowired
+	DegreeCourseRepository courseRepository;
+	
+	@Autowired
 	SubjectChatHasStudentRepository enrollmentSubjectChatRepository;
 	
 	@Autowired
@@ -64,7 +68,7 @@ public class ChatService implements IChatService {
 	public List<PreviewChatDTO> getAllPreviews(String ssn){
 		List<PreviewChatDTO> previewChatDTOs = new ArrayList<PreviewChatDTO>();
 		if(userRepository.isTeacher(ssn)) {
-			List<DegreeCourse> courses = subjectRepository.getCourseTeacher(ssn);
+			List<DegreeCourse> courses = courseRepository.getCourseTeacher(ssn);
 			
 			for(int i=0; i<courses.size(); i++) {
 				List<Teacher> colleaguesCourse = userRepository.getTeacherColleagues(courses.get(i).getIddegreeCourse(), ssn);
@@ -179,7 +183,7 @@ public class ChatService implements IChatService {
 	public List<PreviewChatDTO> search(String ssn, String keyword){
 		List<PreviewChatDTO> previewChatDTOs = new ArrayList<PreviewChatDTO>();
 		if(userRepository.isTeacher(ssn)) {
-			List<DegreeCourse> courses = subjectRepository.getCourseTeacher(ssn);
+			List<DegreeCourse> courses = courseRepository.getCourseTeacher(ssn);
 			
 			for(int i=0; i<courses.size(); i++) {
 				List<Teacher> colleaguesCourse = userRepository.searchTeacherColleagues(courses.get(i).getIddegreeCourse(), ssn, keyword);

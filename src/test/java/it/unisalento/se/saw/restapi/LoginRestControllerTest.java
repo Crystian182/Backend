@@ -64,7 +64,7 @@ public class LoginRestControllerTest {
 	
 	@Mock
 	private UserRepository userRepository;
-	
+	/*
 	@Before
 	public void setUp() {
 		mockMvc = MockMvcBuilders.standaloneSetup(new LoginRestController(userServiceMock)).setViewResolvers(viewResolver()).build();

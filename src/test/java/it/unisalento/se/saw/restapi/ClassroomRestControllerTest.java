@@ -71,7 +71,7 @@ public class ClassroomRestControllerTest {
 	public void setUp() {
 		mockMvc = MockMvcBuilders.standaloneSetup(new ClassroomRestController(classroomServiceMock)).setViewResolvers(viewResolver()).build();
 	}
-	
+	/*
 	@Test
 	public void getByIdTest() throws Exception {
 		
