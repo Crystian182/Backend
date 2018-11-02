@@ -37,11 +37,7 @@ public class BuildingDTO {
 	}
 	public void setLng(float lng) {
 		this.lng = lng;
-<<<<<<< HEAD
 	}	
-=======
-	}
-	
->>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098
+
 
 }

@@ -14,15 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.unisalento.se.saw.Iservices.ICourseService;
-import it.unisalento.se.saw.domain.Course;
-import it.unisalento.se.saw.domain.Subjectofstudy;
-import it.unisalento.se.saw.dto.CourseDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
-import it.unisalento.se.saw.exceptions.CourseNotFoundException;
-
-
-
 
 @RestController
 @RequestMapping("/course")

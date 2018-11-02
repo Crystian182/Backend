@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.unisalento.se.saw.Iservices.ISubjectOfStudyService;
 import it.unisalento.se.saw.Iservices.IUserService;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.LoginDTO;

@@ -12,20 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unisalento.se.saw.Iservices.ITicketService;
-<<<<<<< HEAD
 import it.unisalento.se.saw.domain.Building;
 import it.unisalento.se.saw.domain.Classroom;
-import it.unisalento.se.saw.domain.Status;
 import it.unisalento.se.saw.domain.Ticket;
-import it.unisalento.se.saw.domain.Ticketmessage;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
 import it.unisalento.se.saw.dto.ToolDTO;
-import it.unisalento.se.saw.dto.StatusDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
-=======
->>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098
 import it.unisalento.se.saw.dto.TicketDTO;
 import it.unisalento.se.saw.exceptions.TicketNotFoundException;
 
@@ -81,58 +75,6 @@ public class TicketRestController {
 		ticketService.delete(id);
 	}	
 	
-	
-	
-	
-/*	public TicketDTO EntityToDTO2(Ticket ticket, List <Ticketmessage> ticketmessages) {
-		
-		TeacherDTO teacherDTO = new TeacherDTO();
-		teacherDTO.setId(ticket.getUserByUserIduser().getIduser());
-		teacherDTO.setName(ticket.getUserByUserIduser().getName());
-		teacherDTO.setSurname(ticket.getUserByUserIduser().getSurname());
-		
-		BuildingDTO buildingDTO = new BuildingDTO();
-		buildingDTO.setId(ticket.getClassroom().getBuilding().getIdbuilding());
-		
-		ClassroomDTO classroomDTO = new ClassroomDTO();
-		classroomDTO.setId(ticket.getClassroom().getIdclassroom());
-		classroomDTO.setName(ticket.getClassroom().getName());
-		classroomDTO.setBuilding(buildingDTO);
-		
-		TicketStatusDTO statusDTO = new TicketStatusDTO();
-		statusDTO.setIdstatus(ticket.getStatus().getIdstatus());
-		statusDTO.setDescription(ticket.getStatus().getDescription());
-		
-		TicketMessageDTO ticketMessageDTO = new TicketMessageDTO();
-		List<TicketMessageDTO> ticketMessageDTOs = new ArrayList<TicketMessageDTO>();
-			for (int i=0; i<ticketmessages.size(); i++) {
-				UserDTO user = new UserDTO();
-				user.setId(ticketmessages.get(i).getUser().getIduser());
-				user.setName(ticketmessages.get(i).getUser().getName());
-				user.setSurname(ticketmessages.get(i).getUser().getSurname());
-				ticketMessageDTO.setIdticketmessage(ticketmessages.get(i).getIdticketmessage());
-				ticketMessageDTO.setIdticket(ticketmessages.get(i).getTicket().getIdticket());
-				ticketMessageDTO.setText(ticketmessages.get(i).getText());
-				ticketMessageDTO.setDate(ticketmessages.get(i).getDate());
-				ticketMessageDTO.setUser(user);
-				ticketMessageDTOs.add(ticketMessageDTO);
-			}
-		
-		
-		TicketDTO ticketDTO = new TicketDTO();
-		
-		ticketDTO.setId(ticket.getIdticket());
-		ticketDTO.setTitle(ticket.getTitle());
-		ticketDTO.setStatus(statusDTO);
-		ticketDTO.setTeacher(teacherDTO);
-		ticketDTO.setClassroom(classroomDTO);
-		ticketDTO.setText(ticket.getText());
-		ticketDTO.setDate(ticket.getDate());
-		ticketDTO.setTicketmessages(ticketMessageDTOs);
-
-		return ticketDTO;
-	}
-	*/
 	
 	
 }

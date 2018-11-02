@@ -9,11 +9,7 @@ public class LessonDTO {
 
 	private Integer idlesson;
     private ClassroomDTO classroom;
-<<<<<<< HEAD
-    private SubjectDTO subjectofstudy;
-=======
     private SubjectDTO subject;
->>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098
     private int day;
     private Date start;
     private Date end;
@@ -31,20 +27,11 @@ public class LessonDTO {
 	public void setClassroom(ClassroomDTO classroom) {
 		this.classroom = classroom;
 	}
-<<<<<<< HEAD
-	public SubjectDTO getSubjectofstudy() {
-		return subjectofstudy;
-	}
-	public void setSubjectofstudy(SubjectDTO subjectofstudy) {
-		this.subjectofstudy = subjectofstudy;
-=======
-	
 	public SubjectDTO getSubject() {
 		return subject;
 	}
 	public void setSubject(SubjectDTO subject) {
 		this.subject = subject;
->>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098
 	}
 	public int getDay() {
 		return day;

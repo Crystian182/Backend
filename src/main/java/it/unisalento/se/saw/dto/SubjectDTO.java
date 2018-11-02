@@ -1,10 +1,6 @@
 package it.unisalento.se.saw.dto;
 
 public class SubjectDTO {
-<<<<<<< HEAD:src/main/java/it/unisalento/se/saw/dto/SubjectDTO.java
-=======
-
->>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098:src/main/java/it/unisalento/se/saw/dto/SubjectDTO.java
 	
 	private int id;
 	private String name;

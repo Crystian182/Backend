@@ -6,13 +6,8 @@ public class ExamDTO {
 
 	  private Integer idexam;
 	  private ClassroomDTO classroom;
-<<<<<<< HEAD
-	  private SubjectDTO subjectofstudy;
-	  private String type;
-=======
 	  private SubjectDTO subject;
 	  private int idExamType;
->>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098
 	  private Date date;
 	  private Date start;
 	  private Date end;
@@ -32,20 +27,11 @@ public class ExamDTO {
 		public void setClassroom(ClassroomDTO classroom) {
 			this.classroom = classroom;
 		}
-<<<<<<< HEAD
-		public SubjectDTO getSubjectofstudy() {
-			return subjectofstudy;
-		}
-		public void setSubjectofstudy(SubjectDTO subjectofstudy) {
-			this.subjectofstudy = subjectofstudy;
-=======
-		
 		public SubjectDTO getSubject() {
 			return subject;
 		}
 		public void setSubject(SubjectDTO subject) {
 			this.subject = subject;
->>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098
 		}
 		
 		public int getIdExamType() {

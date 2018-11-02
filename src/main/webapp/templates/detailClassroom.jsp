@@ -65,7 +65,6 @@
     <div id="map"></div>
     <script>
       function initMap() {
-    	  var myLatLng = {lat: <%=classroom.getLatitude() %>, lng: <%=classroom.getLongitude() %>};
           var map = new google.maps.Map(document.getElementById('map'), {
           center: myLatLng,
           zoom: 19,

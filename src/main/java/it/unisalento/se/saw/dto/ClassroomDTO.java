@@ -54,11 +54,5 @@ public class ClassroomDTO {
 	public void setTools(List<ToolDTO> tools) {
 		this.tools = tools;
 	}
-<<<<<<< HEAD
-=======
-	
-	
-	
->>>>>>> 7292ba6b82995e81824c24c8d2fc8432d6f05098
 
 }

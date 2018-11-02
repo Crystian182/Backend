@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.unisalento.se.saw.Iservices.IPrivateChatService;
-import it.unisalento.se.saw.Iservices.IPublicChatService;
 import it.unisalento.se.saw.Iservices.IMessageService;
 import it.unisalento.se.saw.Iservices.IUserService;
 import it.unisalento.se.saw.Iservices.IChatService;
@@ -29,7 +27,6 @@ import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.dto.ChatDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
-import it.unisalento.se.saw.dto.CourseDTO;
 import it.unisalento.se.saw.dto.MessageDTO;
 import it.unisalento.se.saw.dto.PreviewChatDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
