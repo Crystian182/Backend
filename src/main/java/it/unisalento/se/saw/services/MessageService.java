@@ -23,7 +23,7 @@ public class MessageService implements IMessageService {
 		messageRepository.getLast(idChat);
 	}*/
 	
-	@Transactional
+	/*@Transactional
 	public List<Message> getAllPrivates(int id){
 		//return messageRepository.findFirst10ByIdprivatechat(id, new Sort("date"));
 		return messageRepository.getPrivateMessagesFromChatId(id);
@@ -37,9 +37,5 @@ public class MessageService implements IMessageService {
 
 	public Message save(Message message) {
 		return messageRepository.save(message);
-	}
-	
-	public boolean checkPublicOrNot(int idChat) {
-		return messageRepository.checkPublicChat(idChat);
-	}
+	}*/
 }

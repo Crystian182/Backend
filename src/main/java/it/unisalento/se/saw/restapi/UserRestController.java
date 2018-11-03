@@ -38,8 +38,7 @@ public class UserRestController {
 	
 	@PostMapping(value="/login", produces=MediaType.APPLICATION_JSON_VALUE)
 	public UserDTO login(@RequestBody LoginDTO request) throws UserNotFoundException, WrongPasswordException {
-		UserDTO user = userService.login(request);
-		return user;
+		return userService.login(request);
 	}
 	
 	/*@RequestMapping(value="/getAll", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)

@@ -12,7 +12,7 @@ import it.unisalento.se.saw.domain.Exam;
 @Repository
 public interface ExamRepository extends JpaRepository<Exam, Integer> {
 
-	@Query("SELECT e FROM Exam e WHERE e.subjectofstudy.course.idcourse=:id")
+	@Query("SELECT e FROM Exam e WHERE e.subject.degreeCourse.iddegreeCourse=:id")
 	public List<Exam> findAllByCourse(@Param("id")int id);
 
 
