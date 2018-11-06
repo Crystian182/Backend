@@ -1,10 +1,6 @@
 package it.unisalento.se.saw.Iservices;
 
-import java.util.List;
 
-import org.springframework.data.domain.Sort;
-
-import it.unisalento.se.saw.domain.Message;
 
 public interface IMessageService {
 	

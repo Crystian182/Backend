@@ -1,6 +1,5 @@
 package it.unisalento.se.saw.dto;
 
-import java.util.List;
 
 public class PreviewChatDTO {
 	

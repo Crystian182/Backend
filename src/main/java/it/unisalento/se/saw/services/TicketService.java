@@ -21,6 +21,7 @@ import it.unisalento.se.saw.dto.EmployeeDTO;
 import it.unisalento.se.saw.dto.TicketStatusDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.dto.TicketDTO;
+import it.unisalento.se.saw.dto.TicketMessageDTO;
 import it.unisalento.se.saw.exceptions.TicketNotFoundException;
 import it.unisalento.se.saw.repositories.TicketRepository;
 
@@ -117,7 +118,7 @@ public class TicketService implements ITicketService {
 	}
 	
 	@Transactional
-	public List<TicketMessage> getMessages(int idticket) {
+	public List<TicketMessageDTO> getMessages(int idticket) {
 		return ticketRepository.getMessages(idticket);
 	}
 	
@@ -185,16 +186,6 @@ public class TicketService implements ITicketService {
 	}
 	
 	
-	@Transactional
-	public Ticket edit(Ticket ticket) throws TicketNotFoundException{
-		try {
-			ticketRepository.findById(ticket.getIdticket()).get();
-			return ticketRepository.save(ticket);
-		} catch (Exception e) {
-			throw new TicketNotFoundException();
-		}
-		
-	}
 
 	@Transactional
 	public void delete(int id) throws TicketNotFoundException{
@@ -204,7 +195,14 @@ public class TicketService implements ITicketService {
 			throw new TicketNotFoundException();
 		}
 		
-		
+	}
+	
+	@Transactional
+	public TicketDTO saveMessages(TicketDTO ticketDTO, TicketMessageDTO ticketMessageDTO) {
+		List<TicketMessageDTO> ticketMessageDTOs = ticketDTO.getTicketmessages();
+		ticketMessageDTOs.add(ticketMessageDTO);
+		ticketDTO.setTicketmessages(ticketMessageDTOs);
+		return ticketDTO;
 	}
 	
 }
