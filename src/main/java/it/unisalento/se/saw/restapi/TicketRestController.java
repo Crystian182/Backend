@@ -46,6 +46,12 @@ public class TicketRestController {
 		return ticketService.getById(id);
 	}
 	
+
+	@GetMapping(value="/getMessages/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<TicketMessageDTO> getMessages(@PathVariable("id")int id) throws TicketNotFoundException{
+		return ticketService.getMessages(id);
+	}
+	
 	
 	@PostMapping(value="/save", produces=MediaType.APPLICATION_JSON_VALUE)
 	public TicketDTO save(@RequestBody TicketDTO ticketDTO){
