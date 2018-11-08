@@ -15,12 +15,15 @@ import it.unisalento.se.saw.domain.Teacher;
 import it.unisalento.se.saw.domain.Ticket;
 import it.unisalento.se.saw.domain.TicketMessage;
 import it.unisalento.se.saw.domain.TicketStatus;
+import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
 import it.unisalento.se.saw.dto.EmployeeDTO;
 import it.unisalento.se.saw.dto.TicketStatusDTO;
+import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.dto.TicketDTO;
+import it.unisalento.se.saw.dto.TicketMessageDTO;
 import it.unisalento.se.saw.exceptions.TicketNotFoundException;
 import it.unisalento.se.saw.repositories.TicketRepository;
 
@@ -77,6 +80,22 @@ public class TicketService implements ITicketService {
 	public TicketDTO getById(int id) throws TicketNotFoundException{
 		try {
 			Ticket ticket = ticketRepository.findById(id).get();
+			List<TicketMessage> ticketMessages = ticketRepository.getMessages(ticket.getIdticket());
+			
+			List<TicketMessageDTO> ticketMessageDTOs = new ArrayList<TicketMessageDTO>();
+			for(int i=0; i<ticketMessages.size(); i++) {
+				UserDTO userDTO = new UserDTO();
+				userDTO.setSsn(ticketMessages.get(i).getUser().getSsn());
+				userDTO.setSurname(ticketMessages.get(i).getUser().getSurname());
+				userDTO.setName(ticketMessages.get(i).getUser().getName());	
+				TicketMessageDTO ticketMessageDTO = new TicketMessageDTO();
+				ticketMessageDTO.setIdticketmessage(ticketMessages.get(i).getIdticketMessage());
+				ticketMessageDTO.setIdticket(ticketMessages.get(i).getTicket().getIdticket());
+				ticketMessageDTO.setDate(ticketMessages.get(i).getDate());
+				ticketMessageDTO.setText(ticketMessages.get(i).getText());
+				ticketMessageDTO.setUser(userDTO);
+				ticketMessageDTOs.add(ticketMessageDTO);
+			}
 			
 			TeacherDTO teacherDTO = new TeacherDTO();
 			teacherDTO.setSsn(ticket.getTeacher().getSsn());
@@ -108,6 +127,7 @@ public class TicketService implements ITicketService {
 			ticketDTO.setTeacher(teacherDTO);
 			ticketDTO.setClassroom(classroomDTO);
 			ticketDTO.setDate(ticket.getDate());
+			ticketDTO.setTicketmessages(ticketMessageDTOs);
 			return ticketDTO;
 			
 		} catch (Exception e) {
@@ -117,8 +137,23 @@ public class TicketService implements ITicketService {
 	}
 	
 	@Transactional
-	public List<TicketMessage> getMessages(int idticket) {
-		return ticketRepository.getMessages(idticket);
+	public List<TicketMessageDTO> getMessages(int idticket) {
+		List<TicketMessage> ticketMessages = ticketRepository.getMessages(idticket);
+		List<TicketMessageDTO> ticketMessageDTOs = new ArrayList<TicketMessageDTO>();
+		for(int i=0; i<ticketMessages.size(); i++) {
+			UserDTO userDTO = new UserDTO();
+			userDTO.setSsn(ticketMessages.get(i).getUser().getSsn());
+			userDTO.setSurname(ticketMessages.get(i).getUser().getSurname());
+			userDTO.setName(ticketMessages.get(i).getUser().getName());	
+			TicketMessageDTO ticketMessageDTO = new TicketMessageDTO();
+			ticketMessageDTO.setIdticketmessage(ticketMessages.get(i).getIdticketMessage());
+			ticketMessageDTO.setIdticket(ticketMessages.get(i).getTicket().getIdticket());
+			ticketMessageDTO.setDate(ticketMessages.get(i).getDate());
+			ticketMessageDTO.setText(ticketMessages.get(i).getText());
+			ticketMessageDTO.setUser(userDTO);
+			ticketMessageDTOs.add(ticketMessageDTO);
+		}
+		return ticketMessageDTOs;
 	}
 	
 	@Transactional
@@ -185,16 +220,6 @@ public class TicketService implements ITicketService {
 	}
 	
 	
-	@Transactional
-	public Ticket edit(Ticket ticket) throws TicketNotFoundException{
-		try {
-			ticketRepository.findById(ticket.getIdticket()).get();
-			return ticketRepository.save(ticket);
-		} catch (Exception e) {
-			throw new TicketNotFoundException();
-		}
-		
-	}
 
 	@Transactional
 	public void delete(int id) throws TicketNotFoundException{
@@ -204,7 +229,14 @@ public class TicketService implements ITicketService {
 			throw new TicketNotFoundException();
 		}
 		
-		
+	}
+	
+	@Transactional
+	public TicketDTO saveMessages(TicketDTO ticketDTO, TicketMessageDTO ticketMessageDTO) {
+		List<TicketMessageDTO> ticketMessageDTOs = ticketDTO.getTicketmessages();
+		ticketMessageDTOs.add(ticketMessageDTO);
+		ticketDTO.setTicketmessages(ticketMessageDTOs);
+		return ticketDTO;
 	}
 	
 }

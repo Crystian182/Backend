@@ -1,6 +1,5 @@
 package it.unisalento.se.saw.dto;
 
-import it.unisalento.se.saw.domain.User;
 
 public class EmployeeDTO {
 

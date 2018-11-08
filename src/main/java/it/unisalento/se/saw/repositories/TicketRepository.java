@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import it.unisalento.se.saw.domain.Message;
 import it.unisalento.se.saw.domain.Ticket;
 import it.unisalento.se.saw.domain.TicketMessage;
+import it.unisalento.se.saw.dto.TicketMessageDTO;
 
 
 @Repository

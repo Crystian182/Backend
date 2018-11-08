@@ -12,15 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unisalento.se.saw.Iservices.ITicketService;
-import it.unisalento.se.saw.domain.Building;
-import it.unisalento.se.saw.domain.Classroom;
-import it.unisalento.se.saw.domain.Ticket;
-import it.unisalento.se.saw.domain.User;
-import it.unisalento.se.saw.dto.BuildingDTO;
-import it.unisalento.se.saw.dto.ClassroomDTO;
-import it.unisalento.se.saw.dto.ToolDTO;
-import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.dto.TicketDTO;
+import it.unisalento.se.saw.dto.TicketMessageDTO;
 import it.unisalento.se.saw.exceptions.TicketNotFoundException;
 
 
@@ -53,6 +46,12 @@ public class TicketRestController {
 		return ticketService.getById(id);
 	}
 	
+
+	@GetMapping(value="/getMessages/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<TicketMessageDTO> getMessages(@PathVariable("id")int id) throws TicketNotFoundException{
+		return ticketService.getMessages(id);
+	}
+	
 	
 	@PostMapping(value="/save", produces=MediaType.APPLICATION_JSON_VALUE)
 	public TicketDTO save(@RequestBody TicketDTO ticketDTO){
@@ -60,16 +59,11 @@ public class TicketRestController {
 	
 	}
 	
-	/*@PostMapping(value="/staff/save", produces=MediaType.APPLICATION_JSON_VALUE)
-	public TicketDTO savestaff(@RequestBody TicketDTO ticketDTO){
+	@PostMapping(value="/savestaff", produces=MediaType.APPLICATION_JSON_VALUE)
+	public TicketDTO savestaff(@RequestBody TicketDTO ticketDTO, TicketMessageDTO ticketMessageDTO){
+		return ticketService.saveMessages(ticketDTO, ticketMessageDTO);
 		
-		Ticket ticket = ticketService.save(this.DTOToEntity2(ticketDTO));
-		
-		List <Ticketmessage> ticketmessages = ticketService.saveMessages(this.DTOToEntityMessage(ticketDTO.getTicketmessages()));
-		System.out.println("lista = " + ticketmessages.size());
-		return this.EntityToDTO2(ticket, ticketmessages);
 	}
-	*/
 	@PostMapping(value="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public void delete(@PathVariable("id")int id) throws TicketNotFoundException{
 		ticketService.delete(id);

@@ -2,7 +2,6 @@ package it.unisalento.se.saw.Iservices;
 
 import java.util.List;
 
-import it.unisalento.se.saw.domain.Building;
 import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.exceptions.BuildingNotFoundException;
 
