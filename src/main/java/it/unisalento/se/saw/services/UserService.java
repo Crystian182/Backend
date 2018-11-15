@@ -77,6 +77,7 @@ public class UserService implements IUserService{
 		try {
 			if(user.getPassword().equals(request.getPassword())) {
 				UserDTO userDTO = new UserDTO();
+				userDTO.setId(user.getIduser());
 				userDTO.setSsn(user.getSsn());
 				userDTO.setName(user.getName());
 				userDTO.setSurname(user.getSurname());
@@ -88,10 +89,10 @@ public class UserService implements IUserService{
 				userDTO.setPhone(user.getPhone());
 				userDTO.setSex(user.getSex());
 				userDTO.setCitizenship(user.getCitizenship());
-				if(userRepository.isStudent(user.getSsn())) {
-					userDTO.setSerial_number(userRepository.getStudent(user.getSsn()).getSerialNumber());
+				if(userRepository.isStudent(user.getIduser())) {
+					userDTO.setSerial_number(userRepository.getStudent(user.getIduser()).getId().getSerialNumber());
 					userDTO.setType("student");
-				} else if (userRepository.isTeacher(user.getSsn())) {
+				} else if (userRepository.isTeacher(user.getIduser())) {
 					userDTO.setType("teacher");
 				} else {
 					userDTO.setType("employee");
