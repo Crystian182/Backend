@@ -53,7 +53,7 @@ public class ChatRestController {
 		this.chatService = chatService;
 	}
 	
-	@GetMapping(value="/getPreviews/{ssn}", produces=MediaType.APPLICATION_JSON_VALUE) //home della chat
+	/*@GetMapping(value="/getPreviews/{ssn}", produces=MediaType.APPLICATION_JSON_VALUE) //home della chat
 	public List<PreviewChatDTO> getPreviews(@PathVariable("ssn")String ssn){
 		return chatService.getAllPreviews(ssn);
 	}

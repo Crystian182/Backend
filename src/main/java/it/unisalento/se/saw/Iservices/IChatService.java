@@ -8,8 +8,8 @@ import it.unisalento.se.saw.exceptions.ChatNotFoundException;
 
 public interface IChatService {
 
-	public List<PreviewChatDTO> getAllPreviews(String ssn);
-	public List<PreviewChatDTO> search(String ssn, String keyword);
+	/*public List<PreviewChatDTO> getAllPreviews(int iduser);
+	public List<PreviewChatDTO> search(int iduser, String keyword);
 	public ChatDTO getSubjectChat(String id) throws ChatNotFoundException;
-	public ChatDTO getPrivateChat(String ssn1, String ssn2);
+	public ChatDTO getPrivateChat(String iduser1, String iduser2);*/
 }

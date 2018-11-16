@@ -13,10 +13,10 @@ import it.unisalento.se.saw.domain.PrivateChat;
 @Repository
 public interface PrivateChatRepository extends JpaRepository<PrivateChat, Integer>{
 	
-	@Query("SELECT c FROM PrivateChat c WHERE c.id.user1Ssn=:ssn OR c.id.user2Ssn=:ssn")
-	public List<PrivateChat> getPreviews(@Param("ssn")String ssn);
+	@Query("SELECT c FROM PrivateChat c WHERE c.userByUser1Iduser=:iduser OR c.userByUser2Iduser=:iduser")
+	public List<PrivateChat> getPreviews(@Param("iduser")int iduser);
 	
-	@Query("SELECT c FROM PrivateChat c WHERE (c.id.user1Ssn=:ssn1 AND c.id.user2Ssn=:ssn2) OR (c.id.user1Ssn=:ssn2 AND c.id.user2Ssn=:ssn1)")
-	public PrivateChat getPreviewsWithColleague(@Param("ssn1")String ssn1, @Param("ssn2")String ssn2);
+	@Query("SELECT c FROM PrivateChat c WHERE (c.userByUser1Iduser=:iduser1 AND c.userByUser2Iduser=:iduser2) OR (c.userByUser1Iduser=:iduser2 AND c.userByUser2Iduser=:iduser1)")
+	public PrivateChat getPreviewsWithColleague(@Param("iduser1")int iduser1, @Param("iduser2")int iduser2);
 
 }

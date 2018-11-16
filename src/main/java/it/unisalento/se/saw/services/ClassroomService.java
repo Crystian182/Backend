@@ -64,7 +64,7 @@ public class ClassroomService implements IClassroomService{
 			classroomDTO.setLat(classrooms.get(i).getLat());
 			classroomDTO.setLng(classrooms.get(i).getLng());
 			classroomDTO.setBuilding(buildingDTO);
-			classroomDTO.setTools(toolDTOs);
+			classroomDTO.setTool(toolDTOs);
 			classroomDTOs.add(classroomDTO);
 		}
 		return classroomDTOs;
@@ -101,7 +101,7 @@ public class ClassroomService implements IClassroomService{
 			classroomDTO.setLat(classroom.getLat());
 			classroomDTO.setLng(classroom.getLng());
 			classroomDTO.setBuilding(buildingDTO);
-			classroomDTO.setTools(toolDTOs);
+			classroomDTO.setTool(toolDTOs);
 			return classroomDTO;
 		} catch (Exception e) {
 			throw new ClassroomNotFoundException();
@@ -140,7 +140,7 @@ public class ClassroomService implements IClassroomService{
 				classroomDTO.setLat(classrooms.get(i).getLat());
 				classroomDTO.setLng(classrooms.get(i).getLng());
 				classroomDTO.setBuilding(buildingDTO);
-				classroomDTO.setTools(toolDTOs);
+				classroomDTO.setTool(toolDTOs);
 				classroomDTOs.add(classroomDTO);
 			}
 			return classroomDTOs;
@@ -181,7 +181,7 @@ public class ClassroomService implements IClassroomService{
 				classroomDTO.setLat(classrooms.get(i).getLat());
 				classroomDTO.setLng(classrooms.get(i).getLng());
 				classroomDTO.setBuilding(buildingDTO);
-				classroomDTO.setTools(toolDTOs);
+				classroomDTO.setTool(toolDTOs);
 				classroomDTOs.add(classroomDTO);
 			}
 			return classroomDTOs;
@@ -222,7 +222,7 @@ public class ClassroomService implements IClassroomService{
 				classroomDTO.setLat(classrooms.get(i).getLat());
 				classroomDTO.setLng(classrooms.get(i).getLng());
 				classroomDTO.setBuilding(buildingDTO);
-				classroomDTO.setTools(toolDTOs);
+				classroomDTO.setTool(toolDTOs);
 				classroomDTOs.add(classroomDTO);
 			}
 			return classroomDTOs;
@@ -252,16 +252,25 @@ public class ClassroomService implements IClassroomService{
 		
 		List<ClassroomHasTool> toolsInClassroom = new ArrayList<ClassroomHasTool>();
 		
-		for(int j=0; j<classroomDTO.getTools().size(); j++) {
+		for(int j=0; j<classroomDTO.getTool().size(); j++) {
 			ClassroomHasTool toolInClassroom = new ClassroomHasTool();
+			Tool tool = new Tool();
+			tool.setIdtool(classroomDTO.getTool().get(j).getId());
+			tool.setName(classroomDTO.getTool().get(j).getName());
 			ClassroomHasToolId id = new ClassroomHasToolId();
 			id.setIdclassroom(classroomDTO.getId());
-			id.setIdtool(classroomDTO.getTools().get(j).getId());
+			id.setIdtool(classroomDTO.getTool().get(j).getId());
 			toolInClassroom.setId(id);
-			toolInClassroom.setQuantity(classroomDTO.getTools().get(j).getQuantity());
+			toolInClassroom.setTool(tool);
+			toolInClassroom.setQuantity(classroomDTO.getTool().get(j).getQuantity());
 			toolsInClassroom.add(toolInClassroom);
 			
-			classroomHasToolRepository.save(toolInClassroom);
+			if(toolInClassroom.getQuantity() == 0) {
+				classroomHasToolRepository.delete(toolInClassroom);
+			} else {
+				classroomHasToolRepository.save(toolInClassroom);
+			}
+			
 		}
 		
 		BuildingDTO buildingDTO = new BuildingDTO();
@@ -273,11 +282,14 @@ public class ClassroomService implements IClassroomService{
 		
 		List<ToolDTO> toolDTOs = new ArrayList<ToolDTO>();
 
-		for(int j=0; j<toolsInClassroom.size(); j++) {
+		List<ClassroomHasTool> newToolsInClassroom = classroomHasToolRepository.getToolByClassroomId(newClassroom.getIdclassroom());
+		
+		for(int j=0; j<newToolsInClassroom.size(); j++) {
 			ToolDTO toolDTO = new ToolDTO();
-			toolDTO.setId(toolsInClassroom.get(j).getId().getIdtool());
-			toolDTO.setName(toolsInClassroom.get(j).getTool().getName());
-			toolDTO.setQuantity(toolsInClassroom.get(j).getQuantity());
+			toolDTO.setId(newToolsInClassroom.get(j).getId().getIdtool());
+			toolDTO.setName(newToolsInClassroom.get(j).getTool().getName());
+			toolDTO.setQuantity(newToolsInClassroom.get(j).getQuantity());
+
 			toolDTOs.add(toolDTO);
 		}
 		
@@ -288,7 +300,9 @@ public class ClassroomService implements IClassroomService{
 		newClassroomDTO.setLat(newClassroom.getLat());
 		newClassroomDTO.setLng(newClassroom.getLng());
 		newClassroomDTO.setBuilding(buildingDTO);
-		newClassroomDTO.setTools(toolDTOs);
+		newClassroomDTO.setTool(toolDTOs);
+		
+		System.out.println("ok");
 		
 		return newClassroomDTO;
 	}

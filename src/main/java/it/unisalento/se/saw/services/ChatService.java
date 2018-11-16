@@ -16,7 +16,6 @@ import it.unisalento.se.saw.domain.PrivateChat;
 import it.unisalento.se.saw.domain.PrivateMessage;
 import it.unisalento.se.saw.domain.Student;
 import it.unisalento.se.saw.domain.SubjectChat;
-import it.unisalento.se.saw.domain.SubjectChatHasStudent;
 import it.unisalento.se.saw.domain.Teacher;
 import it.unisalento.se.saw.dto.ChatDTO;
 import it.unisalento.se.saw.dto.MessageDTO;
@@ -64,25 +63,25 @@ public class ChatService implements IChatService {
 	@Autowired
 	UserRepository userRepository;
 	
-	@Transactional(readOnly=true)
-	public List<PreviewChatDTO> getAllPreviews(String ssn){
+	/*@Transactional(readOnly=true)
+	public List<PreviewChatDTO> getAllPreviews(int iduser){
 		List<PreviewChatDTO> previewChatDTOs = new ArrayList<PreviewChatDTO>();
-		if(userRepository.isTeacher(ssn)) {
-			List<DegreeCourse> courses = courseRepository.getCourseTeacher(ssn);
+		if(userRepository.isTeacher(iduser)) {
+			List<DegreeCourse> courses = courseRepository.getCourseTeacher(iduser);
 			
 			for(int i=0; i<courses.size(); i++) {
-				List<Teacher> colleaguesCourse = userRepository.getTeacherColleagues(courses.get(i).getIddegreeCourse(), ssn);
+				List<Teacher> colleaguesCourse = userRepository.getTeacherColleagues(courses.get(i).getIddegreeCourse(), iduser);
 				for(int j=0; j<colleaguesCourse.size(); j++) {
 					PreviewChatDTO previewChatDTO = new PreviewChatDTO();
-					PrivateChat privateChat = privateChatRepository.getPreviewsWithColleague(ssn, colleaguesCourse.get(j).getSsn());
+					PrivateChat privateChat = privateChatRepository.getPreviewsWithColleague(iduser, colleaguesCourse.get(j).getIduser());
 					if(privateChat == null) {
-						previewChatDTO.setId(colleaguesCourse.get(j).getSsn());
+						previewChatDTO.setId(colleaguesCourse.get(j).getIduser());
 						previewChatDTO.setTitle(colleaguesCourse.get(j).getUser().getName() + " " + colleaguesCourse.get(j).getUser().getSurname());
 						previewChatDTO.setPublic(false);
 						previewChatDTOs.add(previewChatDTO);
 					} else {
-						if(!privateChat.getId().getUser1Ssn().equals(ssn)) {
-							previewChatDTO.setId(privateChat.getId().getUser1Ssn());
+						if(!privateChat.getUserByUser1Iduser().equals(iduser)) {
+							previewChatDTO.set(privateChat.getUserByUser1Iduser());
 							previewChatDTO.setTitle(privateChat.getUserByUser1Ssn().getName() + " " + privateChat.getUserByUser1Ssn().getSurname());
 						} else {
 							previewChatDTO.setId(privateChat.getId().getUser2Ssn());
@@ -373,5 +372,5 @@ public class ChatService implements IChatService {
 		chatDTO.setAllMessages(messageDTOs);
 		chatDTO.setPublic(false);
 		return chatDTO;
-	}
+	}*/
 }
