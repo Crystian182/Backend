@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import it.unisalento.se.saw.domain.SubjectChatHasStudent;
+//import it.unisalento.se.saw.domain.SubjectChatHasStudent;
 
 @Repository
-public interface SubjectChatHasStudentRepository extends JpaRepository<SubjectChatHasStudent, Integer>{
+public interface SubjectChatHasStudentRepository extends JpaRepository<Object, Integer>{
 	
-	@Query("SELECT c FROM SubjectChatHasStudent c WHERE c.id.studentSn=:ssn")
+	/*@Query("SELECT c FROM SubjectChatHasStudent c WHERE c.id.studentSn=:ssn")
 	public List<SubjectChatHasStudent> getPreviews(@Param("ssn")String ssn);
 	
 	@Query("SELECT c FROM SubjectChatHasStudent c WHERE c.id.studentSn=:ssn AND c.subjectChat.subject.name LIKE LOWER(CONCAT('%', :keyword,'%'))")
