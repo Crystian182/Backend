@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class StudentDTO {
 
+	private Integer idstudent;
 	private Integer serialNumber;
 	private String name;
 	private String surname;
@@ -13,11 +14,19 @@ public class StudentDTO {
 	private String residence;
 
 	
+	
+
 	public Integer getSerialNumber() {
 		return serialNumber;
 	}
 	public void setSerialNumber(Integer serialNumber) {
 		this.serialNumber = serialNumber;
+	}
+	public Integer getIdstudent() {
+		return idstudent;
+	}
+	public void setIdstudent(Integer idstudent) {
+		this.idstudent = idstudent;
 	}
 	public String getName() {
 		return name;

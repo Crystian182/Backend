@@ -3,15 +3,16 @@ package it.unisalento.se.saw.dto;
 
 public class EmployeeDTO {
 
-	 private String ssn;
+	 private Integer idemployee;
 	 private String name;
 	 private String surname;
     
-	public String getSsn() {
-		return ssn;
+
+	public Integer getIdemployee() {
+		return idemployee;
 	}
-	public void setSsn(String ssn) {
-		this.ssn = ssn;
+	public void setIdemployee(Integer idemployee) {
+		this.idemployee = idemployee;
 	}
 	public String getName() {
 		return name;

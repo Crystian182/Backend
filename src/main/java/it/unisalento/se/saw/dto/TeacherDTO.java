@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class TeacherDTO {
 	
-	private String ssn;
+	private Integer idteacher;
 	private String name;
 	private String surname;
 	private Date dateBirth;
@@ -13,11 +13,12 @@ public class TeacherDTO {
 	private String residence;
 	
 	
-	public String getSsn() {
-		return ssn;
+
+	public Integer getIdteacher() {
+		return idteacher;
 	}
-	public void setSsn(String ssn) {
-		this.ssn = ssn;
+	public void setIdteacher(Integer idteacher) {
+		this.idteacher = idteacher;
 	}
 	public String getName() {
 		return name;

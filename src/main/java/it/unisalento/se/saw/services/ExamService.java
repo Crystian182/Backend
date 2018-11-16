@@ -17,6 +17,7 @@ import it.unisalento.se.saw.domain.ExamEnrollmentId;
 import it.unisalento.se.saw.domain.ExamType;
 import it.unisalento.se.saw.domain.Result;
 import it.unisalento.se.saw.domain.Student;
+import it.unisalento.se.saw.domain.StudentId;
 import it.unisalento.se.saw.domain.Subject;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.BuildingDTO;
@@ -52,7 +53,7 @@ public class ExamService implements IExamService{
 			buildingDTO.setAddress(exams.get(i).getClassroom().getBuilding().getAddress());
 			
 			TeacherDTO teacherDTO = new TeacherDTO();
-			teacherDTO.setSsn(exams.get(i).getSubject().getTeacher().getSsn());
+			teacherDTO.setIdteacher(exams.get(i).getSubject().getTeacher().getIduser());
 			teacherDTO.setSurname(exams.get(i).getSubject().getTeacher().getUser().getName());
 			teacherDTO.setName(exams.get(i).getSubject().getTeacher().getUser().getSurname());
 			
@@ -103,7 +104,7 @@ public class ExamService implements IExamService{
 			buildingDTO.setAddress(exam.getClassroom().getBuilding().getAddress());
 			
 			TeacherDTO teacherDTO = new TeacherDTO();
-			teacherDTO.setSsn(exam.getSubject().getTeacher().getSsn());
+			teacherDTO.setIdteacher(exam.getSubject().getTeacher().getIduser());
 			teacherDTO.setSurname(exam.getSubject().getTeacher().getUser().getName());
 			teacherDTO.setName(exam.getSubject().getTeacher().getUser().getSurname());
 			
@@ -205,7 +206,7 @@ public class ExamService implements IExamService{
 		buildingDTO.setAddress(newExam.getClassroom().getBuilding().getAddress());
 		
 		TeacherDTO teacherDTO = new TeacherDTO();
-		teacherDTO.setSsn(newExam.getSubject().getTeacher().getSsn());
+		teacherDTO.setIdteacher(newExam.getSubject().getTeacher().getIduser());
 		teacherDTO.setSurname(newExam.getSubject().getTeacher().getUser().getName());
 		teacherDTO.setName(newExam.getSubject().getTeacher().getUser().getSurname());
 		
@@ -255,7 +256,7 @@ public class ExamService implements IExamService{
 				buildingDTO.setAddress(exams.get(i).getClassroom().getBuilding().getAddress());
 				
 				TeacherDTO teacherDTO = new TeacherDTO();
-				teacherDTO.setSsn(exams.get(i).getSubject().getTeacher().getSsn());
+				teacherDTO.setIdteacher(exams.get(i).getSubject().getTeacher().getIduser());
 				teacherDTO.setSurname(exams.get(i).getSubject().getTeacher().getUser().getName());
 				teacherDTO.setName(exams.get(i).getSubject().getTeacher().getUser().getSurname());
 				
@@ -307,7 +308,7 @@ public class ExamService implements IExamService{
 	public ExamDTO subscribe(int idexam, StudentDTO studentDTO) {
 		// TODO Auto-generated method stub
 		ExamEnrollmentId examEnrollmentId = new ExamEnrollmentId();
-		examEnrollmentId.setStudentSn(studentDTO.getSerialNumber());
+		examEnrollmentId.setStudentSn(studentDTO.getIdstudent());
 		examEnrollmentId.setExamIdexam(idexam);
 		
 		Exam exam = new Exam();
@@ -317,7 +318,10 @@ public class ExamService implements IExamService{
 		result.setIdresult(1);
 		
 		Student student = new Student();
-		student.setSerialNumber(studentDTO.getSerialNumber());
+		StudentId studentId = new StudentId();
+		studentId.setIduser(studentDTO.getIdstudent());
+		studentId.setSerialNumber(studentDTO.getSerialNumber());
+		student.setId(studentId);
 		User user = new User();
 		user.setName(studentDTO.getName());
 		user.setSurname(studentDTO.getSurname());
@@ -339,7 +343,7 @@ public class ExamService implements IExamService{
 		buildingDTO.setAddress(exam.getClassroom().getBuilding().getAddress());
 		
 		TeacherDTO teacherDTO = new TeacherDTO();
-		teacherDTO.setSsn(exam.getSubject().getTeacher().getSsn());
+		teacherDTO.setIdteacher(exam.getSubject().getTeacher().getIduser());
 		teacherDTO.setSurname(exam.getSubject().getTeacher().getUser().getName());
 		teacherDTO.setName(exam.getSubject().getTeacher().getUser().getSurname());
 		

@@ -30,7 +30,7 @@ public class SubjectService implements ISubjectService{
 		List<SubjectDTO> subjectDTOs = new ArrayList<SubjectDTO>();
 		for(int i=0; i<subjects.size(); i++) {
 			TeacherDTO teacherDTO = new TeacherDTO();
-			teacherDTO.setSsn(subjects.get(i).getTeacher().getUser().getSsn());
+			teacherDTO.setIdteacher(subjects.get(i).getTeacher().getUser().getIduser());
 			teacherDTO.setName(subjects.get(i).getTeacher().getUser().getName());
 			teacherDTO.setSurname(subjects.get(i).getTeacher().getUser().getSurname());
 			
@@ -59,7 +59,7 @@ public class SubjectService implements ISubjectService{
 		try {
 			Subject subject = subjectRepository.findById(id).get();
 			TeacherDTO teacherDTO = new TeacherDTO();
-			teacherDTO.setSsn(subject.getTeacher().getUser().getSsn());
+			teacherDTO.setIdteacher(subject.getTeacher().getUser().getIduser());
 			teacherDTO.setName(subject.getTeacher().getUser().getName());
 			teacherDTO.setSurname(subject.getTeacher().getUser().getSurname());
 			
@@ -97,7 +97,7 @@ public class SubjectService implements ISubjectService{
 		user.setName(subjectDTO.getTeacherDTO().getName());
 		user.setSurname(subjectDTO.getTeacherDTO().getSurname());
 		Teacher teacher = new Teacher();
-		teacher.setSsn(subjectDTO.getTeacherDTO().getSsn());
+		teacher.setIduser(subjectDTO.getTeacherDTO().getIdteacher());
 		teacher.setUser(user);
 		
 		Subject subject= new Subject();
@@ -114,7 +114,7 @@ public class SubjectService implements ISubjectService{
 		Subject newSubject = subjectRepository.save(subject);
 		
 		TeacherDTO teacherDTO = new TeacherDTO();
-		teacherDTO.setSsn(newSubject.getTeacher().getSsn());
+		teacherDTO.setIdteacher(newSubject.getTeacher().getIduser());
 		teacherDTO.setName(newSubject.getTeacher().getUser().getName());
 		teacherDTO.setSurname(newSubject.getTeacher().getUser().getSurname());
 		

@@ -41,15 +41,17 @@ public class TicketService implements ITicketService {
 		for(int i=0; i<tickets.size(); i++) {
 			
 			TeacherDTO teacherDTO = new TeacherDTO();
-			teacherDTO.setSsn(tickets.get(i).getTeacher().getSsn());
+			teacherDTO.setIdteacher(tickets.get(i).getTeacher().getIduser());
 			teacherDTO.setName(tickets.get(i).getTeacher().getUser().getName());
 			teacherDTO.setSurname(tickets.get(i).getTeacher().getUser().getSurname());
-			
 			EmployeeDTO employeeDTO = new EmployeeDTO();
-			employeeDTO.setSsn(tickets.get(i).getEmployee().getSsn());
+			try {
+			employeeDTO.setIdemployee(tickets.get(i).getEmployee().getIduser());
 			employeeDTO.setName(tickets.get(i).getEmployee().getUser().getName());
 			employeeDTO.setSurname(tickets.get(i).getEmployee().getUser().getSurname());
-			
+			} catch (Exception e) {
+				
+			}
 			BuildingDTO buildingDTO = new BuildingDTO();
 			buildingDTO.setId(tickets.get(i).getClassroom().getBuilding().getIdbuilding());
 			
@@ -66,7 +68,11 @@ public class TicketService implements ITicketService {
 			ticketDTO.setId(tickets.get(i).getIdticket());
 			ticketDTO.setTitle(tickets.get(i).getTitle());
 			ticketDTO.setTicketStatus(ticketStatusDTO);
+			try {
 			ticketDTO.setEmployee(employeeDTO);
+			} catch (Exception e) {
+				
+			}
 			ticketDTO.setTeacher(teacherDTO);
 			ticketDTO.setClassroom(classroomDTO);
 			ticketDTO.setDate(tickets.get(i).getDate());
@@ -85,7 +91,7 @@ public class TicketService implements ITicketService {
 			List<TicketMessageDTO> ticketMessageDTOs = new ArrayList<TicketMessageDTO>();
 			for(int i=0; i<ticketMessages.size(); i++) {
 				UserDTO userDTO = new UserDTO();
-				userDTO.setSsn(ticketMessages.get(i).getUser().getSsn());
+				userDTO.setIduser(ticketMessages.get(i).getUser().getIduser());
 				userDTO.setSurname(ticketMessages.get(i).getUser().getSurname());
 				userDTO.setName(ticketMessages.get(i).getUser().getName());	
 				TicketMessageDTO ticketMessageDTO = new TicketMessageDTO();
@@ -98,15 +104,17 @@ public class TicketService implements ITicketService {
 			}
 			
 			TeacherDTO teacherDTO = new TeacherDTO();
-			teacherDTO.setSsn(ticket.getTeacher().getSsn());
+			teacherDTO.setIdteacher(ticket.getTeacher().getIduser());
 			teacherDTO.setName(ticket.getTeacher().getUser().getName());
 			teacherDTO.setSurname(ticket.getTeacher().getUser().getSurname());
 			
 			EmployeeDTO employeeDTO = new EmployeeDTO();
-			employeeDTO.setSsn(ticket.getEmployee().getSsn());
+			try {
+			employeeDTO.setIdemployee(ticket.getEmployee().getIduser());
 			employeeDTO.setName(ticket.getEmployee().getUser().getName());
 			employeeDTO.setSurname(ticket.getEmployee().getUser().getSurname());
-			
+			} catch (Exception e) {
+			}
 			BuildingDTO buildingDTO = new BuildingDTO();
 			buildingDTO.setId(ticket.getClassroom().getBuilding().getIdbuilding());
 			
@@ -123,7 +131,10 @@ public class TicketService implements ITicketService {
 			ticketDTO.setId(ticket.getIdticket());
 			ticketDTO.setTitle(ticket.getTitle());
 			ticketDTO.setTicketStatus(ticketStatusDTO);
+			try {
 			ticketDTO.setEmployee(employeeDTO);
+			} catch (Exception e) {
+			}
 			ticketDTO.setTeacher(teacherDTO);
 			ticketDTO.setClassroom(classroomDTO);
 			ticketDTO.setDate(ticket.getDate());
@@ -142,7 +153,7 @@ public class TicketService implements ITicketService {
 		List<TicketMessageDTO> ticketMessageDTOs = new ArrayList<TicketMessageDTO>();
 		for(int i=0; i<ticketMessages.size(); i++) {
 			UserDTO userDTO = new UserDTO();
-			userDTO.setSsn(ticketMessages.get(i).getUser().getSsn());
+			userDTO.setIduser(ticketMessages.get(i).getUser().getIduser());
 			userDTO.setSurname(ticketMessages.get(i).getUser().getSurname());
 			userDTO.setName(ticketMessages.get(i).getUser().getName());	
 			TicketMessageDTO ticketMessageDTO = new TicketMessageDTO();
@@ -159,9 +170,9 @@ public class TicketService implements ITicketService {
 	@Transactional
 	public TicketDTO save(TicketDTO ticketDTO) {
 		Teacher teacher = new Teacher();
-		teacher.setSsn(ticketDTO.getTeacher().getSsn());
+		teacher.setIduser(ticketDTO.getTeacher().getIdteacher());
 		Employee employee = new Employee();
-		employee.setSsn(ticketDTO.getEmployee().getSsn());
+		employee.setIduser(ticketDTO.getEmployee().getIdemployee());
 		
 		Classroom classroom = new Classroom();
 		classroom.setIdclassroom(ticketDTO.getClassroom().getId());
@@ -186,12 +197,12 @@ public class TicketService implements ITicketService {
 		Ticket newTicket = ticketRepository.save(ticket);
 		 
 		TeacherDTO teacherDTO = new TeacherDTO();
-		teacherDTO.setSsn(newTicket.getTeacher().getSsn());
+		teacherDTO.setIdteacher(newTicket.getTeacher().getIduser());
 		teacherDTO.setName(newTicket.getTeacher().getUser().getName());
 		teacherDTO.setSurname(newTicket.getTeacher().getUser().getSurname());
 		
 		EmployeeDTO employeeDTO = new EmployeeDTO();
-		employeeDTO.setSsn(newTicket.getEmployee().getSsn());
+		employeeDTO.setIdemployee(newTicket.getEmployee().getIduser());
 		employeeDTO.setName(newTicket.getEmployee().getUser().getName());
 		employeeDTO.setSurname(newTicket.getEmployee().getUser().getSurname());
 		

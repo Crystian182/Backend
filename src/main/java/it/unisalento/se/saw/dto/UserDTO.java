@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class UserDTO {
 
-	private String ssn;
+	private Integer iduser;
     private String name;
     private String surname;
     private String email;
@@ -19,11 +19,12 @@ public class UserDTO {
     private Integer serial_number;
     private String type;
     
-	public String getSsn() {
-		return ssn;
+	
+	public Integer getIduser() {
+		return iduser;
 	}
-	public void setSsn(String ssn) {
-		this.ssn = ssn;
+	public void setIduser(Integer iduser) {
+		this.iduser = iduser;
 	}
 	public String getName() {
 		return name;
