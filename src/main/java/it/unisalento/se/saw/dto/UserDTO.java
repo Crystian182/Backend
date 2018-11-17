@@ -5,6 +5,7 @@ import java.util.Date;
 public class UserDTO {
 
 	private Integer iduser;
+	private String ssn;
     private String name;
     private String surname;
     private String email;
@@ -16,7 +17,6 @@ public class UserDTO {
     private String phone;
     private String sex;
     private String citizenship;
-    private Integer serial_number;
     private String type;
     
 	
@@ -25,6 +25,12 @@ public class UserDTO {
 	}
 	public void setIduser(Integer iduser) {
 		this.iduser = iduser;
+	}
+	public String getSsn() {
+		return ssn;
+	}
+	public void setSsn(String ssn) {
+		this.ssn = ssn;
 	}
 	public String getName() {
 		return name;
@@ -91,12 +97,6 @@ public class UserDTO {
 	}
 	public void setCitizenship(String citizenship) {
 		this.citizenship = citizenship;
-	}
-	public Integer getSerial_number() {
-		return serial_number;
-	}
-	public void setSerial_number(Integer serial_number) {
-		this.serial_number = serial_number;
 	}
 	public String getType() {
 		return type;

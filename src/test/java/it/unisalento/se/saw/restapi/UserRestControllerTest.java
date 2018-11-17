@@ -94,7 +94,6 @@ public class UserRestControllerTest {
 		userDTO.setPhone("334");
 		userDTO.setSex("m");
 		userDTO.setCitizenship("ita");
-		userDTO.setSerial_number(1);
 		userDTO.setType("student");
 		
 		User user = new User();
