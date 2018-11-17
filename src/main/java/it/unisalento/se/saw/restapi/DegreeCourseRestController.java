@@ -34,7 +34,7 @@ public class DegreeCourseRestController {
 		this.degreeCourseService = degreeCourseService;
 	}
 	
-	@RequestMapping(value="/getAll", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	/*@RequestMapping(value="/getAll", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<DegreeCourseDTO> getAll(){
 		return degreeCourseService.getAll();
 	}
@@ -52,7 +52,7 @@ public class DegreeCourseRestController {
 	@PostMapping(value="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public void delete(@PathVariable("id")int id) throws DegreeCourseNotFoundException{
 		degreeCourseService.delete(id);
-	}	
+	}	*/
 	
 	
 	
