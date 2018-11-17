@@ -27,7 +27,7 @@ import it.unisalento.se.saw.dto.StudentDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.exceptions.ExamNotFoundException;
-import it.unisalento.se.saw.repositories.ExamEnrollmentRepository;
+//import it.unisalento.se.saw.repositories.ExamEnrollmentRepository;
 import it.unisalento.se.saw.repositories.ExamRepository;
 
 @Service
@@ -36,8 +36,8 @@ public class ExamService implements IExamService{
 	@Autowired
 	ExamRepository examRepository;
 	
-	@Autowired
-	ExamEnrollmentRepository examEnrollmentRepository;
+	//@Autowired
+	//ExamEnrollmentRepository examEnrollmentRepository;
 	
 
 	@Transactional(readOnly=true)

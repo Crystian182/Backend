@@ -5,6 +5,6 @@ import it.unisalento.se.saw.exceptions.UserNotFoundException;
 
 public interface ITeacherService {
 	
-	public User getById(int id) throws UserNotFoundException;
+	//public User getById(int id) throws UserNotFoundException;
 
 }

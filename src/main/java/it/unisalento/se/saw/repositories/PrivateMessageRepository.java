@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
-@Repository
+/*@Repository
 public interface PrivateMessageRepository extends JpaRepository<Object, Integer> {
 	
 	/*@Query("SELECT m FROM PrivateMessage m WHERE (m.privateChat.id.user1Ssn=:ssn1 AND m.privateChat.id.user2Ssn=:ssn2) OR (m.privateChat.id.user1Ssn=:ssn2 AND m.privateChat.id.user2Ssn=:ssn1) ORDER BY m.date DESC")
@@ -17,4 +17,4 @@ public interface PrivateMessageRepository extends JpaRepository<Object, Integer>
 	@Query("SELECT m FROM PrivateMessage m WHERE (m.privateChat.id.user1Ssn=:ssn1 AND m.privateChat.id.user2Ssn=:ssn2) OR (m.privateChat.id.user1Ssn=:ssn2 AND m.privateChat.id.user2Ssn=:ssn1) ORDER BY m.date DESC")
 	public List<PrivateMessage> getChat(@Param("ssn1")String ssn1, @Param("ssn2")String ssn2);*/
 
-}
+//}*/

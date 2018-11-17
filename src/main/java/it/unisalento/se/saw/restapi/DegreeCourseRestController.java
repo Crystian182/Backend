@@ -30,7 +30,7 @@ public class DegreeCourseRestController {
 		super();
 	}
 	
-	public DegreeCourseRestController(IDegreeCourseService degreeCourseService) {
+	/*public DegreeCourseRestController(IDegreeCourseService degreeCourseService) {
 		this.degreeCourseService = degreeCourseService;
 	}
 	

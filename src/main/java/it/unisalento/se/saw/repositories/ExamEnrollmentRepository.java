@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 //import it.unisalento.se.saw.domain.ExamEnrollment;
 
-@Repository
+/*@Repository
 public interface ExamEnrollmentRepository extends JpaRepository<Object, Integer>  {
 
-}
+}*/

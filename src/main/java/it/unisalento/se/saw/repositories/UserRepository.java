@@ -35,14 +35,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("SELECT DISTINCT t FROM User u, Teacher t, Subject s WHERE t.iduser!=:iduser AND t.iduser=u.iduser AND t.iduser=s.teacher.iduser AND s.degreeCourse.iddegreeCourse=:idCourse")
 	public List<Teacher> getTeacherColleagues(@Param("idCourse")int idCourse, @Param("iduser")int iduser);
 	
-	@Query("SELECT DISTINCT s FROM Student s, Enrollment e WHERE s.user.iduser!=:iduser AND s.user.iduser=e.student.user.iduser AND e.degreeCourse.iddegreeCourse=:idCourse")
-	public List<Student> getStudentColleagues(@Param("idCourse")int idCourse, @Param("iduser")int iduser);
+	/*@Query("SELECT DISTINCT s FROM Student s, Enrollment e WHERE s.user.iduser!=:iduser AND s.user.iduser=e.student.user.iduser AND e.degreeCourse.iddegreeCourse=:idCourse")
+	public List<Student> getStudentColleagues(@Param("idCourse")int idCourse, @Param("iduser")int iduser);*/
 	
 	@Query("SELECT DISTINCT t FROM User u, Teacher t, Subject s WHERE t.iduser!=:iduser AND t.iduser=u.iduser AND t.iduser=s.teacher.iduser AND s.degreeCourse.iddegreeCourse=:idCourse AND (u.name LIKE LOWER(CONCAT('%', :keyword,'%')) OR u.surname LIKE LOWER(CONCAT('%', :keyword,'%')))")
 	public List<Teacher> searchTeacherColleagues(@Param("idCourse")int idCourse, @Param("iduser")int iduser, @Param("keyword")String keyword);
 	
-	@Query("SELECT DISTINCT s FROM Student s, Enrollment e WHERE s.user.iduser!=:iduser AND s.user.iduser=e.student.user.iduser AND e.degreeCourse.iddegreeCourse=:idCourse AND (s.user.name LIKE LOWER(CONCAT('%', :keyword,'%')) OR s.user.surname LIKE LOWER(CONCAT('%', :keyword,'%')))")
+	/*@Query("SELECT DISTINCT s FROM Student s, Enrollment e WHERE s.user.iduser!=:iduser AND s.user.iduser=e.student.user.iduser AND e.degreeCourse.iddegreeCourse=:idCourse AND (s.user.name LIKE LOWER(CONCAT('%', :keyword,'%')) OR s.user.surname LIKE LOWER(CONCAT('%', :keyword,'%')))")
 	public List<Student> searchStudentColleagues(@Param("idCourse")int idCourse, @Param("iduser")int iduser, @Param("keyword")String keyword);
-	
+	*/
 	
 }

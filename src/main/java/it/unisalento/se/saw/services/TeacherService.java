@@ -9,12 +9,12 @@ import it.unisalento.se.saw.domain.Classroom;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.exceptions.ClassroomNotFoundException;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
-import it.unisalento.se.saw.repositories.TeacherRepository;
+//import it.unisalento.se.saw.repositories.TeacherRepository;
 
 @Service
 public class TeacherService implements ITeacherService {
 	
-	@Autowired
+	/*@Autowired
 	TeacherRepository teacherRepository;
 	
 	@Transactional(rollbackFor=UserNotFoundException.class)
@@ -25,6 +25,6 @@ public class TeacherService implements ITeacherService {
 		} catch (Exception e) {
 			throw new UserNotFoundException();
 		}
-	}
+	}*/
 
 }

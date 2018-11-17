@@ -11,6 +11,7 @@ import it.unisalento.se.saw.domain.DegreeCourse;
 @Repository
 public interface DegreeCourseRepository extends JpaRepository<DegreeCourse, Integer> {
 
+	
 	@Query("SELECT DISTINCT s.degreeCourse FROM Subject s WHERE s.teacher.iduser=:iduser")
 	public List<DegreeCourse> getCourseTeacher(@Param("iduser")int iduser);
 }

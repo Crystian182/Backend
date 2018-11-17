@@ -14,7 +14,7 @@ import it.unisalento.se.saw.domain.Message;
 @Repository
 public interface SubjectMessageRepository extends JpaRepository<Message, Integer>{
 	
-	@Query("SELECT m FROM Message m WHERE m.subjectChat.idsubjectChat=:idSubjectChat ORDER BY m.date DESC ")
+	/*@Query("SELECT m FROM Message m WHERE m.subjectChat.idsubjectChat=:idSubjectChat ORDER BY m.date DESC ")
 	public List<Message> getSubjectMessages(@Param("idSubjectChat")int subject);
 	
 	@Query("SELECT m FROM Message m WHERE m.subjectChat.idsubjectChat=:idsubject ORDER BY m.date DESC")

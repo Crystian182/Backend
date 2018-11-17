@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import it.unisalento.se.saw.domain.User;
 
-@Repository
+/*@Repository
 public interface TeacherRepository extends JpaRepository<User, Integer> {
 
-}
+}*/

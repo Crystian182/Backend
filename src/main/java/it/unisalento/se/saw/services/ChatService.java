@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import it.unisalento.se.saw.Iservices.IChatService;
 import it.unisalento.se.saw.domain.DegreeCourse;
 import it.unisalento.se.saw.domain.Message;
-import it.unisalento.se.saw.domain.PrivateChat;
+//import it.unisalento.se.saw.domain.PrivateChat;
 import it.unisalento.se.saw.domain.Student;
 import it.unisalento.se.saw.domain.Teacher;
 import it.unisalento.se.saw.dto.ChatDTO;
@@ -22,11 +22,11 @@ import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.ChatNotFoundException;
 import it.unisalento.se.saw.repositories.DegreeCourseRepository;
-import it.unisalento.se.saw.repositories.EnrollmentRepository;
-import it.unisalento.se.saw.repositories.PrivateChatRepository;
-import it.unisalento.se.saw.repositories.PrivateMessageRepository;
+//import it.unisalento.se.saw.repositories.EnrollmentRepository;
+//import it.unisalento.se.saw.repositories.PrivateChatRepository;
+/*import it.unisalento.se.saw.repositories.PrivateMessageRepository;
 import it.unisalento.se.saw.repositories.SubjectChatHasStudentRepository;
-import it.unisalento.se.saw.repositories.SubjectChatRepository;
+import it.unisalento.se.saw.repositories.SubjectChatRepository;*/
 import it.unisalento.se.saw.repositories.SubjectMessageRepository;
 import it.unisalento.se.saw.repositories.SubjectRepository;
 import it.unisalento.se.saw.repositories.UserRepository;
@@ -34,17 +34,17 @@ import it.unisalento.se.saw.repositories.UserRepository;
 @Service
 public class ChatService implements IChatService {
 	
-	@Autowired
-	PrivateMessageRepository privateMessageRepository;
+	//@Autowired
+	//PrivateMessageRepository privateMessageRepository;
 	
-	@Autowired
+	/*@Autowired
 	SubjectMessageRepository subjectMessageRepository;
 	
-	@Autowired
+	/*@Autowired
 	PrivateChatRepository privateChatRepository;
 	
-	@Autowired
-	SubjectChatRepository subjectChatRepository;
+	//@Autowired
+	//SubjectChatRepository subjectChatRepository;
 	
 	@Autowired
 	SubjectRepository subjectRepository;
@@ -52,11 +52,11 @@ public class ChatService implements IChatService {
 	@Autowired
 	DegreeCourseRepository courseRepository;
 	
-	@Autowired
+	/*@Autowired
 	SubjectChatHasStudentRepository enrollmentSubjectChatRepository;
 	
 	@Autowired
-	EnrollmentRepository enrollmentRepository;
+	EnrollmentRepository enrollmentRepository;*/
 	
 	@Autowired
 	UserRepository userRepository;

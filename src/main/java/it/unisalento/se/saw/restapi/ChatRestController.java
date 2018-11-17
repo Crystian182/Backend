@@ -42,14 +42,14 @@ import it.unisalento.se.saw.exceptions.UserNotFoundException;
 @RequestMapping("/chat")
 public class ChatRestController {
 	
-	@Autowired
-	IChatService chatService;
+	//@Autowired
+	//IChatService chatService;
 	
 	public ChatRestController() {
 		super();
 	}
 	
-	public ChatRestController(IChatService chatService) {
+	/*public ChatRestController(IChatService chatService) {
 		this.chatService = chatService;
 	}
 	

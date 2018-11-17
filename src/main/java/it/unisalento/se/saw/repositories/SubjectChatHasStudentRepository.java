@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 //import it.unisalento.se.saw.domain.SubjectChatHasStudent;
 
-@Repository
+/*@Repository
 public interface SubjectChatHasStudentRepository extends JpaRepository<Object, Integer>{
 	
 	/*@Query("SELECT c FROM SubjectChatHasStudent c WHERE c.id.studentSn=:ssn")
@@ -21,4 +21,4 @@ public interface SubjectChatHasStudentRepository extends JpaRepository<Object, I
 	/*@Query("SELECT COUNT(s)>0 FROM PublicchatHasUser s WHERE s.user.iduser=:userid AND s.publicchat.idpublicchat=:chatid")
 	public boolean checkSubscribe(@Param("userid")int userid, @Param("chatid")int chatid);*/
 
-}
+//}
