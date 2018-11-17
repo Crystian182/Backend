@@ -49,7 +49,7 @@ public class LessonService implements ILessonService{
 				classroomDTO.setLng(lessons.get(i).getClassroom().getLng());
 				classroomDTO.setBuilding(buildingDTO);
 				
-				DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
+			/*	DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 				degreeCourseDTO.setIdcourse(lessons.get(i).getSubject().getDegreeCourse().getIddegreeCourse());
 				degreeCourseDTO.setName(lessons.get(i).getSubject().getDegreeCourse().getName());
 				degreeCourseDTO.setDescription(lessons.get(i).getSubject().getDegreeCourse().getDescription());
@@ -73,7 +73,7 @@ public class LessonService implements ILessonService{
 				lessonDTO.setStart(lessons.get(i).getStart());
 				lessonDTO.setDuration(lessons.get(i).getDuration());
 				lessonDTO.setClassroom(classroomDTO);
-				lessonDTO.setSubject(subjectDTO);
+			//	lessonDTO.setSubject(subjectDTO);
 		
 				lessonDTOs.add(lessonDTO);
 			}
@@ -102,7 +102,7 @@ public class LessonService implements ILessonService{
 			classroomDTO.setLng(lesson.getClassroom().getLng());
 			classroomDTO.setBuilding(buildingDTO);
 			
-			DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
+		/*	DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 			degreeCourseDTO.setIdcourse(lesson.getSubject().getDegreeCourse().getIddegreeCourse());
 			degreeCourseDTO.setName(lesson.getSubject().getDegreeCourse().getName());
 			degreeCourseDTO.setDescription(lesson.getSubject().getDegreeCourse().getDescription());
@@ -127,7 +127,7 @@ public class LessonService implements ILessonService{
 			lessonDTO.setStart(lesson.getStart());
 			lessonDTO.setDuration(lesson.getDuration());
 			lessonDTO.setClassroom(classroomDTO);
-			lessonDTO.setSubject(subjectDTO);
+			//lessonDTO.setSubject(subjectDTO);
 			
 			return lessonDTO;
 
@@ -154,7 +154,7 @@ public class LessonService implements ILessonService{
 		classroom.setLat(lessonDTO.getClassroom().getLat());
 		classroom.setLng(lessonDTO.getClassroom().getLng());
 		classroom.setBuilding(building);
-		
+	/*	
 		DegreeCourse degreeCourse = new DegreeCourse();
 		degreeCourse.setIddegreeCourse(lessonDTO.getSubject().getDegreecourseDTO().getIdcourse());
 		degreeCourse.setName(lessonDTO.getSubject().getDegreecourseDTO().getName());
@@ -182,7 +182,7 @@ public class LessonService implements ILessonService{
 		lesson.setDay(lessonDTO.getDay());
 		lesson.setStart(lessonDTO.getStart());
 		lesson.setDuration(lessonDTO.getDuration());
-		lesson.setSubject(subject);
+		//lesson.setSubject(subject);
 	
 		Lesson newLesson = lessonRepository.save(lesson);
 		
@@ -201,7 +201,7 @@ public class LessonService implements ILessonService{
 		classroomDTO.setLng(newLesson.getClassroom().getLng());
 		classroomDTO.setBuilding(buildingDTO);
 		
-		DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
+		/*DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 		degreeCourseDTO.setIdcourse(newLesson.getSubject().getDegreeCourse().getIddegreeCourse());
 		degreeCourseDTO.setName(newLesson.getSubject().getDegreeCourse().getName());
 		degreeCourseDTO.setDescription(newLesson.getSubject().getDegreeCourse().getDescription());
@@ -226,7 +226,7 @@ public class LessonService implements ILessonService{
 		newLessonDTO.setStart(newLesson.getStart());
 		newLessonDTO.setDuration(newLesson.getDuration());
 		newLessonDTO.setClassroom(classroomDTO);
-		newLessonDTO.setSubject(subjectDTO);
+		//newLessonDTO.setSubject(subjectDTO);
 		
 		return newLessonDTO;
 		

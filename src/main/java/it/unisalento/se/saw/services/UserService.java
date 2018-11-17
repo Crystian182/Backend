@@ -77,8 +77,7 @@ public class UserService implements IUserService{
 		try {
 			if(user.getPassword().equals(request.getPassword())) {
 				UserDTO userDTO = new UserDTO();
-				userDTO.setId(user.getIduser());
-				userDTO.setSsn(user.getSsn());
+				userDTO.setIduser(user.getIduser());
 				userDTO.setName(user.getName());
 				userDTO.setSurname(user.getSurname());
 				userDTO.setEmail(user.getEmail());

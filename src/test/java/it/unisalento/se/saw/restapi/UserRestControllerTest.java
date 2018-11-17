@@ -83,7 +83,7 @@ public class UserRestControllerTest {
 		request.setPassword("pass");
 
 		UserDTO userDTO = new UserDTO();
-		userDTO.setSsn("VRGCST95A21E506G");
+		//userDTO.setSsn("VRGCST95A21E506G");
 		userDTO.setName("Cristian");
 		userDTO.setSurname("Vergallo");
 		userDTO.setEmail("crifede");

@@ -26,18 +26,18 @@ public class DegreeCourseService implements IDegreeCourseService {
 		List<DegreeCourse> degreeCourses = degreeCourseRepository.findAll();
 		List<DegreeCourseDTO> degreeCourseDTOs = new ArrayList<DegreeCourseDTO>();
 		for(int i=0; i<degreeCourses.size(); i++) {
-			DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
+			/*DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 			degreeCourseDTO.setIdcourse(degreeCourses.get(i).getIddegreeCourse());
 			degreeCourseDTO.setName(degreeCourses.get(i).getName());
 			degreeCourseDTO.setDescription(degreeCourses.get(i).getDescription());
 			degreeCourseDTO.setAcademicYear(degreeCourses.get(i).getAcademicYear());
 			degreeCourseDTO.setIdCourseType(degreeCourses.get(i).getCourseType().getIdcourseType());
-			degreeCourseDTOs.add(degreeCourseDTO);
+			degreeCourseDTOs.add(degreeCourseDTO);*/
 		}
 		return degreeCourseDTOs;
 	}
 
-	@Transactional(rollbackFor=DegreeCourseNotFoundException.class)
+	/*@Transactional(rollbackFor=DegreeCourseNotFoundException.class)
 	public DegreeCourseDTO getById(int id) throws DegreeCourseNotFoundException{
 		try {
 			DegreeCourse degreeCourse = degreeCourseRepository.findById(id).get();
@@ -52,9 +52,9 @@ public class DegreeCourseService implements IDegreeCourseService {
 			throw new DegreeCourseNotFoundException();
 		}
 		
-	}
+	}*/
 
-	@Transactional
+	/*@Transactional
 	public DegreeCourseDTO save(DegreeCourseDTO degreeCourseDTO) {
 		CourseType courseType = new CourseType();
 		courseType.setIdcourseType(degreeCourseDTO.getIdCourseType());
@@ -78,7 +78,7 @@ public class DegreeCourseService implements IDegreeCourseService {
 		newDegreeCourseDTO.setIdCourseType(newDegreeCourse.getCourseType().getIdcourseType());
 		
 		return newDegreeCourseDTO;
-	}
+	}*/
 	
 	@Transactional
 	public void delete(int id) throws DegreeCourseNotFoundException{

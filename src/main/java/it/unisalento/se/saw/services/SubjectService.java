@@ -34,7 +34,7 @@ public class SubjectService implements ISubjectService{
 			teacherDTO.setName(subjects.get(i).getTeacher().getUser().getName());
 			teacherDTO.setSurname(subjects.get(i).getTeacher().getUser().getSurname());
 			
-			DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
+	/*		DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 			degreeCourseDTO.setIdcourse(subjects.get(i).getDegreeCourse().getIddegreeCourse());
 			degreeCourseDTO.setName(subjects.get(i).getDegreeCourse().getName());
 			degreeCourseDTO.setDescription(subjects.get(i).getDegreeCourse().getDescription());
@@ -47,7 +47,7 @@ public class SubjectService implements ISubjectService{
 			subjectDTO.setDegreecourseDTO(degreeCourseDTO);
 			subjectDTO.setTeacherDTO(teacherDTO);
 			subjectDTO.setCfu(subjects.get(i).getCfu());
-			subjectDTOs.add(subjectDTO);
+			subjectDTOs.add(subjectDTO);*/
 		}
 	
 		return subjectDTOs;
@@ -63,17 +63,17 @@ public class SubjectService implements ISubjectService{
 			teacherDTO.setName(subject.getTeacher().getUser().getName());
 			teacherDTO.setSurname(subject.getTeacher().getUser().getSurname());
 			
-			DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
+		/*	DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 			degreeCourseDTO.setIdcourse(subject.getDegreeCourse().getIddegreeCourse());
 			degreeCourseDTO.setName(subject.getDegreeCourse().getName());
 			degreeCourseDTO.setDescription(subject.getDegreeCourse().getDescription());
-			degreeCourseDTO.setAcademicYear(subject.getDegreeCourse().getAcademicYear());
+			degreeCourseDTO.setAcademicYear(subject.getDegreeCourse().getAcademicYear());*/
 			
 			SubjectDTO subjectDTO = new SubjectDTO();
 			subjectDTO.setId(subject.getIdsubject());
-			subjectDTO.setName(subject.getName());
+			/*subjectDTO.setName(subject.getName());
 			subjectDTO.setDescription(subject.getDescription());
-			subjectDTO.setDegreecourseDTO(degreeCourseDTO);
+			subjectDTO.setDegreecourseDTO(degreeCourseDTO);*/
 			subjectDTO.setTeacherDTO(teacherDTO);
 			subjectDTO.setCfu(subject.getCfu());
 	
@@ -87,11 +87,11 @@ public class SubjectService implements ISubjectService{
 	
 	@Transactional
 	public SubjectDTO save(SubjectDTO subjectDTO) {
-		DegreeCourse degreeCourse = new DegreeCourse();
+		/*DegreeCourse degreeCourse = new DegreeCourse();
 		degreeCourse.setIddegreeCourse(subjectDTO.getDegreecourseDTO().getIdcourse());
 		degreeCourse.setName(subjectDTO.getDegreecourseDTO().getName());
 		degreeCourse.setDescription(subjectDTO.getDegreecourseDTO().getDescription());
-		degreeCourse.setAcademicYear(subjectDTO.getDegreecourseDTO().getAcademicYear());
+		degreeCourse.setAcademicYear(subjectDTO.getDegreecourseDTO().getAcademicYear());*/
 		
 		User user = new User();
 		user.setName(subjectDTO.getTeacherDTO().getName());
@@ -105,9 +105,9 @@ public class SubjectService implements ISubjectService{
 			subject.setIdsubject(subjectDTO.getId());
 		} catch (Exception e) {
 		}
-		subject.setName(subjectDTO.getName());
+	/*	subject.setName(subjectDTO.getName());
 		subject.setDescription(subjectDTO.getDescription());
-		subject.setDegreeCourse(degreeCourse);;
+		subject.setDegreeCourse(degreeCourse);;*/
 		subject.setTeacher(teacher);
 		subject.setCfu(subjectDTO.getCfu());
 		
@@ -117,20 +117,20 @@ public class SubjectService implements ISubjectService{
 		teacherDTO.setIdteacher(newSubject.getTeacher().getIduser());
 		teacherDTO.setName(newSubject.getTeacher().getUser().getName());
 		teacherDTO.setSurname(newSubject.getTeacher().getUser().getSurname());
-		
+	/*	
 		DegreeCourseDTO degreecourseDTO = new DegreeCourseDTO();
 		degreecourseDTO.setIdcourse(newSubject.getDegreeCourse().getIddegreeCourse());
 		degreecourseDTO.setName(newSubject.getDegreeCourse().getName());
 		degreecourseDTO.setDescription(newSubject.getDegreeCourse().getDescription());
-		degreecourseDTO.setAcademicYear(newSubject.getDegreeCourse().getAcademicYear());
+		degreecourseDTO.setAcademicYear(newSubject.getDegreeCourse().getAcademicYear());*/
 		
 		SubjectDTO newSubjectDTO = new SubjectDTO();
 		newSubjectDTO.setId(newSubject.getIdsubject());
 		newSubjectDTO.setCfu(newSubject.getCfu());
-		newSubjectDTO.setDescription(newSubject.getDescription());
+	/*	newSubjectDTO.setDescription(newSubject.getDescription());
 		newSubjectDTO.setName(newSubject.getName());
 		newSubjectDTO.setTeacherDTO(teacherDTO);
-		newSubjectDTO.setDegreecourseDTO(degreecourseDTO);
+		newSubjectDTO.setDegreecourseDTO(degreecourseDTO);*/
 		
 		return newSubjectDTO;
 	}
