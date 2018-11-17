@@ -8,10 +8,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import it.unisalento.se.saw.domain.DegreeCourse;
-import it.unisalento.se.saw.domain.Enrollment;
+//import it.unisalento.se.saw.domain.Enrollment;
 
 @Repository
-public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer>{
+public interface EnrollmentRepository extends JpaRepository<Object, Integer>{
 	
 	@Query("SELECT DISTINCT e.degreeCourse FROM Enrollment e WHERE e.student.user.ssn=:ssn")
 	public List<DegreeCourse> getCourseStudent(@Param("ssn")String ssn);

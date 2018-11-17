@@ -89,7 +89,6 @@ public class UserService implements IUserService{
 				userDTO.setSex(user.getSex());
 				userDTO.setCitizenship(user.getCitizenship());
 				if(userRepository.isStudent(user.getIduser())) {
-					userDTO.setSerial_number(userRepository.getStudent(user.getIduser()).getId().getSerialNumber());
 					userDTO.setType("student");
 				} else if (userRepository.isTeacher(user.getIduser())) {
 					userDTO.setType("teacher");
