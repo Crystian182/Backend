@@ -302,7 +302,6 @@ public class ClassroomService implements IClassroomService{
 		newClassroomDTO.setBuilding(buildingDTO);
 		newClassroomDTO.setTool(toolDTOs);
 		
-		System.out.println("ok");
 		
 		return newClassroomDTO;
 	}
