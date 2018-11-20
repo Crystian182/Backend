@@ -15,7 +15,6 @@ import it.unisalento.se.saw.domain.Teacher;
 import it.unisalento.se.saw.domain.Ticket;
 import it.unisalento.se.saw.domain.TicketMessage;
 import it.unisalento.se.saw.domain.TicketStatus;
-import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
 import it.unisalento.se.saw.dto.EmployeeDTO;

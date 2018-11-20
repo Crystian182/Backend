@@ -3,10 +3,10 @@ package it.unisalento.se.saw.dto;
 public class DegreeCourseDTO {
 
 
-	private Integer idcourse;
+	private int idcourse;
     private String name;
-    private String description;
-    private int idCourseType;
+    private int cfu;
+    private int idTypeDegreeCourse;
     private String academicYear;
   
    
@@ -23,17 +23,20 @@ public class DegreeCourseDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDescription() {
-		return description;
+	public int getCfu() {
+		return cfu;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setCfu(int cfu) {
+		this.cfu = cfu;
 	}
-	public int getIdCourseType() {
-		return idCourseType;
+	public int getIdTypeDegreeCourse() {
+		return idTypeDegreeCourse;
 	}
-	public void setIdCourseType(int idCourseType) {
-		this.idCourseType = idCourseType;
+	public void setIdTypeDegreeCourse(int idTypeDegreeCourse) {
+		this.idTypeDegreeCourse = idTypeDegreeCourse;
+	}
+	public void setIdcourse(int idcourse) {
+		this.idcourse = idcourse;
 	}
 	public String getAcademicYear() {
 		return academicYear;

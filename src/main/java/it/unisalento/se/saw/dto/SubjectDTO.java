@@ -3,6 +3,7 @@ package it.unisalento.se.saw.dto;
 public class SubjectDTO {
 	
 	private int id;
+	private TypeSubjectDTO typeSubjectDTO;
 	private String name;
 	private String description;
 	private DegreeCourseDTO degreecourseDTO;
@@ -14,6 +15,13 @@ public class SubjectDTO {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public TypeSubjectDTO getTypeSubjectDTO() {
+		return typeSubjectDTO;
+	}
+	public void setTypeSubjectDTO(TypeSubjectDTO typeSubjectDTO) {
+		this.typeSubjectDTO = typeSubjectDTO;
 	}
 	public String getName() {
 		return name;
