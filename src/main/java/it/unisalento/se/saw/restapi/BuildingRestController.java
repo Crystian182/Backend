@@ -43,7 +43,7 @@ public class BuildingRestController {
 	}
 	
 	@PostMapping(value="/save", produces=MediaType.APPLICATION_JSON_VALUE)
-	public BuildingDTO save(@RequestBody BuildingDTO buildingDTO) {		
+	public BuildingDTO save(@RequestBody BuildingDTO buildingDTO) throws BuildingNotFoundException {		
 		return buildingService.save(buildingDTO);
 	}
 	

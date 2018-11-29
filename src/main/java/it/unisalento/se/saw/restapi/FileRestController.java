@@ -28,7 +28,7 @@ import it.unisalento.se.saw.exceptions.FileNotExistsException;
 @RequestMapping("/file")
 public class FileRestController {
 	
-	private static final String location = "C:\\Users\\Federico\\Desktop\\Computer Engineering\\download\\";
+	private static final String location = "C:\\Users\\Federico\\Desktop\\Computer Engineering\\Backend\\Backend\\src\\main\\resources\\";
 	
 	@Autowired
 	IFileService fileService;
@@ -50,6 +50,22 @@ public class FileRestController {
 			return fileName;
 		} catch (Exception e) {
 			return e.getMessage();
+		}
+	}
+	
+	@RequestMapping(value="/upload/building", method=RequestMethod.POST)
+	public HttpStatus uploadBuilding(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+		File dir = new File(location + "\\building");
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+		try {
+			String fileName = file.getOriginalFilename();
+			String path = location + "\\building\\" + fileName;
+			fileService.saveFile(file.getInputStream(), path);
+			return HttpStatus.ACCEPTED;
+		} catch (Exception e) {
+			return HttpStatus.NOT_ACCEPTABLE;
 		}
 	}
 

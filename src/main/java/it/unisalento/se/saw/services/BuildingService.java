@@ -72,6 +72,10 @@ public class BuildingService implements IBuildingService{
 					classroomDTO.setSeats(classrooms.get(i).getSeats());
 					classroomDTO.setLat(classrooms.get(i).getLat());
 					classroomDTO.setLng(classrooms.get(i).getLng());
+					BuildingDTO buildingDTO2 = new BuildingDTO();
+					buildingDTO2.setId(building.getIdbuilding());
+					buildingDTO2.setName(building.getName());
+					classroomDTO.setBuilding(buildingDTO2);
 					
 					List<ToolDTO> toolDTOs = new ArrayList<ToolDTO>();
 					List<ClassroomHasTool> toolsInClassroom = classroomHasToolRepository.getToolByClassroomId(classrooms.get(i).getIdclassroom());
@@ -95,27 +99,36 @@ public class BuildingService implements IBuildingService{
 	}
 	
 	@Transactional
-	public BuildingDTO save(BuildingDTO buildingDTO) {
+	public BuildingDTO save(BuildingDTO buildingDTO) throws BuildingNotFoundException {
 		Building building = new Building();
-		building.setIdbuilding(buildingDTO.getId());
+		try {
+			building.setIdbuilding(buildingDTO.getId());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		building.setName(buildingDTO.getName());
 		building.setAddress(buildingDTO.getAddress());
 		building.setLat(buildingDTO.getLat());
 		building.setLng(buildingDTO.getLng());
 		
+		Building newBuilding = buildingRepository.save(building);
+		
 		if(buildingDTO.getClassrooms() != null) {
 			for(int i=0; i<buildingDTO.getClassrooms().size(); i++) {
 				Classroom classroom = new Classroom();
 				classroom.setName(buildingDTO.getClassrooms().get(i).getName());
-				classroom.setIdclassroom(buildingDTO.getClassrooms().get(i).getId());
+				try {
+					classroom.setIdclassroom(buildingDTO.getClassrooms().get(i).getId());
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				classroom.setLat(buildingDTO.getClassrooms().get(i).getLat());
 				classroom.setLng(buildingDTO.getClassrooms().get(i).getLng());
 				classroom.setSeats(buildingDTO.getClassrooms().get(i).getSeats());
-				classroom.setBuilding(building);
+				classroom.setBuilding(newBuilding);
 				
-				classroomRepository.save(classroom);
-				
-				List<ClassroomHasTool> toolsInClassroom = new ArrayList<ClassroomHasTool>();
+				Classroom newClassroom = classroomRepository.save(classroom);
+				classroomHasToolRepository.removeAllClassroomId(newClassroom.getIdclassroom());
 				
 				for(int j=0; j<buildingDTO.getClassrooms().get(i).getTool().size(); j++) {
 					ClassroomHasTool toolInClassroom = new ClassroomHasTool();
@@ -123,30 +136,26 @@ public class BuildingService implements IBuildingService{
 					tool.setIdtool(buildingDTO.getClassrooms().get(i).getTool().get(j).getId());
 					tool.setName(buildingDTO.getClassrooms().get(i).getTool().get(j).getName());
 					ClassroomHasToolId id = new ClassroomHasToolId();
-					id.setIdclassroom(buildingDTO.getClassrooms().get(i).getId());
+					id.setIdclassroom(newClassroom.getIdclassroom());
 					id.setIdtool(buildingDTO.getClassrooms().get(i).getTool().get(j).getId());
 					toolInClassroom.setId(id);
 					toolInClassroom.setTool(tool);
 					toolInClassroom.setQuantity(buildingDTO.getClassrooms().get(i).getTool().get(j).getQuantity());
-					toolsInClassroom.add(toolInClassroom);
 					
-					if(toolInClassroom.getQuantity() == 0) {
+					/*if(toolInClassroom.getQuantity() == 0) {
 						classroomHasToolRepository.delete(toolInClassroom);
-					} else {
+					} else {*/
+					if (buildingDTO.getClassrooms().get(i).getTool().get(j).getQuantity() != 0) {
 						classroomHasToolRepository.save(toolInClassroom);
 					}
+					//}
 					
 				}
 			}
 		}
-		Building newBuilding = buildingRepository.save(building);
-		BuildingDTO newBuildingDTO = new BuildingDTO();
-		newBuildingDTO.setId(newBuilding.getIdbuilding());
-		newBuildingDTO.setName(newBuilding.getName());
-		newBuildingDTO.setAddress(newBuilding.getAddress());
-		newBuildingDTO.setLat(newBuilding.getLat());
-		newBuildingDTO.setLng(newBuilding.getLng());
-		return newBuildingDTO;
+		
+		return getById(newBuilding.getIdbuilding());
+		
 	}
 	
 	@Transactional
