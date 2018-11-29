@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unisalento.se.saw.Iservices.IDegreeCourseService;
+import it.unisalento.se.saw.dto.CourseTypeDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
+import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
 import it.unisalento.se.saw.exceptions.DegreeCourseNotFoundException;
 
 
@@ -30,11 +32,11 @@ public class DegreeCourseRestController {
 		super();
 	}
 	
-	/*public DegreeCourseRestController(IDegreeCourseService degreeCourseService) {
+	public DegreeCourseRestController(IDegreeCourseService degreeCourseService) {
 		this.degreeCourseService = degreeCourseService;
 	}
 	
-	/*@RequestMapping(value="/getAll", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value="/getAll", produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<DegreeCourseDTO> getAll(){
 		return degreeCourseService.getAll();
 	}
@@ -52,8 +54,26 @@ public class DegreeCourseRestController {
 	@PostMapping(value="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public void delete(@PathVariable("id")int id) throws DegreeCourseNotFoundException{
 		degreeCourseService.delete(id);
-	}	*/
+	}	
 	
+	@GetMapping(value="/getAllTypes", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<TypeDegreeCourseDTO> getAllTypes(){
+		return degreeCourseService.getAllTypes();
+	}	
 	
+	@GetMapping(value="/getTypesById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public TypeDegreeCourseDTO getTypesById(@PathVariable("id")int id){
+		return degreeCourseService.getTypesById(id);
+	}
+	
+	@GetMapping(value="/getAllCourseTypes", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<CourseTypeDTO> getAllCourseTypes(){
+		return degreeCourseService.getAllCourseTypes();
+	}	
+	
+	@GetMapping(value="/getCourseType/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public CourseTypeDTO getCourseType(@PathVariable("id")int id){
+		return degreeCourseService.getCourseType(id);
+	}
 	
 }

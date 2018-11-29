@@ -69,6 +69,10 @@ public class TicketRestController {
 		ticketService.delete(id);
 	}	
 	
-	
+	@PostMapping(value="/savemessage", produces=MediaType.APPLICATION_JSON_VALUE)
+	public TicketMessageDTO savemessage(@RequestBody TicketMessageDTO ticketMessageDTO){
+		return ticketService.saveMessage(ticketMessageDTO);
+		
+	}
 	
 }

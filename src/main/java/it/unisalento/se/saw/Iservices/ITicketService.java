@@ -13,5 +13,6 @@ public interface ITicketService {
 	public void delete(int id) throws TicketNotFoundException;
 	public List<TicketMessageDTO> getMessages(int idticket);
 	public TicketDTO saveMessages(TicketDTO ticketDTO, TicketMessageDTO ticketMessageDTO);
+	public TicketMessageDTO saveMessage(TicketMessageDTO ticketMessageDTO);
 
 }

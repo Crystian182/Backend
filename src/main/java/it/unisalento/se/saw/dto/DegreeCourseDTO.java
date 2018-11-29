@@ -4,9 +4,8 @@ public class DegreeCourseDTO {
 
 
 	private int idcourse;
-    private String name;
     private int cfu;
-    private int idTypeDegreeCourse;
+    private TypeDegreeCourseDTO typeDegreeCourse;
     private String academicYear;
   
    
@@ -17,23 +16,17 @@ public class DegreeCourseDTO {
 	public void setIdcourse(Integer idcourse) {
 		this.idcourse = idcourse;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	public int getCfu() {
 		return cfu;
 	}
 	public void setCfu(int cfu) {
 		this.cfu = cfu;
 	}
-	public int getIdTypeDegreeCourse() {
-		return idTypeDegreeCourse;
+	public TypeDegreeCourseDTO getTypeDegreeCourse() {
+		return typeDegreeCourse;
 	}
-	public void setIdTypeDegreeCourse(int idTypeDegreeCourse) {
-		this.idTypeDegreeCourse = idTypeDegreeCourse;
+	public void setTypeDegreeCourse(TypeDegreeCourseDTO typeDegreeCourse) {
+		this.typeDegreeCourse = typeDegreeCourse;
 	}
 	public void setIdcourse(int idcourse) {
 		this.idcourse = idcourse;
