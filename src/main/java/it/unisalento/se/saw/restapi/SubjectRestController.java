@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import it.unisalento.se.saw.Iservices.ISubjectService;
 import it.unisalento.se.saw.Iservices.ITeacherService;
 import it.unisalento.se.saw.dto.SubjectDTO;
+import it.unisalento.se.saw.dto.TypeSubjectDTO;
 import it.unisalento.se.saw.exceptions.SubjectNotFoundException;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 
@@ -51,9 +52,14 @@ public class SubjectRestController {
 		return subjectService.save(subjectDTO);
 	}
 	
-	@GetMapping(value="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public void delete(@PathVariable("id")int id) throws SubjectNotFoundException {
 		subjectService.delete(id);
 	}	
+	
+	@GetMapping(value="/getAllSubjectTypes", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<TypeSubjectDTO> getAllSubjectTypes(){
+		return subjectService.getAllSubjectTypes();
+	}
 	
 }

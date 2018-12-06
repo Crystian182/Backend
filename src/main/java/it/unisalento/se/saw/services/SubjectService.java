@@ -20,14 +20,20 @@ import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
+import it.unisalento.se.saw.dto.TypeSubjectDTO;
 import it.unisalento.se.saw.exceptions.SubjectNotFoundException;
 import it.unisalento.se.saw.repositories.SubjectRepository;
+import it.unisalento.se.saw.repositories.TypeSubjectRepository;
 
 @Service
 public class SubjectService implements ISubjectService{
 	
 	@Autowired
 	SubjectRepository subjectRepository;
+	
+
+	@Autowired
+	TypeSubjectRepository typeSubjectRepository;
 	
 	@Transactional(readOnly=true)
 	public List<SubjectDTO> getAll(){
@@ -56,6 +62,10 @@ public class SubjectService implements ISubjectService{
 			degreeCourseDTO.setCfu(subjects.get(i).getDegreeCourse().getCfu());
 			degreeCourseDTO.setAcademicYear(subjects.get(i).getDegreeCourse().getAcademicYear());
 			
+			TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
+			typeSubjectDTO.setIdtypeSubject(subjects.get(i).getTypeSubject().getIdtypeSubject());
+			typeSubjectDTO.setName(subjects.get(i).getTypeSubject().getName());
+			
 			SubjectDTO subjectDTO = new SubjectDTO();
 			subjectDTO.setId(subjects.get(i).getIdsubject());
 			subjectDTO.setName(subjects.get(i).getTypeSubject().getName());
@@ -63,6 +73,7 @@ public class SubjectService implements ISubjectService{
 			subjectDTO.setDegreecourseDTO(degreeCourseDTO);
 			subjectDTO.setTeacherDTO(teacherDTO);
 			subjectDTO.setCfu(subjects.get(i).getCfu());
+			subjectDTO.setTypeSubjectDTO(typeSubjectDTO);
 			subjectDTOs.add(subjectDTO);
 		}
 	
@@ -97,12 +108,17 @@ public class SubjectService implements ISubjectService{
 			degreeCourseDTO.setCfu(subject.getDegreeCourse().getCfu());
 			degreeCourseDTO.setAcademicYear(subject.getDegreeCourse().getAcademicYear());
 			
+			TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
+			typeSubjectDTO.setIdtypeSubject(subject.getTypeSubject().getIdtypeSubject());
+			typeSubjectDTO.setName(subject.getTypeSubject().getName());
+			
 			SubjectDTO subjectDTO = new SubjectDTO();
 			subjectDTO.setId(subject.getIdsubject());
 			subjectDTO.setName(subject.getTypeSubject().getName());
 			subjectDTO.setDescription(subject.getTypeSubject().getDescription());
 			subjectDTO.setDegreecourseDTO(degreeCourseDTO);
 			subjectDTO.setTeacherDTO(teacherDTO);
+			subjectDTO.setTypeSubjectDTO(typeSubjectDTO);
 			subjectDTO.setCfu(subject.getCfu());
 	
 			return subjectDTO;
@@ -177,6 +193,10 @@ public class SubjectService implements ISubjectService{
 		degreecourseDTO.setCfu(newSubject.getDegreeCourse().getCfu());
 		degreecourseDTO.setAcademicYear(newSubject.getDegreeCourse().getAcademicYear());
 		
+		TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
+		typeSubjectDTO.setIdtypeSubject(newSubject.getTypeSubject().getIdtypeSubject());
+		typeSubjectDTO.setName(newSubject.getTypeSubject().getName());
+		
 		SubjectDTO newSubjectDTO = new SubjectDTO();
 		newSubjectDTO.setId(newSubject.getIdsubject());
 		newSubjectDTO.setCfu(newSubject.getCfu());
@@ -184,6 +204,7 @@ public class SubjectService implements ISubjectService{
 		newSubjectDTO.setName(newSubject.getTypeSubject().getName());
 		newSubjectDTO.setTeacherDTO(teacherDTO);
 		newSubjectDTO.setDegreecourseDTO(degreecourseDTO);
+		newSubjectDTO.setTypeSubjectDTO(typeSubjectDTO);
 		
 		return newSubjectDTO;
 	}
@@ -200,5 +221,17 @@ public class SubjectService implements ISubjectService{
 		}
 
 	}
-
+	
+	@Transactional(readOnly=true)
+	public List<TypeSubjectDTO> getAllSubjectTypes(){
+		List<TypeSubject> typeSubjects = typeSubjectRepository.findAll();
+		List<TypeSubjectDTO> typeSubjectDTOs = new ArrayList<TypeSubjectDTO>();
+		for(int i=0; i<typeSubjects.size(); i++) {
+			TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
+			typeSubjectDTO.setIdtypeSubject(typeSubjects.get(i).getIdtypeSubject());
+			typeSubjectDTO.setName(typeSubjects.get(i).getName());
+			typeSubjectDTOs.add(typeSubjectDTO);
+		}
+		return typeSubjectDTOs;
+	}
 }
