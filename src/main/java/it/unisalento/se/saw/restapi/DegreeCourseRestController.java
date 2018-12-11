@@ -18,9 +18,6 @@ import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
 import it.unisalento.se.saw.exceptions.DegreeCourseNotFoundException;
 
-
-
-
 @RestController
 @RequestMapping("/course")
 public class DegreeCourseRestController {

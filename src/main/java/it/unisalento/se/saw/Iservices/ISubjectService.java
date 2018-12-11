@@ -9,6 +9,7 @@ public interface ISubjectService {
 	
 	public List<SubjectDTO> getAll();
 	public SubjectDTO getById(int id) throws SubjectNotFoundException;
+	public List<SubjectDTO> getByIdCourse(int id) throws SubjectNotFoundException;
 	public SubjectDTO save(SubjectDTO subjectDTO);
 	public void delete(int id) throws SubjectNotFoundException;
 
