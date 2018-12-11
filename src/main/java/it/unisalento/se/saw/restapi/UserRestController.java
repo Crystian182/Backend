@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.unisalento.se.saw.Iservices.IUserService;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.LoginDTO;
+import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 import it.unisalento.se.saw.exceptions.WrongPasswordException;
@@ -58,6 +59,7 @@ public class UserRestController {
 		
 	}
 	
+	
 	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public User post(@RequestBody UserDTO userDTO) {
 		User user = new User();
@@ -65,4 +67,22 @@ public class UserRestController {
 		user.setSurname(userDTO.getSurname());*/
 		/*return userService.save(user);
 	}*/
+	
+	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public UserDTO getById(@PathVariable("id")int id) throws UserNotFoundException{
+		UserDTO userDTO = userService.getById(id);
+		return userDTO;
+	}
+	
+	@GetMapping(value="/getTeachers", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<TeacherDTO> getTeachers() throws UserNotFoundException{
+		List<TeacherDTO> teacherDTOs = userService.getTeachers();
+		return teacherDTOs;
+	}
+	
+	@GetMapping(value="/getTeacherById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public TeacherDTO getTeachersById(@PathVariable("id")int id) throws UserNotFoundException{
+		TeacherDTO teacherDTO = userService.getTeacherById(id);
+		return teacherDTO;
+	}
 }
