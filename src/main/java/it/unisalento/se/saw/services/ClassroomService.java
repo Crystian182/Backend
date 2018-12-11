@@ -241,7 +241,11 @@ public class ClassroomService implements IClassroomService{
 		building.setLng(classroomDTO.getBuilding().getLng());
 		
 		Classroom classroom = new Classroom();
-		classroom.setIdclassroom(classroomDTO.getId());
+		try {
+			classroom.setIdclassroom(classroomDTO.getId());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		classroom.setName(classroomDTO.getName());
 		classroom.setSeats(classroomDTO.getSeats());
 		classroom.setLat(classroomDTO.getLat());
@@ -258,7 +262,7 @@ public class ClassroomService implements IClassroomService{
 			tool.setIdtool(classroomDTO.getTool().get(j).getId());
 			tool.setName(classroomDTO.getTool().get(j).getName());
 			ClassroomHasToolId id = new ClassroomHasToolId();
-			id.setIdclassroom(classroomDTO.getId());
+			id.setIdclassroom(newClassroom.getIdclassroom());
 			id.setIdtool(classroomDTO.getTool().get(j).getId());
 			toolInClassroom.setId(id);
 			toolInClassroom.setTool(tool);

@@ -9,7 +9,7 @@ public interface IBuildingService {
 	
 	public List<BuildingDTO> getAll();
 	public BuildingDTO getById(int id) throws BuildingNotFoundException;
-	public BuildingDTO save(BuildingDTO buildingDTO);
+	public BuildingDTO save(BuildingDTO buildingDTO) throws BuildingNotFoundException;
 	public void delete(int idBuilding) throws BuildingNotFoundException;
 
 }
