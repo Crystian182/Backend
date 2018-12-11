@@ -17,4 +17,7 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer> {
 	@Query("SELECT s FROM Subject s WHERE s.degreeCourse.iddegreeCourse=:idCourse")
 	public List<Subject> getByIdCourse(@Param("idCourse")int idCourse);
 
+	@Query("SELECT s FROM Subject s WHERE s.degreeCourse.iddegreeCourse=:idcourse")
+	public List<Subject> getSubjectsByIdDegreeCourse(@Param("idcourse")int idcourse);
+
 }

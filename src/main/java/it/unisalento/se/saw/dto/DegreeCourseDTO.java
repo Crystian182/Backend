@@ -1,5 +1,7 @@
 package it.unisalento.se.saw.dto;
 
+import java.util.List;
+
 public class DegreeCourseDTO {
 
 
@@ -7,9 +9,9 @@ public class DegreeCourseDTO {
     private int cfu;
     private TypeDegreeCourseDTO typeDegreeCourse;
     private String academicYear;
+    private List<SubjectDTO> subjects;
   
    
-    
 	public Integer getIdcourse() {
 		return idcourse;
 	}
@@ -36,6 +38,12 @@ public class DegreeCourseDTO {
 	}
 	public void setAcademicYear(String academicYear) {
 		this.academicYear = academicYear;
+	}
+	public List<SubjectDTO> getSubjects() {
+		return subjects;
+	}
+	public void setSubjects(List<SubjectDTO> subjects) {
+		this.subjects = subjects;
 	}
 	
 
