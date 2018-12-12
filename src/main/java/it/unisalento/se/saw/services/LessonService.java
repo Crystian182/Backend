@@ -16,18 +16,25 @@ import it.unisalento.se.saw.domain.DegreeCourse;
 import it.unisalento.se.saw.domain.Lesson;
 import it.unisalento.se.saw.domain.Subject;
 import it.unisalento.se.saw.domain.TypeDegreeCourse;
+import it.unisalento.se.saw.domain.TypeLesson;
 import it.unisalento.se.saw.domain.TypeSubject;
 import it.unisalento.se.saw.dto.AcademicYearDTO;
 import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
 import it.unisalento.se.saw.dto.CourseTypeDTO;
+import it.unisalento.se.saw.dto.DayDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.LessonDTO;
+import it.unisalento.se.saw.dto.SchedulerDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
+import it.unisalento.se.saw.dto.TermDTO;
 import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
+import it.unisalento.se.saw.dto.TypeLessonDTO;
+import it.unisalento.se.saw.dto.TypeSubjectDTO;
 import it.unisalento.se.saw.exceptions.LessonNotFoundException;
 import it.unisalento.se.saw.repositories.LessonRepository;
+import it.unisalento.se.saw.repositories.TypeLessonRepository;
 
 
 @Service
@@ -35,6 +42,9 @@ public class LessonService implements ILessonService{
 
 	@Autowired
 	LessonRepository lessonRepository;
+	
+	@Autowired
+	TypeLessonRepository typeLessonRepository;
 
 	@Transactional(readOnly = true)
 	public List<LessonDTO> getAll() {
@@ -94,9 +104,8 @@ public class LessonService implements ILessonService{
 				LessonDTO lessonDTO = new LessonDTO();
 				
 				lessonDTO.setIdlesson(lessons.get(i).getIdlesson());
-				lessonDTO.setDay(lessons.get(i).getDay());
 				lessonDTO.setStart(lessons.get(i).getStart());
-				lessonDTO.setDuration(lessons.get(i).getDuration());
+				lessonDTO.setEnd(lessons.get(i).getEnd());
 				lessonDTO.setClassroom(classroomDTO);
 				lessonDTO.setSubject(subjectDTO);
 		
@@ -163,9 +172,8 @@ public class LessonService implements ILessonService{
 			LessonDTO lessonDTO = new LessonDTO();
 			
 			lessonDTO.setIdlesson(lesson.getIdlesson());
-			lessonDTO.setDay(lesson.getDay());
 			lessonDTO.setStart(lesson.getStart());
-			lessonDTO.setDuration(lesson.getDuration());
+			lessonDTO.setEnd(lesson.getEnd());
 			lessonDTO.setClassroom(classroomDTO);
 			lessonDTO.setSubject(subjectDTO);
 			
@@ -230,9 +238,8 @@ public class LessonService implements ILessonService{
 			// TODO: handle exception
 		}
 		lesson.setClassroom(classroom);
-		lesson.setDay(lessonDTO.getDay());
 		lesson.setStart(lessonDTO.getStart());
-		lesson.setDuration(lessonDTO.getDuration());
+		lesson.setEnd(lessonDTO.getEnd());
 		lesson.setSubject(subject);
 	
 		Lesson newLesson = lessonRepository.save(lesson);
@@ -287,9 +294,8 @@ public class LessonService implements ILessonService{
 		LessonDTO newLessonDTO = new LessonDTO();
 		
 		newLessonDTO.setIdlesson(newLesson.getIdlesson());
-		newLessonDTO.setDay(newLesson.getDay());
 		newLessonDTO.setStart(newLesson.getStart());
-		newLessonDTO.setDuration(newLesson.getDuration());
+		newLessonDTO.setEnd(newLesson.getEnd());
 		newLessonDTO.setClassroom(classroomDTO);
 		newLessonDTO.setSubject(subjectDTO);
 		
@@ -304,6 +310,70 @@ public class LessonService implements ILessonService{
 		} catch (Exception e) {
 			throw new LessonNotFoundException();
 		}
+	}
+	
+	@Transactional
+	public List<TypeLessonDTO> getCurrentSchedulerByCourse(DegreeCourseDTO degreeCourseDTO){
+		List<TypeLesson> lessons = typeLessonRepository.getCurrentSchedulerByIDCourse(degreeCourseDTO.getIdcourse());
+		
+		if(lessons == null) {
+			return null;
+		}
+		
+		List<TypeLessonDTO> typeLessonDTOs = new ArrayList<TypeLessonDTO>();
+		for(int i=0; i<lessons.size(); i++) {
+			TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
+			typeLessonDTO.setIdtypeLesson(lessons.get(i).getIdtypeLesson());
+			
+			ClassroomDTO classroomDTO = new ClassroomDTO();
+			classroomDTO.setId(lessons.get(i).getClassroom().getIdclassroom());
+			classroomDTO.setName(lessons.get(i).getClassroom().getName());
+			
+			BuildingDTO buildingDTO = new BuildingDTO();
+			buildingDTO.setId(lessons.get(i).getClassroom().getBuilding().getIdbuilding());
+			buildingDTO.setName(lessons.get(i).getClassroom().getBuilding().getName());
+			
+			classroomDTO.setBuilding(buildingDTO);
+			
+			typeLessonDTO.setClassroom(classroomDTO);
+			
+			DayDTO dayDTO = new DayDTO();
+			dayDTO.setIdDay(lessons.get(i).getDay().getIdday());
+			dayDTO.setName(lessons.get(i).getDay().getName());
+			
+			typeLessonDTO.setDay(dayDTO);
+			
+			SchedulerDTO schedulerDTO = new SchedulerDTO();
+			schedulerDTO.setIdScheduler(lessons.get(i).getScheduler().getIdscheduler());
+			schedulerDTO.setName(lessons.get(i).getScheduler().getName());
+			
+			TermDTO termDTO = new TermDTO();
+			termDTO.setIdterm(lessons.get(i).getScheduler().getTerm().getIdterm());
+			termDTO.setNumber(lessons.get(i).getScheduler().getTerm().getNumber());
+			termDTO.setStart(lessons.get(i).getScheduler().getTerm().getStart());
+			termDTO.setEnd(lessons.get(i).getScheduler().getTerm().getEnd());
+			
+			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+			academicYearDTO.setIdacademicYear(lessons.get(i).getScheduler().getTerm().getAcademicYear().getIdacademicYear());
+			academicYearDTO.setYears(lessons.get(i).getScheduler().getTerm().getAcademicYear().getYears());
+			
+			termDTO.setAcademicYear(academicYearDTO);
+			
+			schedulerDTO.setTerm(termDTO);
+			
+			typeLessonDTO.setScheduler(schedulerDTO);
+			
+			TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
+			typeSubjectDTO.setIdtypeSubject(lessons.get(i).getTypeSubject().getIdtypeSubject());
+			typeSubjectDTO.setName(lessons.get(i).getTypeSubject().getName());
+			
+			typeLessonDTO.setTypeSubject(typeSubjectDTO);
+			typeLessonDTO.setStart(lessons.get(i).getStart());
+			typeLessonDTO.setEnd(lessons.get(i).getEnd());
+			
+			typeLessonDTOs.add(typeLessonDTO);
+		}
+		return typeLessonDTOs;
 	}
 	
 }

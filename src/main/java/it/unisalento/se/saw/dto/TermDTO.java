@@ -7,7 +7,7 @@ import it.unisalento.se.saw.domain.AcademicYear;
 public class TermDTO {
 	
 	 private Integer idterm;
-     private AcademicYear academicYear;
+     private AcademicYearDTO academicYear;
      private int number;
      private Date start;
      private Date end;
@@ -19,10 +19,10 @@ public class TermDTO {
 	public void setIdterm(Integer idterm) {
 		this.idterm = idterm;
 	}
-	public AcademicYear getAcademicYear() {
+	public AcademicYearDTO getAcademicYear() {
 		return academicYear;
 	}
-	public void setAcademicYear(AcademicYear academicYear) {
+	public void setAcademicYear(AcademicYearDTO academicYear) {
 		this.academicYear = academicYear;
 	}
 	public int getNumber() {
