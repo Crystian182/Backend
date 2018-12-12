@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.unisalento.se.saw.Iservices.IDegreeCourseService;
+import it.unisalento.se.saw.domain.AcademicYear;
 import it.unisalento.se.saw.domain.CourseType;
 import it.unisalento.se.saw.domain.DegreeCourse;
 import it.unisalento.se.saw.domain.Subject;
@@ -15,10 +16,12 @@ import it.unisalento.se.saw.domain.Teacher;
 import it.unisalento.se.saw.domain.TypeDegreeCourse;
 import it.unisalento.se.saw.domain.TypeSubject;
 import it.unisalento.se.saw.domain.User;
+import it.unisalento.se.saw.dto.AcademicYearDTO;
 import it.unisalento.se.saw.dto.CourseTypeDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
+import it.unisalento.se.saw.dto.TermDTO;
 import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.DegreeCourseNotFoundException;
@@ -51,7 +54,14 @@ public class DegreeCourseService implements IDegreeCourseService {
 		for(int i=0; i<degreeCourses.size(); i++) {
 			DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 			degreeCourseDTO.setIdcourse(degreeCourses.get(i).getIddegreeCourse());
-			degreeCourseDTO.setAcademicYear(degreeCourses.get(i).getAcademicYear());
+			
+			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+			academicYearDTO.setIdacademicYear(degreeCourses.get(i).getAcademicYear().getIdacademicYear());
+			academicYearDTO.setYears(degreeCourses.get(i).getAcademicYear().getYears());
+			
+			List<TermDTO> termDTOs= new ArrayList<TermDTO>();
+			academicYearDTO.set
+			degreeCourseDTO.setAcademicYear(academicYearDTO);
 			
 			TypeDegreeCourseDTO typeDegreeCourse = new TypeDegreeCourseDTO();
 			typeDegreeCourse.setIdtypeDegreeCourse(degreeCourses.get(i).getTypeDegreeCourse().getIdtypeDegreeCourse());
@@ -91,7 +101,10 @@ public class DegreeCourseService implements IDegreeCourseService {
 			DegreeCourse degreeCourse = degreeCourseRepository.findById(id).get();
 			DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 			degreeCourseDTO.setIdcourse(degreeCourse.getIddegreeCourse());
-			degreeCourseDTO.setAcademicYear(degreeCourse.getAcademicYear());
+			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+			academicYearDTO.setIdacademicYear(degreeCourse.getAcademicYear().getIdacademicYear());
+			academicYearDTO.setYears(degreeCourse.getAcademicYear().getYears());
+			degreeCourseDTO.setAcademicYear(academicYearDTO);
 			TypeDegreeCourseDTO typeDegreeCourse = new TypeDegreeCourseDTO();
 			typeDegreeCourse.setIdtypeDegreeCourse(degreeCourse.getTypeDegreeCourse().getIdtypeDegreeCourse());
 			typeDegreeCourse.setName(degreeCourse.getTypeDegreeCourse().getName());
@@ -145,9 +158,10 @@ public class DegreeCourseService implements IDegreeCourseService {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-	
-		degreeCourse.setCfu(degreeCourseDTO.getTypeDegreeCourse().getCourseType().getCfu());
-		degreeCourse.setAcademicYear(degreeCourseDTO.getAcademicYear());
+		AcademicYear academicYear = new AcademicYear();
+		academicYear.setIdacademicYear(degreeCourseDTO.getAcademicYear().getIdacademicYear());
+		academicYear.setYears(degreeCourseDTO.getAcademicYear().getYears());
+		degreeCourse.setAcademicYear(academicYear);
 		degreeCourse.setTypeDegreeCourse(typeDegreeCourse);
 
 		DegreeCourse newDegreeCourse = degreeCourseRepository.save(degreeCourse);
@@ -176,8 +190,11 @@ public class DegreeCourseService implements IDegreeCourseService {
 		
 		DegreeCourseDTO newDegreeCourseDTO = new DegreeCourseDTO();
 		newDegreeCourseDTO.setIdcourse(newDegreeCourse.getIddegreeCourse());
-		newDegreeCourseDTO.setAcademicYear(newDegreeCourse.getAcademicYear());
-		newDegreeCourseDTO.setCfu(newDegreeCourse.getCfu());
+		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+		academicYearDTO.setIdacademicYear(newDegreeCourse.getAcademicYear().getIdacademicYear());
+		academicYearDTO.setYears(newDegreeCourse.getAcademicYear().getYears());
+		newDegreeCourseDTO.setAcademicYear(academicYearDTO);
+		newDegreeCourseDTO.setCfu(newDegreeCourse.getTypeDegreeCourse().getCourseType().getCfu());
 		
 		TypeDegreeCourseDTO typeDegreeCourseDTO = new TypeDegreeCourseDTO();
 		typeDegreeCourseDTO.setIdtypeDegreeCourse(newDegreeCourse.getTypeDegreeCourse().getIdtypeDegreeCourse());
@@ -186,7 +203,7 @@ public class DegreeCourseService implements IDegreeCourseService {
 		CourseTypeDTO courseTypeDTO = new CourseTypeDTO();
 		courseTypeDTO.setIdcourseType(newDegreeCourse.getTypeDegreeCourse().getCourseType().getIdcourseType());
 		courseTypeDTO.setDescription(newDegreeCourse.getTypeDegreeCourse().getCourseType().getDescription());
-		courseTypeDTO.setCfu(newDegreeCourse.getCfu());
+		courseTypeDTO.setCfu(newDegreeCourse.getTypeDegreeCourse().getCourseType().getCfu());
 		courseTypeDTO.setDuration(newDegreeCourse.getTypeDegreeCourse().getCourseType().getDuration());
 		typeDegreeCourseDTO.setCourseType(courseTypeDTO);
 		newDegreeCourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);

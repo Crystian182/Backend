@@ -15,6 +15,7 @@ import it.unisalento.se.saw.domain.Teacher;
 import it.unisalento.se.saw.domain.TypeDegreeCourse;
 import it.unisalento.se.saw.domain.TypeSubject;
 import it.unisalento.se.saw.domain.User;
+import it.unisalento.se.saw.dto.AcademicYearDTO;
 import it.unisalento.se.saw.dto.CourseTypeDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
@@ -59,8 +60,12 @@ public class SubjectService implements ISubjectService{
 			DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 			degreeCourseDTO.setIdcourse(subjects.get(i).getDegreeCourse().getIddegreeCourse());
 			degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
-			degreeCourseDTO.setCfu(subjects.get(i).getDegreeCourse().getCfu());
-			degreeCourseDTO.setAcademicYear(subjects.get(i).getDegreeCourse().getAcademicYear());
+			degreeCourseDTO.setCfu(subjects.get(i).getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+			
+			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+			academicYearDTO.setIdacademicYear(subjects.get(i).getDegreeCourse().getAcademicYear().getIdacademicYear());
+			academicYearDTO.setYears(subjects.get(i).getDegreeCourse().getAcademicYear().getYears());
+			degreeCourseDTO.setAcademicYear(academicYearDTO);
 			
 			TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
 			typeSubjectDTO.setIdtypeSubject(subjects.get(i).getTypeSubject().getIdtypeSubject());
@@ -105,8 +110,11 @@ public class SubjectService implements ISubjectService{
 			DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 			degreeCourseDTO.setIdcourse(subject.getDegreeCourse().getIddegreeCourse());
 			degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
-			degreeCourseDTO.setCfu(subject.getDegreeCourse().getCfu());
-			degreeCourseDTO.setAcademicYear(subject.getDegreeCourse().getAcademicYear());
+			degreeCourseDTO.setCfu(subject.getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+			academicYearDTO.setIdacademicYear(subject.getDegreeCourse().getAcademicYear().getIdacademicYear());
+			academicYearDTO.setYears(subject.getDegreeCourse().getAcademicYear().getYears());
+			degreeCourseDTO.setAcademicYear(academicYearDTO);
 			
 			TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
 			typeSubjectDTO.setIdtypeSubject(subject.getTypeSubject().getIdtypeSubject());

@@ -1,10 +1,13 @@
 package it.unisalento.se.saw.dto;
 
+import it.unisalento.se.saw.domain.Term;
+
 public class SubjectDTO {
 	
 	private int id;
 	private TypeSubjectDTO typeSubjectDTO;
 	private String name;
+	private Term term;
 	private String description;
 	private DegreeCourseDTO degreecourseDTO;
 	private TeacherDTO teacherDTO;
@@ -53,6 +56,12 @@ public class SubjectDTO {
 	}
 	public void setCfu(int cfu) {
 		this.cfu = cfu;
+	}
+	public Term getTerm() {
+		return term;
+	}
+	public void setTerm(Term term) {
+		this.term = term;
 	}
 	
 	
