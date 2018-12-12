@@ -8,7 +8,7 @@ public class DegreeCourseDTO {
 	private int idcourse;
     private int cfu;
     private TypeDegreeCourseDTO typeDegreeCourse;
-    private String academicYear;
+    private AcademicYearDTO academicYear;
     private List<SubjectDTO> subjects;
   
    
@@ -33,10 +33,10 @@ public class DegreeCourseDTO {
 	public void setIdcourse(int idcourse) {
 		this.idcourse = idcourse;
 	}
-	public String getAcademicYear() {
+	public AcademicYearDTO getAcademicYear() {
 		return academicYear;
 	}
-	public void setAcademicYear(String academicYear) {
+	public void setAcademicYear(AcademicYearDTO academicYear) {
 		this.academicYear = academicYear;
 	}
 	public List<SubjectDTO> getSubjects() {
