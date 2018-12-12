@@ -13,6 +13,7 @@ import it.unisalento.se.saw.domain.CourseType;
 import it.unisalento.se.saw.domain.DegreeCourse;
 import it.unisalento.se.saw.domain.Subject;
 import it.unisalento.se.saw.domain.Teacher;
+import it.unisalento.se.saw.domain.Term;
 import it.unisalento.se.saw.domain.TypeDegreeCourse;
 import it.unisalento.se.saw.domain.TypeSubject;
 import it.unisalento.se.saw.domain.User;
@@ -23,11 +24,11 @@ import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.dto.TermDTO;
 import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
-import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.DegreeCourseNotFoundException;
 import it.unisalento.se.saw.repositories.CourseTypeRepository;
 import it.unisalento.se.saw.repositories.DegreeCourseRepository;
 import it.unisalento.se.saw.repositories.SubjectRepository;
+import it.unisalento.se.saw.repositories.TermRepository;
 import it.unisalento.se.saw.repositories.TypeDegreeCourseRepository;
 
 
@@ -46,6 +47,8 @@ public class DegreeCourseService implements IDegreeCourseService {
 	@Autowired
 	SubjectRepository subjectRepository;
 
+	@Autowired
+	TermRepository termRepository;
 	
 	@Transactional(readOnly=true)
 	public List<DegreeCourseDTO> getAll() {
@@ -60,7 +63,16 @@ public class DegreeCourseService implements IDegreeCourseService {
 			academicYearDTO.setYears(degreeCourses.get(i).getAcademicYear().getYears());
 			
 			List<TermDTO> termDTOs= new ArrayList<TermDTO>();
-			academicYearDTO.set
+			List<Term> terms = termRepository.getByAcademicYear(degreeCourses.get(i).getAcademicYear().getIdacademicYear());
+			for(int k=0; k<terms.size(); k++) {
+				TermDTO termDTO = new TermDTO();
+				termDTO.setIdterm(terms.get(k).getIdterm());
+				termDTO.setNumber(terms.get(k).getNumber());
+				termDTO.setStart(terms.get(k).getStart());
+				termDTO.setEnd(terms.get(k).getEnd());
+				termDTOs.add(termDTO);
+			}
+			academicYearDTO.setTerms(termDTOs);
 			degreeCourseDTO.setAcademicYear(academicYearDTO);
 			
 			TypeDegreeCourseDTO typeDegreeCourse = new TypeDegreeCourseDTO();
@@ -101,9 +113,20 @@ public class DegreeCourseService implements IDegreeCourseService {
 			DegreeCourse degreeCourse = degreeCourseRepository.findById(id).get();
 			DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 			degreeCourseDTO.setIdcourse(degreeCourse.getIddegreeCourse());
+			List<TermDTO> termDTOs= new ArrayList<TermDTO>();
+			List<Term> terms = termRepository.getByAcademicYear(degreeCourse.getAcademicYear().getIdacademicYear());
+			for(int k=0; k<terms.size(); k++) {
+				TermDTO termDTO = new TermDTO();
+				termDTO.setIdterm(terms.get(k).getIdterm());
+				termDTO.setNumber(terms.get(k).getNumber());
+				termDTO.setStart(terms.get(k).getStart());
+				termDTO.setEnd(terms.get(k).getEnd());
+				termDTOs.add(termDTO);
+			}
 			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 			academicYearDTO.setIdacademicYear(degreeCourse.getAcademicYear().getIdacademicYear());
 			academicYearDTO.setYears(degreeCourse.getAcademicYear().getYears());
+			academicYearDTO.setTerms(termDTOs);
 			degreeCourseDTO.setAcademicYear(academicYearDTO);
 			TypeDegreeCourseDTO typeDegreeCourse = new TypeDegreeCourseDTO();
 			typeDegreeCourse.setIdtypeDegreeCourse(degreeCourse.getTypeDegreeCourse().getIdtypeDegreeCourse());
@@ -158,6 +181,23 @@ public class DegreeCourseService implements IDegreeCourseService {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		
+		List<Term> terms = new ArrayList<Term>();
+		for(int k=0; k<degreeCourseDTO.getAcademicYear().getTerms().size(); k++) {
+			Term term = new Term();
+			term.setIdterm(degreeCourseDTO.getAcademicYear().getTerms().get(k).getIdterm());
+			term.setNumber(degreeCourseDTO.getAcademicYear().getTerms().get(k).getNumber());
+			term.setStart(degreeCourseDTO.getAcademicYear().getTerms().get(k).getStart());
+			term.setEnd(degreeCourseDTO.getAcademicYear().getTerms().get(k).getEnd());
+			AcademicYear academicYear = new AcademicYear();
+			academicYear.setIdacademicYear(degreeCourseDTO.getAcademicYear().getTerms().get(k).getAcademicYear().getIdacademicYear());
+			academicYear.setYears(degreeCourseDTO.getAcademicYear().getTerms().get(k).getAcademicYear().getYears());
+			term.setAcademicYear(academicYear);
+			terms.add(term);
+		}
+		
+		List<Term> termsofNewDegreeCourse = termRepository.saveAll(terms);	
+		
 		AcademicYear academicYear = new AcademicYear();
 		academicYear.setIdacademicYear(degreeCourseDTO.getAcademicYear().getIdacademicYear());
 		academicYear.setYears(degreeCourseDTO.getAcademicYear().getYears());
@@ -190,11 +230,26 @@ public class DegreeCourseService implements IDegreeCourseService {
 		
 		DegreeCourseDTO newDegreeCourseDTO = new DegreeCourseDTO();
 		newDegreeCourseDTO.setIdcourse(newDegreeCourse.getIddegreeCourse());
+		
+
+		List<TermDTO> termDTOs = new ArrayList<TermDTO>();
+		for(int h=0; h<termsofNewDegreeCourse.size(); h++) {
+			TermDTO termDTO = new TermDTO();
+			termDTO.setIdterm(termsofNewDegreeCourse.get(h).getIdterm());
+			termDTO.setNumber(termsofNewDegreeCourse.get(h).getNumber());
+			termDTO.setStart(termsofNewDegreeCourse.get(h).getStart());
+			termDTO.setEnd(termsofNewDegreeCourse.get(h).getEnd());
+			
+			termDTOs.add(termDTO);
+		}
+		
 		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 		academicYearDTO.setIdacademicYear(newDegreeCourse.getAcademicYear().getIdacademicYear());
 		academicYearDTO.setYears(newDegreeCourse.getAcademicYear().getYears());
+		academicYearDTO.setTerms(termDTOs);
 		newDegreeCourseDTO.setAcademicYear(academicYearDTO);
 		newDegreeCourseDTO.setCfu(newDegreeCourse.getTypeDegreeCourse().getCourseType().getCfu());
+		
 		
 		TypeDegreeCourseDTO typeDegreeCourseDTO = new TypeDegreeCourseDTO();
 		typeDegreeCourseDTO.setIdtypeDegreeCourse(newDegreeCourse.getTypeDegreeCourse().getIdtypeDegreeCourse());
@@ -222,6 +277,8 @@ public class DegreeCourseService implements IDegreeCourseService {
 			subjectDTOs.add(subjectDTO);
 		}
 		newDegreeCourseDTO.setSubjects(subjectDTOs);
+		
+		
 		return newDegreeCourseDTO;
 	}
 	

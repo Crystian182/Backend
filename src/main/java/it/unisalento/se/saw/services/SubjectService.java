@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.unisalento.se.saw.Iservices.ISubjectService;
+import it.unisalento.se.saw.domain.AcademicYear;
 import it.unisalento.se.saw.domain.CourseType;
 import it.unisalento.se.saw.domain.DegreeCourse;
 import it.unisalento.se.saw.domain.Subject;
 import it.unisalento.se.saw.domain.Teacher;
+import it.unisalento.se.saw.domain.Term;
 import it.unisalento.se.saw.domain.TypeDegreeCourse;
 import it.unisalento.se.saw.domain.TypeSubject;
 import it.unisalento.se.saw.domain.User;
@@ -20,10 +22,12 @@ import it.unisalento.se.saw.dto.CourseTypeDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
+import it.unisalento.se.saw.dto.TermDTO;
 import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TypeSubjectDTO;
 import it.unisalento.se.saw.exceptions.SubjectNotFoundException;
 import it.unisalento.se.saw.repositories.SubjectRepository;
+import it.unisalento.se.saw.repositories.TermRepository;
 import it.unisalento.se.saw.repositories.TypeSubjectRepository;
 
 @Service
@@ -32,7 +36,9 @@ public class SubjectService implements ISubjectService{
 	@Autowired
 	SubjectRepository subjectRepository;
 	
-
+	@Autowired
+	TermRepository termRepository;
+	
 	@Autowired
 	TypeSubjectRepository typeSubjectRepository;
 	
@@ -164,8 +170,24 @@ public class SubjectService implements ISubjectService{
 				DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 				degreeCourseDTO.setIdcourse(subject.get(i).getDegreeCourse().getIddegreeCourse());
 				degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
-				degreeCourseDTO.setCfu(subject.get(i).getDegreeCourse().getCfu());
-				degreeCourseDTO.setAcademicYear(subject.get(i).getDegreeCourse().getAcademicYear());
+				degreeCourseDTO.setCfu(subject.get(i).getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+				
+				AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+				academicYearDTO.setIdacademicYear(subject.get(i).getDegreeCourse().getAcademicYear().getIdacademicYear());
+				
+				List<TermDTO> termDTOs= new ArrayList<TermDTO>();
+				List<Term> terms = termRepository.getByAcademicYear(subject.get(i).getDegreeCourse().getAcademicYear().getIdacademicYear());
+				for(int k=0; k<terms.size(); k++) {
+					TermDTO termDTO = new TermDTO();
+					termDTO.setIdterm(terms.get(k).getIdterm());
+					termDTO.setNumber(terms.get(k).getNumber());
+					termDTO.setStart(terms.get(k).getStart());
+					termDTO.setEnd(terms.get(k).getEnd());
+					termDTOs.add(termDTO);
+				}
+				academicYearDTO.setTerms(termDTOs);
+				academicYearDTO.setYears(subject.get(i).getDegreeCourse().getAcademicYear().getYears());
+				degreeCourseDTO.setAcademicYear(academicYearDTO);
 				
 				TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
 				typeSubjectDTO.setIdtypeSubject(subject.get(i).getTypeSubject().getIdtypeSubject());
@@ -208,8 +230,25 @@ public class SubjectService implements ISubjectService{
 		DegreeCourse degreeCourse = new DegreeCourse();
 		degreeCourse.setIddegreeCourse(subjectDTO.getDegreecourseDTO().getIdcourse());
 		degreeCourse.setTypeDegreeCourse(typeDegreeCourse);
-		degreeCourse.setCfu(subjectDTO.getDegreecourseDTO().getCfu());
-		degreeCourse.setAcademicYear(subjectDTO.getDegreecourseDTO().getAcademicYear());
+		
+		AcademicYear academicYear = new AcademicYear();
+		academicYear.setIdacademicYear(subjectDTO.getDegreecourseDTO().getAcademicYear().getIdacademicYear());
+		academicYear.setYears(subjectDTO.getDegreecourseDTO().getAcademicYear().getYears());
+
+		List<Term> terms = new ArrayList<Term>();
+		for(int k=0; k<subjectDTO.getDegreecourseDTO().getAcademicYear().getTerms().size(); k++) {
+			Term term = new Term();
+			term.setIdterm(subjectDTO.getDegreecourseDTO().getAcademicYear().getTerms().get(k).getIdterm());
+			term.setNumber(subjectDTO.getDegreecourseDTO().getAcademicYear().getTerms().get(k).getNumber());
+			term.setStart(subjectDTO.getDegreecourseDTO().getAcademicYear().getTerms().get(k).getStart());
+			term.setEnd(subjectDTO.getDegreecourseDTO().getAcademicYear().getTerms().get(k).getEnd());
+			term.setAcademicYear(academicYear);
+			terms.add(term);
+		}
+		
+		List<Term> termsofNewDegreeCourse = termRepository.saveAll(terms);	
+		
+		degreeCourse.setAcademicYear(academicYear);
 		
 		User user = new User();
 		user.setName(subjectDTO.getTeacherDTO().getName());
@@ -250,11 +289,27 @@ public class SubjectService implements ISubjectService{
 		courseTypeDTO.setDuration(newSubject.getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 		typeDegreeCourseDTO.setCourseType(courseTypeDTO);
 		
+		List<TermDTO> termDTOs = new ArrayList<TermDTO>();
+		for(int h=0; h<termsofNewDegreeCourse.size(); h++) {
+			TermDTO termDTO = new TermDTO();
+			termDTO.setIdterm(termsofNewDegreeCourse.get(h).getIdterm());
+			termDTO.setNumber(termsofNewDegreeCourse.get(h).getNumber());
+			termDTO.setStart(termsofNewDegreeCourse.get(h).getStart());
+			termDTO.setEnd(termsofNewDegreeCourse.get(h).getEnd());
+			
+			termDTOs.add(termDTO);
+		}
+		
+		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+		academicYearDTO.setIdacademicYear(newSubject.getDegreeCourse().getAcademicYear().getIdacademicYear());
+		academicYearDTO.setYears(newSubject.getDegreeCourse().getAcademicYear().getYears());
+		academicYearDTO.setTerms(termDTOs);
+		
 		DegreeCourseDTO degreecourseDTO = new DegreeCourseDTO();
 		degreecourseDTO.setIdcourse(newSubject.getDegreeCourse().getIddegreeCourse());
 		degreecourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
-		degreecourseDTO.setCfu(newSubject.getDegreeCourse().getCfu());
-		degreecourseDTO.setAcademicYear(newSubject.getDegreeCourse().getAcademicYear());
+		degreecourseDTO.setCfu(newSubject.getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+		degreecourseDTO.setAcademicYear(academicYearDTO);
 		
 		TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
 		typeSubjectDTO.setIdtypeSubject(newSubject.getTypeSubject().getIdtypeSubject());

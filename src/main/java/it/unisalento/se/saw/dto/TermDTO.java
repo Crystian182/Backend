@@ -19,6 +19,7 @@ public class TermDTO {
 	public void setIdterm(Integer idterm) {
 		this.idterm = idterm;
 	}
+
 	public AcademicYearDTO getAcademicYear() {
 		return academicYear;
 	}
