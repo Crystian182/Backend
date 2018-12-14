@@ -79,7 +79,7 @@ public class ExamService implements IExamService{
 			degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourse);
 			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 			academicYearDTO.setIdacademicYear(exams.get(i).getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
-			academicYearDTO.setYears(exams.get(i).getSubject().getDegreeCourse().getAcademicYear().getYears());
+			academicYearDTO.setYear(exams.get(i).getSubject().getDegreeCourse().getAcademicYear().getYear());
 			degreeCourseDTO.setAcademicYear(academicYearDTO);
 			degreeCourseDTO.setCfu(exams.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 			
@@ -141,7 +141,7 @@ public class ExamService implements IExamService{
 			degreeCourseDTO.setCfu(exam.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 			academicYearDTO.setIdacademicYear(exam.getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
-			academicYearDTO.setYears(exam.getSubject().getDegreeCourse().getAcademicYear().getYears());
+			academicYearDTO.setYear(exam.getSubject().getDegreeCourse().getAcademicYear().getYear());
 			degreeCourseDTO.setAcademicYear(academicYearDTO);
 			
 			ClassroomDTO classroomDTO = new ClassroomDTO();
@@ -217,7 +217,7 @@ public class ExamService implements IExamService{
 		degreeCourse.setTypeDegreeCourse(typeDegreeCourse);
 		AcademicYear academicYear = new AcademicYear();
 		academicYear.setIdacademicYear(examDTO.getSubject().getDegreecourseDTO().getAcademicYear().getIdacademicYear());
-		academicYear.setYears(examDTO.getSubject().getDegreecourseDTO().getAcademicYear().getYears());
+		academicYear.setYear(examDTO.getSubject().getDegreecourseDTO().getAcademicYear().getYear());
 		degreeCourse.setAcademicYear(academicYear);
 		
 		Subject subject = new Subject();
@@ -268,7 +268,7 @@ public class ExamService implements IExamService{
 		degreeCourseDTO.setCfu(newExam.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 		academicYearDTO.setIdacademicYear(newExam.getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
-		academicYearDTO.setYears(newExam.getSubject().getDegreeCourse().getAcademicYear().getYears());
+		academicYearDTO.setYear(newExam.getSubject().getDegreeCourse().getAcademicYear().getYear());
 		degreeCourseDTO.setAcademicYear(academicYearDTO);
 		
 		ClassroomDTO classroomDTO = new ClassroomDTO();
@@ -330,7 +330,7 @@ public class ExamService implements IExamService{
 				degreeCourseDTO.setCfu(exams.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 				AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 				academicYearDTO.setIdacademicYear(exams.get(i).getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
-				academicYearDTO.setYears(exams.get(i).getSubject().getDegreeCourse().getAcademicYear().getYears());
+				academicYearDTO.setYear(exams.get(i).getSubject().getDegreeCourse().getAcademicYear().getYear());
 				degreeCourseDTO.setAcademicYear(academicYearDTO);
 				degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
 				
@@ -436,7 +436,7 @@ public class ExamService implements IExamService{
 		
 		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 		academicYearDTO.setIdacademicYear(exam.getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
-		academicYearDTO.setYears(exam.getSubject().getDegreeCourse().getAcademicYear().getYears());
+		academicYearDTO.setYear(exam.getSubject().getDegreeCourse().getAcademicYear().getYear());
 		degreeCourseDTO.setAcademicYear(academicYearDTO);
 		degreeCourseDTO.setCfu(exam.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 		

@@ -70,7 +70,7 @@ public class SubjectService implements ISubjectService{
 			
 			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 			academicYearDTO.setIdacademicYear(subjects.get(i).getDegreeCourse().getAcademicYear().getIdacademicYear());
-			academicYearDTO.setYears(subjects.get(i).getDegreeCourse().getAcademicYear().getYears());
+			academicYearDTO.setYear(subjects.get(i).getDegreeCourse().getAcademicYear().getYear());
 			degreeCourseDTO.setAcademicYear(academicYearDTO);
 			
 			TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
@@ -119,7 +119,7 @@ public class SubjectService implements ISubjectService{
 			degreeCourseDTO.setCfu(subject.getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 			academicYearDTO.setIdacademicYear(subject.getDegreeCourse().getAcademicYear().getIdacademicYear());
-			academicYearDTO.setYears(subject.getDegreeCourse().getAcademicYear().getYears());
+			academicYearDTO.setYear(subject.getDegreeCourse().getAcademicYear().getYear());
 			degreeCourseDTO.setAcademicYear(academicYearDTO);
 			
 			TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
@@ -186,7 +186,7 @@ public class SubjectService implements ISubjectService{
 					termDTOs.add(termDTO);
 				}
 				academicYearDTO.setTerms(termDTOs);
-				academicYearDTO.setYears(subject.get(i).getDegreeCourse().getAcademicYear().getYears());
+				academicYearDTO.setYear(subject.get(i).getDegreeCourse().getAcademicYear().getYear());
 				degreeCourseDTO.setAcademicYear(academicYearDTO);
 				
 				TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
@@ -233,7 +233,7 @@ public class SubjectService implements ISubjectService{
 		
 		AcademicYear academicYear = new AcademicYear();
 		academicYear.setIdacademicYear(subjectDTO.getDegreecourseDTO().getAcademicYear().getIdacademicYear());
-		academicYear.setYears(subjectDTO.getDegreecourseDTO().getAcademicYear().getYears());
+		academicYear.setYear(subjectDTO.getDegreecourseDTO().getAcademicYear().getYear());
 
 		List<Term> terms = new ArrayList<Term>();
 		for(int k=0; k<subjectDTO.getDegreecourseDTO().getAcademicYear().getTerms().size(); k++) {
@@ -302,7 +302,7 @@ public class SubjectService implements ISubjectService{
 		
 		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 		academicYearDTO.setIdacademicYear(newSubject.getDegreeCourse().getAcademicYear().getIdacademicYear());
-		academicYearDTO.setYears(newSubject.getDegreeCourse().getAcademicYear().getYears());
+		academicYearDTO.setYear(newSubject.getDegreeCourse().getAcademicYear().getYear());
 		academicYearDTO.setTerms(termDTOs);
 		
 		DegreeCourseDTO degreecourseDTO = new DegreeCourseDTO();
