@@ -9,5 +9,6 @@ public interface IAcademicYearService {
 	
 	public List<TermDTO> getTermsByAcademicYearId(int id);
 	public List<AcademicYearDTO> getAllYearsOfCourse(int id);
-
+	public List<AcademicYearDTO> getAll();
+	public AcademicYearDTO save(AcademicYearDTO academicYearDTO);
 }

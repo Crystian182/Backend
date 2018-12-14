@@ -14,7 +14,6 @@ public class AcademicYearDTO {
 	public void setIdacademicYear(Integer idacademicYear) {
 		this.idacademicYear = idacademicYear;
 	}
-	
 	public Integer getYear() {
 		return year;
 	}
