@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unisalento.se.saw.Iservices.IAcademicYearService;
+import it.unisalento.se.saw.dto.AcademicYearDTO;
+import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.TermDTO;
+import it.unisalento.se.saw.exceptions.DegreeCourseNotFoundException;
 
 @RestController
 @RequestMapping("/academicyear")
@@ -30,6 +33,11 @@ public class AcademicYearRestController {
 	@GetMapping(value="/getTermsByAaId/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<TermDTO> getTermsByAcademicYearId(@PathVariable("id")int id) {
 		return academicYearService.getTermsByAcademicYearId(id);
+	}
+	
+	@GetMapping(value="/getAllYearsOfCourse/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<AcademicYearDTO> getAllYearsOfCourse(@PathVariable("id")int id) throws DegreeCourseNotFoundException{
+		return academicYearService.getAllYearsOfCourse(id);
 	}
 
 }

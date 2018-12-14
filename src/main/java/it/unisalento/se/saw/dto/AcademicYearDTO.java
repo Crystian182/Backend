@@ -5,7 +5,7 @@ import java.util.List;
 public class AcademicYearDTO {
 	
 	private Integer idacademicYear;
-    private String years;
+    private Integer year;
     private List<TermDTO> terms;
     
 	public Integer getIdacademicYear() {
@@ -14,11 +14,12 @@ public class AcademicYearDTO {
 	public void setIdacademicYear(Integer idacademicYear) {
 		this.idacademicYear = idacademicYear;
 	}
-	public String getYears() {
-		return years;
+	
+	public Integer getYear() {
+		return year;
 	}
-	public void setYears(String years) {
-		this.years = years;
+	public void setYear(Integer year) {
+		this.year = year;
 	}
 	public List<TermDTO> getTerms() {
 		return terms;

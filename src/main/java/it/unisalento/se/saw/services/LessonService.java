@@ -89,7 +89,7 @@ public class LessonService implements ILessonService{
 				degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
 				AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 				academicYearDTO.setIdacademicYear(lessons.get(i).getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
-				academicYearDTO.setYears(lessons.get(i).getSubject().getDegreeCourse().getAcademicYear().getYears());
+				academicYearDTO.setYear(lessons.get(i).getSubject().getDegreeCourse().getAcademicYear().getYear());
 				degreeCourseDTO.setAcademicYear(academicYearDTO);
 				degreeCourseDTO.setCfu(lessons.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 				
@@ -153,7 +153,7 @@ public class LessonService implements ILessonService{
 			degreeCourseDTO.setCfu(lesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 			academicYearDTO.setIdacademicYear(lesson.getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
-			academicYearDTO.setYears(lesson.getSubject().getDegreeCourse().getAcademicYear().getYears());
+			academicYearDTO.setYear(lesson.getSubject().getDegreeCourse().getAcademicYear().getYear());
 			degreeCourseDTO.setAcademicYear(academicYearDTO);
 			
 			TeacherDTO teacherDTO = new TeacherDTO();
@@ -219,7 +219,7 @@ public class LessonService implements ILessonService{
 		degreeCourse.setTypeDegreeCourse(typeDegreeCourse);
 		AcademicYear academicYear = new AcademicYear();
 		academicYear.setIdacademicYear(lessonDTO.getSubject().getDegreecourseDTO().getAcademicYear().getIdacademicYear());
-		academicYear.setYears(lessonDTO.getSubject().getDegreecourseDTO().getAcademicYear().getYears());
+		academicYear.setYear(lessonDTO.getSubject().getDegreecourseDTO().getAcademicYear().getYear());
 		degreeCourse.setAcademicYear(academicYear);
 	
 		TypeSubject typeSubject = new TypeSubject();
@@ -276,7 +276,7 @@ public class LessonService implements ILessonService{
 		degreeCourseDTO.setCfu(newLesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 		academicYearDTO.setIdacademicYear(newLesson.getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
-		academicYearDTO.setYears(newLesson.getSubject().getDegreeCourse().getAcademicYear().getYears());
+		academicYearDTO.setYear(newLesson.getSubject().getDegreeCourse().getAcademicYear().getYear());
 		degreeCourseDTO.setAcademicYear(academicYearDTO);
 		
 		TeacherDTO teacherDTO = new TeacherDTO();
@@ -355,7 +355,7 @@ public class LessonService implements ILessonService{
 			
 			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 			academicYearDTO.setIdacademicYear(lessons.get(i).getScheduler().getTerm().getAcademicYear().getIdacademicYear());
-			academicYearDTO.setYears(lessons.get(i).getScheduler().getTerm().getAcademicYear().getYears());
+			academicYearDTO.setYear(lessons.get(i).getScheduler().getTerm().getAcademicYear().getYear());
 			
 			termDTO.setAcademicYear(academicYearDTO);
 			
