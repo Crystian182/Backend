@@ -14,4 +14,7 @@ public interface DegreeCourseRepository extends JpaRepository<DegreeCourse, Inte
 	
 	@Query("SELECT DISTINCT s.degreeCourse FROM Subject s WHERE s.teacher.iduser=:iduser")
 	public List<DegreeCourse> getCourseTeacher(@Param("iduser")int iduser);
+	
+	@Query("SELECT d FROM DegreeCourse d WHERE d.typeDegreeCourse.idtypeDegreeCourse=:idCourseType")
+	public List<DegreeCourse> getCourseByType(@Param("idCourseType")int idCourseType);
 }

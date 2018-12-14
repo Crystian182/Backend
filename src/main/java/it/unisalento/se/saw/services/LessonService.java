@@ -368,8 +368,8 @@ public class LessonService implements ILessonService{
 			typeSubjectDTO.setName(lessons.get(i).getTypeSubject().getName());
 			
 			typeLessonDTO.setTypeSubject(typeSubjectDTO);
-			typeLessonDTO.setStart(lessons.get(i).getStart());
-			typeLessonDTO.setEnd(lessons.get(i).getEnd());
+			typeLessonDTO.setStart(new java.sql.Time(lessons.get(i).getStart().getTime()));
+			typeLessonDTO.setEnd(new java.sql.Time(lessons.get(i).getEnd().getTime()));
 			
 			typeLessonDTOs.add(typeLessonDTO);
 		}

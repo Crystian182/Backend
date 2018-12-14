@@ -20,6 +20,7 @@ import it.unisalento.se.saw.domain.Classroom;
 import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
 import it.unisalento.se.saw.dto.ToolDTO;
+import it.unisalento.se.saw.dto.TypeLessonDTO;
 import it.unisalento.se.saw.exceptions.ClassroomNotFoundException;
 
 @RestController
@@ -71,5 +72,10 @@ public class ClassroomRestController {
 	public void delete(@PathVariable("id")int id) throws ClassroomNotFoundException {
 		classroomService.delete(id);
 	}	
+	
+	@PostMapping(value="/getAvailableByIdBuilding/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ClassroomDTO> getAvailableClassroomByIdBuilding(@PathVariable("id")int idBuilding, @RequestBody TypeLessonDTO typeLessonDTO) throws ClassroomNotFoundException {
+		return classroomService.getAvailableByIdBuilding(idBuilding, typeLessonDTO);
+	}
 
 }

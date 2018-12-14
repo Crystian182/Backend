@@ -73,4 +73,9 @@ public class DegreeCourseRestController {
 		return degreeCourseService.getCourseType(id);
 	}
 	
+	@GetMapping(value="/getCourseByType/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<DegreeCourseDTO> getCourseByType(@PathVariable("id")int id) throws DegreeCourseNotFoundException{
+		return degreeCourseService.getCourseByType(id);
+	}
+	
 }

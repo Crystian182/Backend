@@ -19,6 +19,7 @@ import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
 import it.unisalento.se.saw.dto.ToolDTO;
+import it.unisalento.se.saw.dto.TypeLessonDTO;
 import it.unisalento.se.saw.exceptions.AulaNotFoundException;
 import it.unisalento.se.saw.exceptions.ClassroomNotFoundException;
 import it.unisalento.se.saw.repositories.BuildingRepository;
@@ -321,6 +322,36 @@ public class ClassroomService implements IClassroomService{
 			throw new ClassroomNotFoundException();
 		}
 
+	}
+	
+	@Transactional(rollbackFor=ClassroomNotFoundException.class)
+	public List<ClassroomDTO> getAvailableByIdBuilding(int idBuilding, TypeLessonDTO typeLessonDTO) throws ClassroomNotFoundException {
+		
+		System.out.println("*********************************\n\n\n\n" + typeLessonDTO.getStart() + "\n\n\n\n\n");
+		//try {
+			List<Classroom> classrooms = classroomRepository.findAvailableClassesByBuild(idBuilding, typeLessonDTO.getScheduler().getTerm().getAcademicYear().getIdacademicYear(), typeLessonDTO.getScheduler().getTerm().getIdterm(), typeLessonDTO.getStart(), typeLessonDTO.getEnd(), typeLessonDTO.getDay().getIdDay());
+			List<ClassroomDTO> classroomDTOs = new ArrayList<ClassroomDTO>();
+			for(int i=0; i<classrooms.size(); i++) {
+				BuildingDTO buildingDTO = new BuildingDTO();
+				buildingDTO.setId(classrooms.get(i).getBuilding().getIdbuilding());
+				buildingDTO.setName(classrooms.get(i).getBuilding().getName());
+				buildingDTO.setAddress(classrooms.get(i).getBuilding().getAddress());
+				buildingDTO.setLat(classrooms.get(i).getBuilding().getLat());
+				buildingDTO.setLng(classrooms.get(i).getBuilding().getLng());
+				
+				ClassroomDTO classroomDTO = new ClassroomDTO();
+				classroomDTO.setId(classrooms.get(i).getIdclassroom());
+				classroomDTO.setName(classrooms.get(i).getName());
+				classroomDTO.setSeats(classrooms.get(i).getSeats());
+				classroomDTO.setLat(classrooms.get(i).getLat());
+				classroomDTO.setLng(classrooms.get(i).getLng());
+				classroomDTO.setBuilding(buildingDTO);
+				classroomDTOs.add(classroomDTO);
+			}
+			return classroomDTOs;
+		/*} catch (Exception e) {
+			throw new ClassroomNotFoundException();
+		}*/
 	}
 
 }

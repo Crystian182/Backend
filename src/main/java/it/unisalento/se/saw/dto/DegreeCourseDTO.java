@@ -6,6 +6,7 @@ public class DegreeCourseDTO {
 
 
 	private int idcourse;
+	private String name;
     private int cfu;
     private TypeDegreeCourseDTO typeDegreeCourse;
     private AcademicYearDTO academicYear;
@@ -44,6 +45,12 @@ public class DegreeCourseDTO {
 	}
 	public void setSubjects(List<SubjectDTO> subjects) {
 		this.subjects = subjects;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 
