@@ -69,4 +69,11 @@ public class SubjectRestController {
 		return subjectService.getAllSubjectTypes();
 	}
 	
+	@GetMapping(value="/getByIdTeacher/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<SubjectDTO> getByIdTeacher(@PathVariable("id")int id) throws SubjectNotFoundException {
+		
+		return subjectService.getByIdTeacher(id);
+		
+	}
+	
 }
