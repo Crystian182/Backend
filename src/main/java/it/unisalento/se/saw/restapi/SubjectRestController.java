@@ -59,6 +59,11 @@ public class SubjectRestController {
 		return subjectService.save(subjectDTO);
 	}
 	
+	@PostMapping(value="/saveAll", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<SubjectDTO> saveAll(@RequestBody List<SubjectDTO> subjectDTOs){
+		return subjectService.saveAll(subjectDTOs);
+	}
+	
 	@PostMapping(value="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public void delete(@PathVariable("id")int id) throws SubjectNotFoundException {
 		subjectService.delete(id);

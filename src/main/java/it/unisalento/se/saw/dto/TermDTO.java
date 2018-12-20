@@ -8,7 +8,6 @@ public class TermDTO {
 	
 	 private Integer idterm;
      private AcademicYearDTO academicYear;
-     private int number;
      private Date start;
      private Date end;
      
@@ -25,12 +24,6 @@ public class TermDTO {
 	}
 	public void setAcademicYear(AcademicYearDTO academicYear) {
 		this.academicYear = academicYear;
-	}
-	public int getNumber() {
-		return number;
-	}
-	public void setNumber(int number) {
-		this.number = number;
 	}
 	public Date getStart() {
 		return start;

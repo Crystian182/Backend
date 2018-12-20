@@ -52,4 +52,9 @@ public class AcademicYearRestController {
 	public AcademicYearDTO save(@RequestBody AcademicYearDTO academicYearDTO){
 		return academicYearService.save(academicYearDTO);
 	}
+	
+	@PostMapping(value="/saveTerm", produces=MediaType.APPLICATION_JSON_VALUE)
+	public TermDTO saveTerm(@RequestBody TermDTO termDTO){
+		return academicYearService.saveTerm(termDTO);
+	}
 }
