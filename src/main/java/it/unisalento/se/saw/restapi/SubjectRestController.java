@@ -81,4 +81,9 @@ public class SubjectRestController {
 		
 	}
 	
+	@PostMapping(value="/saveTypeSubject", produces=MediaType.APPLICATION_JSON_VALUE)
+	public TypeSubjectDTO save(@RequestBody TypeSubjectDTO typeSubjectDTO){
+		return subjectService.saveType(typeSubjectDTO);
+	}
+	
 }

@@ -223,39 +223,7 @@ public class SubjectService implements ISubjectService{
 	
 	@Transactional
 	public SubjectDTO save(SubjectDTO subjectDTO) {
-		TypeDegreeCourse typeDegreeCourse = new TypeDegreeCourse();
-		typeDegreeCourse.setIdtypeDegreeCourse(subjectDTO.getDegreecourseDTO().getTypeDegreeCourse().getIdtypeDegreeCourse());
-		typeDegreeCourse.setName(subjectDTO.getDegreecourseDTO().getTypeDegreeCourse().getName());
-		
-		CourseType courseType = new CourseType();
-		courseType.setIdcourseType(subjectDTO.getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getIdcourseType());
-		courseType.setCfu(subjectDTO.getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getCfu());
-		courseType.setDuration(subjectDTO.getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getDuration());
-		courseType.setDescription(subjectDTO.getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getDescription());
-		typeDegreeCourse.setCourseType(courseType);
-		
-		DegreeCourse degreeCourse = new DegreeCourse();
-		degreeCourse.setIddegreeCourse(subjectDTO.getDegreecourseDTO().getIdcourse());
-		degreeCourse.setTypeDegreeCourse(typeDegreeCourse);
-		
-		AcademicYear academicYear = new AcademicYear();
-		academicYear.setIdacademicYear(subjectDTO.getDegreecourseDTO().getAcademicYear().getIdacademicYear());
-		academicYear.setYear(subjectDTO.getDegreecourseDTO().getAcademicYear().getYear());
 
-		List<Term> terms = new ArrayList<Term>();
-		for(int k=0; k<subjectDTO.getDegreecourseDTO().getAcademicYear().getTerms().size(); k++) {
-			Term term = new Term();
-			term.setIdterm(subjectDTO.getDegreecourseDTO().getAcademicYear().getTerms().get(k).getIdterm());
-			term.setStart(subjectDTO.getDegreecourseDTO().getAcademicYear().getTerms().get(k).getStart());
-			term.setEnd(subjectDTO.getDegreecourseDTO().getAcademicYear().getTerms().get(k).getEnd());
-			term.setAcademicYear(academicYear);
-			terms.add(term);
-		}
-		
-		List<Term> termsofNewDegreeCourse = termRepository.saveAll(terms);	
-		
-		degreeCourse.setAcademicYear(academicYear);
-		
 		User user = new User();
 		user.setName(subjectDTO.getTeacherDTO().getName());
 		user.setSurname(subjectDTO.getTeacherDTO().getSurname());
@@ -273,7 +241,6 @@ public class SubjectService implements ISubjectService{
 		} catch (Exception e) {
 		}
 		subject.setTypeSubject(typeSubject);
-		subject.setDegreeCourse(degreeCourse);
 		subject.setTeacher(teacher);
 		subject.setCfu(subjectDTO.getCfu());
 		
@@ -283,38 +250,7 @@ public class SubjectService implements ISubjectService{
 		teacherDTO.setIdteacher(newSubject.getTeacher().getIduser());
 		teacherDTO.setName(newSubject.getTeacher().getUser().getName());
 		teacherDTO.setSurname(newSubject.getTeacher().getUser().getSurname());
-		
-		TypeDegreeCourseDTO typeDegreeCourseDTO = new TypeDegreeCourseDTO();
-		typeDegreeCourseDTO.setIdtypeDegreeCourse(newSubject.getDegreeCourse().getTypeDegreeCourse().getIdtypeDegreeCourse());
-		typeDegreeCourseDTO.setName(newSubject.getDegreeCourse().getTypeDegreeCourse().getName());
-		
-		CourseTypeDTO courseTypeDTO = new CourseTypeDTO();
-		courseTypeDTO.setIdcourseType(newSubject.getDegreeCourse().getTypeDegreeCourse().getCourseType().getIdcourseType());
-		courseTypeDTO.setDescription(newSubject.getDegreeCourse().getTypeDegreeCourse().getCourseType().getDescription());
-		courseTypeDTO.setCfu(newSubject.getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
-		courseTypeDTO.setDuration(newSubject.getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
-		typeDegreeCourseDTO.setCourseType(courseTypeDTO);
-		
-		List<TermDTO> termDTOs = new ArrayList<TermDTO>();
-		for(int h=0; h<termsofNewDegreeCourse.size(); h++) {
-			TermDTO termDTO = new TermDTO();
-			termDTO.setIdterm(termsofNewDegreeCourse.get(h).getIdterm());
-			termDTO.setStart(termsofNewDegreeCourse.get(h).getStart());
-			termDTO.setEnd(termsofNewDegreeCourse.get(h).getEnd());
-			
-			termDTOs.add(termDTO);
-		}
-		
-		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
-		academicYearDTO.setIdacademicYear(newSubject.getDegreeCourse().getAcademicYear().getIdacademicYear());
-		academicYearDTO.setYear(newSubject.getDegreeCourse().getAcademicYear().getYear());
-		academicYearDTO.setTerms(termDTOs);
-		
-		DegreeCourseDTO degreecourseDTO = new DegreeCourseDTO();
-		degreecourseDTO.setIdcourse(newSubject.getDegreeCourse().getIddegreeCourse());
-		degreecourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
-		degreecourseDTO.setCfu(newSubject.getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
-		degreecourseDTO.setAcademicYear(academicYearDTO);
+	
 		
 		TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
 		typeSubjectDTO.setIdtypeSubject(newSubject.getTypeSubject().getIdtypeSubject());
@@ -326,7 +262,6 @@ public class SubjectService implements ISubjectService{
 		newSubjectDTO.setDescription(newSubject.getTypeSubject().getDescription());
 		newSubjectDTO.setName(newSubject.getTypeSubject().getName());
 		newSubjectDTO.setTeacherDTO(teacherDTO);
-		newSubjectDTO.setDegreecourseDTO(degreecourseDTO);
 		newSubjectDTO.setTypeSubjectDTO(typeSubjectDTO);
 		
 		return newSubjectDTO;
@@ -541,5 +476,22 @@ public class SubjectService implements ISubjectService{
 		} catch (Exception e) {
 			throw new SubjectNotFoundException();
 		}
+	}
+	
+	@Transactional
+	public TypeSubjectDTO saveType(TypeSubjectDTO typeSubjectDTO) {
+		TypeSubject typeSubject = new TypeSubject();
+		typeSubject.setIdtypeSubject(typeSubjectDTO.getIdtypeSubject());
+		typeSubject.setDescription(typeSubjectDTO.getDescription());
+		typeSubject.setName(typeSubjectDTO.getName());
+		
+		TypeSubject newTypeSubject = typeSubjectRepository.save(typeSubject);
+		
+		TypeSubjectDTO newTypeSubjectDTO = new TypeSubjectDTO();
+		newTypeSubjectDTO.setIdtypeSubject(newTypeSubject.getIdtypeSubject());
+		newTypeSubjectDTO.setName(newTypeSubject.getName());
+		newTypeSubjectDTO.setDescription(newTypeSubject.getDescription());
+		
+		return newTypeSubjectDTO;
 	}
 }

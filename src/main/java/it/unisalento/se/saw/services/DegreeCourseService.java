@@ -86,7 +86,7 @@ public class DegreeCourseService implements IDegreeCourseService {
 			
 			typeDegreeCourse.setCourseType(courseType);
 			degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourse);
-			
+			degreeCourseDTO.setName(typeDegreeCourse.getName());
 			List<SubjectDTO> subjectDTOs= new ArrayList<SubjectDTO>();
 			List<Subject> subjects = subjectRepository.getSubjectsByIdDegreeCourse(degreeCourses.get(i).getIddegreeCourse());
 			for(int j=0; j<subjects.size(); j++) {
@@ -386,6 +386,34 @@ public class DegreeCourseService implements IDegreeCourseService {
 		courseTypeDTO.setDescription(courseType.getDescription());
 		courseTypeDTO.setCfu(courseType.getCfu());
 		return courseTypeDTO;
+	}
+
+	@Transactional
+	public TypeDegreeCourseDTO saveType(TypeDegreeCourseDTO typeDegreeCourseDTO) {
+		TypeDegreeCourse typeDegreeCourse = new TypeDegreeCourse();
+		typeDegreeCourse.setIdtypeDegreeCourse(typeDegreeCourseDTO.getIdtypeDegreeCourse());
+		typeDegreeCourse.setName(typeDegreeCourseDTO.getName());
+		
+		CourseType courseType = new CourseType();
+		courseType.setIdcourseType(typeDegreeCourseDTO.getCourseType().getIdcourseType());
+		courseType.setCfu(typeDegreeCourseDTO.getCourseType().getCfu());
+		courseType.setDuration(typeDegreeCourseDTO.getCourseType().getDuration());
+		courseType.setDescription(typeDegreeCourseDTO.getCourseType().getDescription());
+		typeDegreeCourse.setCourseType(courseType);
+		
+		TypeDegreeCourse newTypeDegreeCourse = typeDegreeCourseRepository.save(typeDegreeCourse);
+		
+		TypeDegreeCourseDTO newType = new TypeDegreeCourseDTO();
+		newType.setIdtypeDegreeCourse(newTypeDegreeCourse.getIdtypeDegreeCourse());
+		newType.setName(newTypeDegreeCourse.getName());
+		CourseTypeDTO courseTypeDTO = new CourseTypeDTO();
+		courseTypeDTO.setIdcourseType(newTypeDegreeCourse.getCourseType().getIdcourseType());
+		courseTypeDTO.setCfu(newTypeDegreeCourse.getCourseType().getCfu());
+		courseTypeDTO.setDuration(newTypeDegreeCourse.getCourseType().getDuration());
+		courseTypeDTO.setDescription(newTypeDegreeCourse.getCourseType().getDescription());
+		
+		newType.setCourseType(courseTypeDTO);
+		return newType;
 	}
 
 

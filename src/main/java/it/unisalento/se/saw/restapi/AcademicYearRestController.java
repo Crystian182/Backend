@@ -57,4 +57,9 @@ public class AcademicYearRestController {
 	public TermDTO saveTerm(@RequestBody TermDTO termDTO){
 		return academicYearService.saveTerm(termDTO);
 	}
+	
+	@PostMapping(value="/saveAllTerm", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<TermDTO> saveAllTerm(@RequestBody List<TermDTO> termDTOs){
+		return academicYearService.saveAllTerm(termDTOs);
+	}
 }
