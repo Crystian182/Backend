@@ -12,6 +12,7 @@ public interface IDegreeCourseService {
 	public DegreeCourseDTO getById(int id) throws DegreeCourseNotFoundException;
 	public void delete(int id)  throws DegreeCourseNotFoundException;
 	public DegreeCourseDTO save(DegreeCourseDTO degreeCourseDTO);
+	public TypeDegreeCourseDTO saveType(TypeDegreeCourseDTO typeDegreeCourseDTO);
 	//public Course insert(int idcourse, Subjectofstudy subjectofstudy);
 	public TypeDegreeCourseDTO getTypesById(int id);
 	public List<TypeDegreeCourseDTO> getAllTypes();

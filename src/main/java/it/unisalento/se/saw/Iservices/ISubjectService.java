@@ -14,5 +14,7 @@ public interface ISubjectService {
 	public SubjectDTO save(SubjectDTO subjectDTO);
 	public void delete(int id) throws SubjectNotFoundException;
 	public List<TypeSubjectDTO> getAllSubjectTypes();
-
+	public List<SubjectDTO> getByIdTeacher(int id) throws SubjectNotFoundException;
+	public List<SubjectDTO> saveAll(List<SubjectDTO> subjectDTOs);
+	public TypeSubjectDTO saveType(TypeSubjectDTO typeSubjectDTO);
 }

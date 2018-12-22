@@ -59,6 +59,11 @@ public class SubjectRestController {
 		return subjectService.save(subjectDTO);
 	}
 	
+	@PostMapping(value="/saveAll", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<SubjectDTO> saveAll(@RequestBody List<SubjectDTO> subjectDTOs){
+		return subjectService.saveAll(subjectDTOs);
+	}
+	
 	@PostMapping(value="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public void delete(@PathVariable("id")int id) throws SubjectNotFoundException {
 		subjectService.delete(id);
@@ -67,6 +72,18 @@ public class SubjectRestController {
 	@GetMapping(value="/getAllSubjectTypes", produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<TypeSubjectDTO> getAllSubjectTypes(){
 		return subjectService.getAllSubjectTypes();
+	}
+	
+	@GetMapping(value="/getByIdTeacher/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<SubjectDTO> getByIdTeacher(@PathVariable("id")int id) throws SubjectNotFoundException {
+		
+		return subjectService.getByIdTeacher(id);
+		
+	}
+	
+	@PostMapping(value="/saveTypeSubject", produces=MediaType.APPLICATION_JSON_VALUE)
+	public TypeSubjectDTO save(@RequestBody TypeSubjectDTO typeSubjectDTO){
+		return subjectService.saveType(typeSubjectDTO);
 	}
 	
 }

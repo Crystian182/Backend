@@ -35,7 +35,6 @@ public class AcademicYearService implements IAcademicYearService {
 		for(int i=0; i<terms.size(); i++) {
 			TermDTO termDTO = new TermDTO();
 			termDTO.setIdterm(terms.get(i).getIdterm());
-			termDTO.setNumber(terms.get(i).getNumber());
 			termDTO.setStart(terms.get(i).getStart());
 			termDTO.setEnd(terms.get(i).getEnd());
 			termDTOs.add(termDTO);
@@ -73,7 +72,6 @@ public class AcademicYearService implements IAcademicYearService {
 			for(int k=0; k<terms.size(); k++) {
 				TermDTO termDTO = new TermDTO();
 				termDTO.setIdterm(terms.get(k).getIdterm());
-				termDTO.setNumber(terms.get(k).getNumber());
 				termDTO.setStart(terms.get(k).getStart());
 				termDTO.setEnd(terms.get(k).getEnd());
 				termDTOs.add(termDTO);
@@ -97,5 +95,58 @@ public class AcademicYearService implements IAcademicYearService {
 		newAcademicYearDTO.setYear(newAcademicYear.getYear());
 		
 		return newAcademicYearDTO;
+	}
+	
+	@Transactional
+	public TermDTO saveTerm(TermDTO termDTO) {
+		Term term = new Term();
+		term.setIdterm(termDTO.getIdterm());
+		term.setStart(termDTO.getStart());
+		term.setEnd(termDTO.getEnd());
+		AcademicYear academicYear = new AcademicYear();
+		academicYear.setIdacademicYear(termDTO.getAcademicYear().getIdacademicYear());
+		academicYear.setYear(termDTO.getAcademicYear().getYear());
+		term.setAcademicYear(academicYear);
+		Term newTerm = termRepository.save(term);
+		TermDTO newTermDTO = new TermDTO();
+		newTermDTO.setIdterm(newTerm.getIdterm());
+		newTermDTO.setStart(newTerm.getStart());
+		newTermDTO.setEnd(newTerm.getEnd());
+		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+		academicYearDTO.setIdacademicYear(newTerm.getAcademicYear().getIdacademicYear());
+		academicYearDTO.setYear(newTerm.getAcademicYear().getYear());
+		newTermDTO.setAcademicYear(academicYearDTO);
+		return newTermDTO;
+	}
+	
+	@Transactional
+	public List<TermDTO> saveAllTerm(List<TermDTO> termDTOs) {
+		List<Term> terms = new ArrayList<Term>();
+		for(int k=0; k<termDTOs.size(); k++) {
+			Term term = new Term();
+			term.setIdterm(termDTOs.get(k).getIdterm());
+			term.setStart(termDTOs.get(k).getStart());
+			term.setEnd(termDTOs.get(k).getEnd());
+			AcademicYear academicYear = new AcademicYear();
+			academicYear.setIdacademicYear(termDTOs.get(k).getAcademicYear().getIdacademicYear());
+			academicYear.setYear(termDTOs.get(k).getAcademicYear().getYear());
+			term.setAcademicYear(academicYear);
+			terms.add(term);
+		}
+		List<Term> newterms = termRepository.saveAll(terms);
+		
+		List<TermDTO> newtermDTOs = new ArrayList<TermDTO>();
+		for(int i=0; i<newterms.size(); i++) {
+			TermDTO termDTO = new TermDTO();
+			termDTO.setIdterm(newterms.get(i).getIdterm());
+			termDTO.setStart(newterms.get(i).getStart());
+			termDTO.setEnd(newterms.get(i).getEnd());
+			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+			academicYearDTO.setIdacademicYear(newterms.get(i).getAcademicYear().getIdacademicYear());
+			academicYearDTO.setYear(newterms.get(i).getAcademicYear().getYear());
+			termDTO.setAcademicYear(academicYearDTO);
+			newtermDTOs.add(termDTO);
+		}
+		return newtermDTOs;
 	}
 }

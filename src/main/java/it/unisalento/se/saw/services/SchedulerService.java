@@ -121,7 +121,6 @@ public class SchedulerService implements ISchedulerService {
 			for(int k=0; k<terms.size(); k++) {
 				TermDTO termDTO = new TermDTO();
 				termDTO.setIdterm(terms.get(k).getIdterm());
-				termDTO.setNumber(terms.get(k).getNumber());
 				termDTO.setStart(terms.get(k).getStart());
 				termDTO.setEnd(terms.get(k).getEnd());
 				termDTOs.add(termDTO);
@@ -146,7 +145,6 @@ public class SchedulerService implements ISchedulerService {
 			
 			TermDTO termDTO = new TermDTO();
 			termDTO.setIdterm(newScheduler.getTerm().getIdterm());
-			termDTO.setNumber(newScheduler.getTerm().getNumber());
 			termDTO.setStart(newScheduler.getTerm().getStart());
 			termDTO.setEnd(newScheduler.getTerm().getEnd());
 			
@@ -249,7 +247,6 @@ public class SchedulerService implements ISchedulerService {
 			for(int k=0; k<terms.size(); k++) {
 				TermDTO termDTO = new TermDTO();
 				termDTO.setIdterm(terms.get(k).getIdterm());
-				termDTO.setNumber(terms.get(k).getNumber());
 				termDTO.setStart(terms.get(k).getStart());
 				termDTO.setEnd(terms.get(k).getEnd());
 				termDTOs.add(termDTO);
@@ -274,7 +271,6 @@ public class SchedulerService implements ISchedulerService {
 			
 			TermDTO termDTO = new TermDTO();
 			termDTO.setIdterm(newScheduler.getTerm().getIdterm());
-			termDTO.setNumber(newScheduler.getTerm().getNumber());
 			termDTO.setStart(newScheduler.getTerm().getStart());
 			termDTO.setEnd(newScheduler.getTerm().getEnd());
 			

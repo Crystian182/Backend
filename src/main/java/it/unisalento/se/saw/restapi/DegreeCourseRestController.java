@@ -78,4 +78,9 @@ public class DegreeCourseRestController {
 		return degreeCourseService.getCourseByType(id);
 	}
 	
+	@PostMapping(value="/saveType", produces=MediaType.APPLICATION_JSON_VALUE)
+	public TypeDegreeCourseDTO saveType(@RequestBody TypeDegreeCourseDTO typeDegreeCourseDTO){
+		return degreeCourseService.saveType(typeDegreeCourseDTO);
+	}
+	
 }

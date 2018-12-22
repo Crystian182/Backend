@@ -434,7 +434,6 @@ public class LessonService implements ILessonService{
 			
 			TermDTO termDTO = new TermDTO();
 			termDTO.setIdterm(lessons.get(i).getScheduler().getTerm().getIdterm());
-			termDTO.setNumber(lessons.get(i).getScheduler().getTerm().getNumber());
 			termDTO.setStart(lessons.get(i).getScheduler().getTerm().getStart());
 			termDTO.setEnd(lessons.get(i).getScheduler().getTerm().getEnd());
 			
