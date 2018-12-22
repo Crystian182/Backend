@@ -36,6 +36,8 @@ public class AcademicYearService implements IAcademicYearService {
 			TermDTO termDTO = new TermDTO();
 			termDTO.setIdterm(terms.get(i).getIdterm());
 			termDTO.setNumber(terms.get(i).getNumber());
+			termDTO.setStart(terms.get(i).getStart());
+			termDTO.setEnd(terms.get(i).getEnd());
 			termDTOs.add(termDTO);
 		}
 		

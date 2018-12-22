@@ -42,6 +42,11 @@ public class LessonRestController {
 		return lessonService.getAll();
 	}
 	
+	@GetMapping(value="/getAllTeacherLessons/{idteacher}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<LessonDTO> getAllTeacherLessons(@PathVariable("idteacher")int idteacher){
+		return lessonService.getAllTeacherLessons(idteacher);
+	}
+	
 	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public LessonDTO getById(@PathVariable("id")int id) throws LessonNotFoundException{
 		return lessonService.getById(id);

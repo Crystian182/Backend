@@ -67,7 +67,7 @@ public class DegreeCourseRestController {
 	public List<CourseTypeDTO> getAllCourseTypes(){
 		return degreeCourseService.getAllCourseTypes();
 	}	
-	
+
 	@GetMapping(value="/getCourseType/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public CourseTypeDTO getCourseType(@PathVariable("id")int id){
 		return degreeCourseService.getCourseType(id);

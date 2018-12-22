@@ -8,8 +8,8 @@ public class SchedulerDTO {
 	private int idScheduler;
     private DegreeCourseDTO degreeCourse;
     private TermDTO term;
-    private String name;
     private List<TypeLessonDTO> typeLessons;
+    private List<LessonDTO> lessons;
     
 	public int getIdScheduler() {
 		return idScheduler;
@@ -29,17 +29,17 @@ public class SchedulerDTO {
 	public void setTerm(TermDTO term) {
 		this.term = term;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	public List<TypeLessonDTO> getTypeLessons() {
 		return typeLessons;
 	}
 	public void setTypeLessons(List<TypeLessonDTO> typeLessons) {
 		this.typeLessons = typeLessons;
+	}
+	public List<LessonDTO> getLessons() {
+		return lessons;
+	}
+	public void setLessons(List<LessonDTO> lessons) {
+		this.lessons = lessons;
 	}
     
     

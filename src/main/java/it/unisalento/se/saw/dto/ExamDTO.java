@@ -7,13 +7,8 @@ public class ExamDTO {
 	  private Integer idexam;
 	  private ClassroomDTO classroom;
 	  private SubjectDTO subject;
-	  private int idExamType;
+	  private ExamTypeDTO examtype;
 	  private Date date;
-	  private Date start;
-	  private Date end;
-	  private boolean isSubscribed;
-	 
-	  
 	  
 		public Integer getIdexam() {
 			return idexam;
@@ -33,38 +28,18 @@ public class ExamDTO {
 		public void setSubject(SubjectDTO subject) {
 			this.subject = subject;
 		}
-		
-		public int getIdExamType() {
-			return idExamType;
-		}
-		public void setIdExamType(int idExamType) {
-			this.idExamType = idExamType;
-		}
 		public Date getDate() {
 			return date;
 		}
 		public void setDate(Date date) {
 			this.date = date;
 		}
+		public ExamTypeDTO getExamtype() {
+			return examtype;
+		}
+		public void setExamtype(ExamTypeDTO examtype) {
+			this.examtype = examtype;
+		}
 	
-		public Date getStart() {
-			return start;
-		}
-		public void setStart(Date start) {
-			this.start = start;
-		}
-		public Date getEnd() {
-			return end;
-		}
-		public void setEnd(Date end) {
-			this.end = end;
-		}
-		public boolean isSubscribed() {
-			return isSubscribed;
-		}
-		public void setSubscribed(boolean isSubscribed) {
-			this.isSubscribed = isSubscribed;
-		}
 		
-	     
 }

@@ -69,37 +69,40 @@ public class LessonService implements ILessonService{
 				
 				
 				TeacherDTO teacherDTO = new TeacherDTO();
-				teacherDTO.setIdteacher(lessons.get(i).getSubject().getTeacher().getIduser());
-				teacherDTO.setName(lessons.get(i).getSubject().getTeacher().getUser().getName());
-				teacherDTO.setSurname(lessons.get(i).getSubject().getTeacher().getUser().getSurname());
+				teacherDTO.setIdteacher(lessons.get(i).getTypeLesson().getSubject().getTeacher().getIduser());
+				teacherDTO.setName(lessons.get(i).getTypeLesson().getSubject().getTeacher().getUser().getName());
+				teacherDTO.setSurname(lessons.get(i).getTypeLesson().getSubject().getTeacher().getUser().getSurname());
 				
 				TypeDegreeCourseDTO typeDegreeCourseDTO = new TypeDegreeCourseDTO();
-				typeDegreeCourseDTO.setIdtypeDegreeCourse(lessons.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getIdtypeDegreeCourse());
-				typeDegreeCourseDTO.setName(lessons.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getName());
+				typeDegreeCourseDTO.setIdtypeDegreeCourse(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getIdtypeDegreeCourse());
+				typeDegreeCourseDTO.setName(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getName());
 				
 				CourseTypeDTO courseTypeDTO = new CourseTypeDTO();
-				courseTypeDTO.setIdcourseType(lessons.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getIdcourseType());
-				courseTypeDTO.setDescription(lessons.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getDescription());
-				courseTypeDTO.setCfu(lessons.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
-				courseTypeDTO.setDuration(lessons.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+				courseTypeDTO.setIdcourseType(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getIdcourseType());
+				courseTypeDTO.setDescription(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getDescription());
+				courseTypeDTO.setCfu(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+				courseTypeDTO.setDuration(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 				typeDegreeCourseDTO.setCourseType(courseTypeDTO);
 				
 				DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
-				degreeCourseDTO.setIdcourse(lessons.get(i).getSubject().getDegreeCourse().getIddegreeCourse());
+				degreeCourseDTO.setIdcourse(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getIddegreeCourse());
 				degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
 				AcademicYearDTO academicYearDTO = new AcademicYearDTO();
-				academicYearDTO.setIdacademicYear(lessons.get(i).getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
-				academicYearDTO.setYear(lessons.get(i).getSubject().getDegreeCourse().getAcademicYear().getYear());
+				academicYearDTO.setIdacademicYear(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
+				academicYearDTO.setYear(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getAcademicYear().getYear());
 				degreeCourseDTO.setAcademicYear(academicYearDTO);
-				degreeCourseDTO.setCfu(lessons.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+				degreeCourseDTO.setCfu(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 				
 				SubjectDTO subjectDTO = new SubjectDTO();
-				subjectDTO.setId(lessons.get(i).getSubject().getIdsubject());
-				subjectDTO.setName(lessons.get(i).getSubject().getTypeSubject().getName());
-				subjectDTO.setDescription(lessons.get(i).getSubject().getTypeSubject().getDescription());
-				subjectDTO.setCfu(lessons.get(i).getSubject().getCfu());
+				subjectDTO.setId(lessons.get(i).getTypeLesson().getSubject().getIdsubject());
+				subjectDTO.setName(lessons.get(i).getTypeLesson().getSubject().getTypeSubject().getName());
+				subjectDTO.setDescription(lessons.get(i).getTypeLesson().getSubject().getTypeSubject().getDescription());
+				subjectDTO.setCfu(lessons.get(i).getTypeLesson().getSubject().getCfu());
 				subjectDTO.setDegreecourseDTO(degreeCourseDTO);
 				subjectDTO.setTeacherDTO(teacherDTO);
+				
+				TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
+				typeLessonDTO.setSubject(subjectDTO);
 				
 				LessonDTO lessonDTO = new LessonDTO();
 				
@@ -107,7 +110,7 @@ public class LessonService implements ILessonService{
 				lessonDTO.setStart(lessons.get(i).getStart());
 				lessonDTO.setEnd(lessons.get(i).getEnd());
 				lessonDTO.setClassroom(classroomDTO);
-				lessonDTO.setSubject(subjectDTO);
+				lessonDTO.setTypeLesson(typeLessonDTO);
 		
 				lessonDTOs.add(lessonDTO);
 			}
@@ -115,6 +118,80 @@ public class LessonService implements ILessonService{
 		return lessonDTOs;
 		
 	}
+	
+	@Transactional(readOnly = true)
+	public List<LessonDTO> getAllTeacherLessons(int idteacher) {
+		List<Lesson> lessons = lessonRepository.getAllTeacherLessons(idteacher);
+		List<LessonDTO> lessonDTOs = new ArrayList<LessonDTO>();
+		for(int i=0; i<lessons.size(); i++) {
+				
+				BuildingDTO buildingDTO = new BuildingDTO();
+				buildingDTO.setId(lessons.get(i).getClassroom().getBuilding().getIdbuilding());
+				buildingDTO.setName(lessons.get(i).getClassroom().getBuilding().getName());
+				buildingDTO.setAddress(lessons.get(i).getClassroom().getBuilding().getAddress());
+				buildingDTO.setLat(lessons.get(i).getClassroom().getBuilding().getLat());
+				buildingDTO.setLng(lessons.get(i).getClassroom().getBuilding().getLng());
+				
+				ClassroomDTO classroomDTO = new ClassroomDTO();
+				classroomDTO.setId(lessons.get(i).getClassroom().getIdclassroom());
+				classroomDTO.setName(lessons.get(i).getClassroom().getName());
+				classroomDTO.setSeats(lessons.get(i).getClassroom().getSeats());
+				classroomDTO.setLat(lessons.get(i).getClassroom().getLat());
+				classroomDTO.setLng(lessons.get(i).getClassroom().getLng());
+				classroomDTO.setBuilding(buildingDTO);
+				
+				
+				TeacherDTO teacherDTO = new TeacherDTO();
+				teacherDTO.setIdteacher(lessons.get(i).getTypeLesson().getSubject().getTeacher().getIduser());
+				teacherDTO.setName(lessons.get(i).getTypeLesson().getSubject().getTeacher().getUser().getName());
+				teacherDTO.setSurname(lessons.get(i).getTypeLesson().getSubject().getTeacher().getUser().getSurname());
+				
+				TypeDegreeCourseDTO typeDegreeCourseDTO = new TypeDegreeCourseDTO();
+				typeDegreeCourseDTO.setIdtypeDegreeCourse(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getIdtypeDegreeCourse());
+				typeDegreeCourseDTO.setName(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getName());
+				
+				CourseTypeDTO courseTypeDTO = new CourseTypeDTO();
+				courseTypeDTO.setIdcourseType(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getIdcourseType());
+				courseTypeDTO.setDescription(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getDescription());
+				courseTypeDTO.setCfu(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+				courseTypeDTO.setDuration(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+				typeDegreeCourseDTO.setCourseType(courseTypeDTO);
+				
+				DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
+				degreeCourseDTO.setIdcourse(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getIddegreeCourse());
+				degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
+				AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+				academicYearDTO.setIdacademicYear(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
+				academicYearDTO.setYear(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getAcademicYear().getYear());
+				degreeCourseDTO.setAcademicYear(academicYearDTO);
+				degreeCourseDTO.setCfu(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+				
+				SubjectDTO subjectDTO = new SubjectDTO();
+				subjectDTO.setId(lessons.get(i).getTypeLesson().getSubject().getIdsubject());
+				subjectDTO.setName(lessons.get(i).getTypeLesson().getSubject().getTypeSubject().getName());
+				subjectDTO.setDescription(lessons.get(i).getTypeLesson().getSubject().getTypeSubject().getDescription());
+				subjectDTO.setCfu(lessons.get(i).getTypeLesson().getSubject().getCfu());
+				subjectDTO.setDegreecourseDTO(degreeCourseDTO);
+				subjectDTO.setTeacherDTO(teacherDTO);
+				
+				TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
+				typeLessonDTO.setSubject(subjectDTO);
+				
+				LessonDTO lessonDTO = new LessonDTO();
+				
+				lessonDTO.setIdlesson(lessons.get(i).getIdlesson());
+				lessonDTO.setStart(lessons.get(i).getStart());
+				lessonDTO.setEnd(lessons.get(i).getEnd());
+				lessonDTO.setClassroom(classroomDTO);
+				lessonDTO.setTypeLesson(typeLessonDTO);
+		
+				lessonDTOs.add(lessonDTO);
+			}
+			
+		return lessonDTOs;
+		
+	}
+
 
 	@Transactional(rollbackFor=LessonNotFoundException.class)
 	public LessonDTO getById(int id) throws LessonNotFoundException {
@@ -137,37 +214,40 @@ public class LessonService implements ILessonService{
 			classroomDTO.setBuilding(buildingDTO);
 			
 			TypeDegreeCourseDTO typeDegreeCourseDTO = new TypeDegreeCourseDTO();
-			typeDegreeCourseDTO.setIdtypeDegreeCourse(lesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getIdtypeDegreeCourse());
-			typeDegreeCourseDTO.setName(lesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getName());
+			typeDegreeCourseDTO.setIdtypeDegreeCourse(lesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getIdtypeDegreeCourse());
+			typeDegreeCourseDTO.setName(lesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getName());
 			
 			CourseTypeDTO courseTypeDTO = new CourseTypeDTO();
-			courseTypeDTO.setIdcourseType(lesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getIdcourseType());
-			courseTypeDTO.setDescription(lesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getDescription());
-			courseTypeDTO.setCfu(lesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
-			courseTypeDTO.setDuration(lesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+			courseTypeDTO.setIdcourseType(lesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getIdcourseType());
+			courseTypeDTO.setDescription(lesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getDescription());
+			courseTypeDTO.setCfu(lesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+			courseTypeDTO.setDuration(lesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 			typeDegreeCourseDTO.setCourseType(courseTypeDTO);
 			
 			DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
-			degreeCourseDTO.setIdcourse(lesson.getSubject().getDegreeCourse().getIddegreeCourse());
+			degreeCourseDTO.setIdcourse(lesson.getTypeLesson().getSubject().getDegreeCourse().getIddegreeCourse());
 			degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
-			degreeCourseDTO.setCfu(lesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+			degreeCourseDTO.setCfu(lesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
-			academicYearDTO.setIdacademicYear(lesson.getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
-			academicYearDTO.setYear(lesson.getSubject().getDegreeCourse().getAcademicYear().getYear());
+			academicYearDTO.setIdacademicYear(lesson.getTypeLesson().getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
+			academicYearDTO.setYear(lesson.getTypeLesson().getSubject().getDegreeCourse().getAcademicYear().getYear());
 			degreeCourseDTO.setAcademicYear(academicYearDTO);
 			
 			TeacherDTO teacherDTO = new TeacherDTO();
-			teacherDTO.setIdteacher(lesson.getSubject().getTeacher().getIduser());
-			teacherDTO.setName(lesson.getSubject().getTeacher().getUser().getName());
-			teacherDTO.setSurname(lesson.getSubject().getTeacher().getUser().getSurname());
+			teacherDTO.setIdteacher(lesson.getTypeLesson().getSubject().getTeacher().getIduser());
+			teacherDTO.setName(lesson.getTypeLesson().getSubject().getTeacher().getUser().getName());
+			teacherDTO.setSurname(lesson.getTypeLesson().getSubject().getTeacher().getUser().getSurname());
 			
 			SubjectDTO subjectDTO = new SubjectDTO();
-			subjectDTO.setId(lesson.getSubject().getIdsubject());
-			subjectDTO.setName(lesson.getSubject().getTypeSubject().getName());
-			subjectDTO.setDescription(lesson.getSubject().getTypeSubject().getDescription());
-			subjectDTO.setCfu(lesson.getSubject().getCfu());
+			subjectDTO.setId(lesson.getTypeLesson().getSubject().getIdsubject());
+			subjectDTO.setName(lesson.getTypeLesson().getSubject().getTypeSubject().getName());
+			subjectDTO.setDescription(lesson.getTypeLesson().getSubject().getTypeSubject().getDescription());
+			subjectDTO.setCfu(lesson.getTypeLesson().getSubject().getCfu());
 			subjectDTO.setDegreecourseDTO(degreeCourseDTO);
 			subjectDTO.setTeacherDTO(teacherDTO);
+			
+			TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
+			typeLessonDTO.setSubject(subjectDTO);
 		
 			LessonDTO lessonDTO = new LessonDTO();
 			
@@ -175,7 +255,7 @@ public class LessonService implements ILessonService{
 			lessonDTO.setStart(lesson.getStart());
 			lessonDTO.setEnd(lesson.getEnd());
 			lessonDTO.setClassroom(classroomDTO);
-			lessonDTO.setSubject(subjectDTO);
+			lessonDTO.setTypeLesson(typeLessonDTO);
 			
 			return lessonDTO;
 
@@ -204,32 +284,35 @@ public class LessonService implements ILessonService{
 		classroom.setBuilding(building);
 		
 		TypeDegreeCourse typeDegreeCourse = new TypeDegreeCourse();
-		typeDegreeCourse.setIdtypeDegreeCourse(lessonDTO.getSubject().getDegreecourseDTO().getTypeDegreeCourse().getIdtypeDegreeCourse());
-		typeDegreeCourse.setName(lessonDTO.getSubject().getDegreecourseDTO().getTypeDegreeCourse().getName());
+		typeDegreeCourse.setIdtypeDegreeCourse(lessonDTO.getTypeLesson().getSubject().getDegreecourseDTO().getTypeDegreeCourse().getIdtypeDegreeCourse());
+		typeDegreeCourse.setName(lessonDTO.getTypeLesson().getSubject().getDegreecourseDTO().getTypeDegreeCourse().getName());
 		
 		CourseType courseType = new CourseType();
-		courseType.setIdcourseType(lessonDTO.getSubject().getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getIdcourseType());
-		courseType.setCfu(lessonDTO.getSubject().getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getCfu());
-		courseType.setDuration(lessonDTO.getSubject().getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getDuration());
-		courseType.setDescription(lessonDTO.getSubject().getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getDescription());
+		courseType.setIdcourseType(lessonDTO.getTypeLesson().getSubject().getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getIdcourseType());
+		courseType.setCfu(lessonDTO.getTypeLesson().getSubject().getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getCfu());
+		courseType.setDuration(lessonDTO.getTypeLesson().getSubject().getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getDuration());
+		courseType.setDescription(lessonDTO.getTypeLesson().getSubject().getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getDescription());
 		typeDegreeCourse.setCourseType(courseType);
 		
 		DegreeCourse degreeCourse = new DegreeCourse();
-		degreeCourse.setIddegreeCourse(lessonDTO.getSubject().getDegreecourseDTO().getIdcourse());
+		degreeCourse.setIddegreeCourse(lessonDTO.getTypeLesson().getSubject().getDegreecourseDTO().getIdcourse());
 		degreeCourse.setTypeDegreeCourse(typeDegreeCourse);
 		AcademicYear academicYear = new AcademicYear();
-		academicYear.setIdacademicYear(lessonDTO.getSubject().getDegreecourseDTO().getAcademicYear().getIdacademicYear());
-		academicYear.setYear(lessonDTO.getSubject().getDegreecourseDTO().getAcademicYear().getYear());
+		academicYear.setIdacademicYear(lessonDTO.getTypeLesson().getSubject().getDegreecourseDTO().getAcademicYear().getIdacademicYear());
+		academicYear.setYear(lessonDTO.getTypeLesson().getSubject().getDegreecourseDTO().getAcademicYear().getYear());
 		degreeCourse.setAcademicYear(academicYear);
 	
 		TypeSubject typeSubject = new TypeSubject();
-		typeSubject.setIdtypeSubject(lessonDTO.getSubject().getTypeSubjectDTO().getIdtypeSubject());
-		typeSubject.setName(lessonDTO.getSubject().getTypeSubjectDTO().getName());
+		typeSubject.setIdtypeSubject(lessonDTO.getTypeLesson().getSubject().getTypeSubjectDTO().getIdtypeSubject());
+		typeSubject.setName(lessonDTO.getTypeLesson().getSubject().getTypeSubjectDTO().getName());
 		
 		Subject subject = new Subject();
-		subject.setIdsubject(lessonDTO.getSubject().getId());
+		subject.setIdsubject(lessonDTO.getTypeLesson().getSubject().getId());
 		subject.setDegreeCourse(degreeCourse);
 		subject.setTypeSubject(typeSubject);
+		
+		/*TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
+		typeLessonDTO.seteSubject(subjectDTO);*/
 	
 		Lesson lesson = new Lesson();
 		try {
@@ -240,7 +323,7 @@ public class LessonService implements ILessonService{
 		lesson.setClassroom(classroom);
 		lesson.setStart(lessonDTO.getStart());
 		lesson.setEnd(lessonDTO.getEnd());
-		lesson.setSubject(subject);
+		//lesson.setSubject(subject);
 	
 		Lesson newLesson = lessonRepository.save(lesson);
 		
@@ -260,36 +343,39 @@ public class LessonService implements ILessonService{
 		classroomDTO.setBuilding(buildingDTO);
 		
 		TypeDegreeCourseDTO typeDegreeCourseDTO = new TypeDegreeCourseDTO();
-		typeDegreeCourseDTO.setIdtypeDegreeCourse(newLesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getIdtypeDegreeCourse());
-		typeDegreeCourseDTO.setName(newLesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getName());
+		typeDegreeCourseDTO.setIdtypeDegreeCourse(newLesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getIdtypeDegreeCourse());
+		typeDegreeCourseDTO.setName(newLesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getName());
 		
 		CourseTypeDTO courseTypeDTO = new CourseTypeDTO();
-		courseTypeDTO.setIdcourseType(newLesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getIdcourseType());
-		courseTypeDTO.setDescription(newLesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getDescription());
-		courseTypeDTO.setCfu(newLesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
-		courseTypeDTO.setDuration(newLesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+		courseTypeDTO.setIdcourseType(newLesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getIdcourseType());
+		courseTypeDTO.setDescription(newLesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getDescription());
+		courseTypeDTO.setCfu(newLesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+		courseTypeDTO.setDuration(newLesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 		typeDegreeCourseDTO.setCourseType(courseTypeDTO);
 		
 		DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
-		degreeCourseDTO.setIdcourse(newLesson.getSubject().getDegreeCourse().getIddegreeCourse());
+		degreeCourseDTO.setIdcourse(newLesson.getTypeLesson().getSubject().getDegreeCourse().getIddegreeCourse());
 		degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
-		degreeCourseDTO.setCfu(newLesson.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+		degreeCourseDTO.setCfu(newLesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
 		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
-		academicYearDTO.setIdacademicYear(newLesson.getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
-		academicYearDTO.setYear(newLesson.getSubject().getDegreeCourse().getAcademicYear().getYear());
+		academicYearDTO.setIdacademicYear(newLesson.getTypeLesson().getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
+		academicYearDTO.setYear(newLesson.getTypeLesson().getSubject().getDegreeCourse().getAcademicYear().getYear());
 		degreeCourseDTO.setAcademicYear(academicYearDTO);
 		
 		TeacherDTO teacherDTO = new TeacherDTO();
-		teacherDTO.setIdteacher(newLesson.getSubject().getTeacher().getIduser());
-		teacherDTO.setName(newLesson.getSubject().getTeacher().getUser().getName());
-		teacherDTO.setSurname(newLesson.getSubject().getTeacher().getUser().getSurname());
+		teacherDTO.setIdteacher(newLesson.getTypeLesson().getSubject().getTeacher().getIduser());
+		teacherDTO.setName(newLesson.getTypeLesson().getSubject().getTeacher().getUser().getName());
+		teacherDTO.setSurname(newLesson.getTypeLesson().getSubject().getTeacher().getUser().getSurname());
 
 		SubjectDTO subjectDTO = new SubjectDTO();
-		subjectDTO.setId(newLesson.getSubject().getIdsubject());
-		subjectDTO.setName(newLesson.getSubject().getTypeSubject().getName());
-		subjectDTO.setDescription(newLesson.getSubject().getTypeSubject().getDescription());
+		subjectDTO.setId(newLesson.getTypeLesson().getSubject().getIdsubject());
+		subjectDTO.setName(newLesson.getTypeLesson().getSubject().getTypeSubject().getName());
+		subjectDTO.setDescription(newLesson.getTypeLesson().getSubject().getTypeSubject().getDescription());
 		subjectDTO.setTeacherDTO(teacherDTO);
 		subjectDTO.setDegreecourseDTO(degreeCourseDTO);
+		
+		TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
+		typeLessonDTO.setSubject(subjectDTO);
 	
 		LessonDTO newLessonDTO = new LessonDTO();
 		
@@ -297,7 +383,7 @@ public class LessonService implements ILessonService{
 		newLessonDTO.setStart(newLesson.getStart());
 		newLessonDTO.setEnd(newLesson.getEnd());
 		newLessonDTO.setClassroom(classroomDTO);
-		newLessonDTO.setSubject(subjectDTO);
+		newLessonDTO.setTypeLesson(typeLessonDTO);
 		
 		return newLessonDTO;
 		
@@ -313,8 +399,8 @@ public class LessonService implements ILessonService{
 	}
 	
 	@Transactional
-	public List<TypeLessonDTO> getCurrentSchedulerByCourse(DegreeCourseDTO degreeCourseDTO){
-		List<TypeLesson> lessons = typeLessonRepository.getCurrentSchedulerByIDCourse(degreeCourseDTO.getIdcourse());
+	public List<TypeLessonDTO> getCurrentSchedulerByCourse(DegreeCourseDTO degreeCourseDTO, int idterm){
+		List<TypeLesson> lessons = typeLessonRepository.getCurrentSchedulerByIDCourse(degreeCourseDTO.getIdcourse(), idterm);
 		
 		if(lessons == null) {
 			return null;
@@ -345,7 +431,6 @@ public class LessonService implements ILessonService{
 			
 			SchedulerDTO schedulerDTO = new SchedulerDTO();
 			schedulerDTO.setIdScheduler(lessons.get(i).getScheduler().getIdscheduler());
-			schedulerDTO.setName(lessons.get(i).getScheduler().getName());
 			
 			TermDTO termDTO = new TermDTO();
 			termDTO.setIdterm(lessons.get(i).getScheduler().getTerm().getIdterm());
@@ -363,11 +448,11 @@ public class LessonService implements ILessonService{
 			
 			typeLessonDTO.setScheduler(schedulerDTO);
 			
-			TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
-			typeSubjectDTO.setIdtypeSubject(lessons.get(i).getTypeSubject().getIdtypeSubject());
-			typeSubjectDTO.setName(lessons.get(i).getTypeSubject().getName());
+			SubjectDTO subjectDTO = new SubjectDTO();
+			subjectDTO.setId(lessons.get(i).getSubject().getIdsubject());
+			subjectDTO.setName(lessons.get(i).getSubject().getTypeSubject().getName());
 			
-			typeLessonDTO.setTypeSubject(typeSubjectDTO);
+			typeLessonDTO.setSubject(subjectDTO);
 			typeLessonDTO.setStart(new java.sql.Time(lessons.get(i).getStart().getTime()));
 			typeLessonDTO.setEnd(new java.sql.Time(lessons.get(i).getEnd().getTime()));
 			
