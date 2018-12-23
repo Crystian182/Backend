@@ -31,6 +31,7 @@ import it.unisalento.se.saw.dto.ClassroomDTO;
 import it.unisalento.se.saw.dto.CourseTypeDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.ExamDTO;
+import it.unisalento.se.saw.dto.ExamTypeDTO;
 import it.unisalento.se.saw.dto.StudentDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
@@ -38,6 +39,7 @@ import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
 import it.unisalento.se.saw.exceptions.ExamNotFoundException;
 //import it.unisalento.se.saw.repositories.ExamEnrollmentRepository;
 import it.unisalento.se.saw.repositories.ExamRepository;
+import it.unisalento.se.saw.repositories.ExamTypeRepository;
 import it.unisalento.se.saw.repositories.StudentHasExamRepository;
 
 @Service
@@ -47,10 +49,13 @@ public class ExamService implements IExamService{
 	ExamRepository examRepository;
 	
 	@Autowired
+	ExamTypeRepository examTypeRepository;
+	
+	@Autowired
 	StudentHasExamRepository studentHasExamRepository;
 	
 
-	@Transactional(readOnly=true)
+	/*@Transactional(readOnly=true)
 	public List<ExamDTO> getAll() {
 		List<Exam> exams = examRepository.findAll();
 		List<ExamDTO> examDTOs = new ArrayList<ExamDTO>();
@@ -110,9 +115,9 @@ public class ExamService implements IExamService{
 		
 		}
 		return examDTOs;
-	}
+	}*/
 
-	@Transactional(rollbackFor=ExamNotFoundException.class)
+	/*@Transactional(rollbackFor=ExamNotFoundException.class)
 	public ExamDTO getById(int id) throws ExamNotFoundException {
 		try {
 			Exam exam = examRepository.findById(id).get();
@@ -172,9 +177,9 @@ public class ExamService implements IExamService{
 		} catch (Exception e) {
 			throw new ExamNotFoundException();
 		}
-	}
+	}*/
 
-	@Transactional
+	/*@Transactional
 	public void delete(int id) throws ExamNotFoundException {
 		try {
 			Exam exam = examRepository.findById(id).get();
@@ -184,122 +189,44 @@ public class ExamService implements IExamService{
 			throw new ExamNotFoundException();
 		}
 		
-	}
+	}*/
 
 	@Transactional
-	public ExamDTO save(ExamDTO examDTO) {
-		Building building = new Building();
-		building.setIdbuilding(examDTO.getClassroom().getBuilding().getId());
-		building.setName(examDTO.getClassroom().getBuilding().getName());
-		building.setAddress(examDTO.getClassroom().getBuilding().getAddress());
-		building.setLat(examDTO.getClassroom().getBuilding().getLat());
-		building.setLng(examDTO.getClassroom().getBuilding().getLng());
+	public void save(List<ExamDTO> examDTOs) {
 		
-		Classroom classroom = new Classroom();
-		classroom.setIdclassroom(examDTO.getClassroom().getId());
-		classroom.setName(examDTO.getClassroom().getName());
-		classroom.setSeats(examDTO.getClassroom().getSeats());
-		classroom.setBuilding(building);
-		
-		TypeDegreeCourse typeDegreeCourse = new TypeDegreeCourse();
-		typeDegreeCourse.setIdtypeDegreeCourse(examDTO.getSubject().getDegreecourseDTO().getTypeDegreeCourse().getIdtypeDegreeCourse());
-		typeDegreeCourse.setName(examDTO.getSubject().getDegreecourseDTO().getTypeDegreeCourse().getName());
-		
-		CourseType courseType = new CourseType();
-		courseType.setIdcourseType(examDTO.getSubject().getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getIdcourseType());
-		courseType.setCfu(examDTO.getSubject().getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getCfu());
-		courseType.setDuration(examDTO.getSubject().getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getDuration());
-		courseType.setDescription(examDTO.getSubject().getDegreecourseDTO().getTypeDegreeCourse().getCourseType().getDescription());
-		typeDegreeCourse.setCourseType(courseType);
-		
-		DegreeCourse degreeCourse = new DegreeCourse();
-		degreeCourse.setIddegreeCourse(examDTO.getSubject().getDegreecourseDTO().getIdcourse());
-		degreeCourse.setTypeDegreeCourse(typeDegreeCourse);
-		AcademicYear academicYear = new AcademicYear();
-		academicYear.setIdacademicYear(examDTO.getSubject().getDegreecourseDTO().getAcademicYear().getIdacademicYear());
-		academicYear.setYear(examDTO.getSubject().getDegreecourseDTO().getAcademicYear().getYear());
-		degreeCourse.setAcademicYear(academicYear);
-		
-		Subject subject = new Subject();
-		subject.setIdsubject(examDTO.getSubject().getId());
-	
-		ExamType examType = new ExamType();
-		examType.setIdexamType(examDTO.getIdExamType());
-		
-		Exam exam = new Exam();
-		try {
-			exam.setIdexam(examDTO.getIdexam());
-		} catch (Exception e) {
-			// TODO: handle exception
+		for(int i=0; i<examDTOs.size(); i++) {
+			Exam exam = new Exam();
+			try {
+				exam.setIdexam(examDTOs.get(i).getIdexam());
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			exam.setDate(examDTOs.get(i).getDate());
+			
+			ExamType examType = new ExamType();
+			examType.setIdexamType(examDTOs.get(i).getExamtype().getIdexamType());
+			
+			exam.setExamType(examType);
+			
+			Classroom classroom = new Classroom();
+			classroom.setIdclassroom(examDTOs.get(i).getClassroom().getId());
+			
+			exam.setClassroom(classroom);
+			
+			Subject subject = new Subject();
+			subject.setIdsubject(examDTOs.get(i).getSubject().getId());
+			
+			exam.setSubject(subject);
+			
+			examRepository.save(exam);
 		}
-		exam.setClassroom(classroom);
-		exam.setDate(examDTO.getDate());
-		exam.setStart(examDTO.getStart());
-		exam.setEnd(examDTO.getEnd());
-		exam.setSubject(subject);
-		exam.setExamType(examType);
-		
-		Exam newExam = examRepository.save(exam);
-		
-		BuildingDTO buildingDTO = new BuildingDTO();
-		buildingDTO.setId(newExam.getClassroom().getBuilding().getIdbuilding());
-		buildingDTO.setName(newExam.getClassroom().getBuilding().getName());
-		buildingDTO.setAddress(newExam.getClassroom().getBuilding().getAddress());
-		
-		TeacherDTO teacherDTO = new TeacherDTO();
-		teacherDTO.setIdteacher(newExam.getSubject().getTeacher().getIduser());
-		teacherDTO.setSurname(newExam.getSubject().getTeacher().getUser().getName());
-		teacherDTO.setName(newExam.getSubject().getTeacher().getUser().getSurname());
-		
-		DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
-		degreeCourseDTO.setIdcourse(newExam.getSubject().getDegreeCourse().getIddegreeCourse());
-		
-		TypeDegreeCourseDTO typeDegreeCourseDTO = new TypeDegreeCourseDTO();
-		typeDegreeCourseDTO.setIdtypeDegreeCourse(newExam.getSubject().getDegreeCourse().getTypeDegreeCourse().getIdtypeDegreeCourse());
-		typeDegreeCourseDTO.setName(newExam.getSubject().getDegreeCourse().getTypeDegreeCourse().getName());
-		
-		CourseTypeDTO courseTypeDTO = new CourseTypeDTO();
-		courseTypeDTO.setIdcourseType(newExam.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getIdcourseType());
-		courseTypeDTO.setDescription(newExam.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getDescription());
-		courseTypeDTO.setCfu(newExam.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
-		courseTypeDTO.setDuration(newExam.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
-		typeDegreeCourseDTO.setCourseType(courseTypeDTO);
-		
-		degreeCourseDTO.setCfu(newExam.getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
-		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
-		academicYearDTO.setIdacademicYear(newExam.getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
-		academicYearDTO.setYear(newExam.getSubject().getDegreeCourse().getAcademicYear().getYear());
-		degreeCourseDTO.setAcademicYear(academicYearDTO);
-		
-		ClassroomDTO classroomDTO = new ClassroomDTO();
-		classroomDTO.setId(newExam.getClassroom().getIdclassroom());
-		classroomDTO.setName(newExam.getClassroom().getName());
-		classroomDTO.setSeats(newExam.getClassroom().getSeats());
-		classroomDTO.setBuilding(buildingDTO);
-		
-		SubjectDTO subjectDTO = new SubjectDTO();
-		subjectDTO.setId(newExam.getSubject().getIdsubject());
-		subjectDTO.setName(newExam.getSubject().getTypeSubject().getName());
-		subjectDTO.setTeacherDTO(teacherDTO);
-		subjectDTO.setDegreecourseDTO(degreeCourseDTO);
-		
-		ExamDTO newExamDTO = new ExamDTO();
-		newExamDTO.setIdexam(newExam.getIdexam());
-		newExamDTO.setClassroom(classroomDTO);
-		newExamDTO.setSubject(subjectDTO);
-		newExamDTO.setDate(newExam.getDate());
-		newExamDTO.setIdExamType(newExam.getExamType().getIdexamType());
-		newExamDTO.setStart(newExam.getStart());
-		newExamDTO.setEnd(newExam.getEnd());
-		
-		return newExamDTO;
-		
 	}
 
 	@Transactional
-	public List<ExamDTO> getAllByCourse(int idcourse) throws ExamNotFoundException {
+	public List<ExamDTO> getAllByCourseAndTerm(int idcourse, int idterm) throws ExamNotFoundException {
 		try {
-			List<Exam> exams = examRepository.findAllByCourse(idcourse);
+			List<Exam> exams = examRepository.findAllByCourseAndTerm(idcourse, idterm);
+			System.out.println(exams.size());
 			List<ExamDTO> examDTOs = new ArrayList<ExamDTO>();
 			for(int i=0; i<exams.size(); i++) {
 				
@@ -342,8 +269,7 @@ public class ExamService implements IExamService{
 				
 				SubjectDTO subjectDTO = new SubjectDTO();
 				subjectDTO.setId(exams.get(i).getSubject().getIdsubject());
-				subjectDTO.setName(exams.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getName());
-				subjectDTO.setDescription(examDTOs.get(i).getSubject().getDescription());
+				subjectDTO.setName(exams.get(i).getSubject().getTypeSubject().getName());
 				subjectDTO.setTeacherDTO(teacherDTO);
 				subjectDTO.setDegreecourseDTO(degreeCourseDTO);
 				
@@ -353,9 +279,12 @@ public class ExamService implements IExamService{
 				examDTO.setClassroom(classroomDTO);
 				examDTO.setSubject(subjectDTO);
 				examDTO.setDate(exams.get(i).getDate());
-				examDTO.setIdExamType(exams.get(i).getExamType().getIdexamType());
-				examDTO.setStart(exams.get(i).getStart());
-				examDTO.setEnd(exams.get(i).getEnd());
+				
+				ExamTypeDTO examTypeDTO = new ExamTypeDTO();
+				examTypeDTO.setIdexamType(exams.get(i).getExamType().getIdexamType());
+				examTypeDTO.setDescription(exams.get(i).getExamType().getDescription());
+				
+				examDTO.setExamtype(examTypeDTO);
 				
 				examDTOs.add(examDTO);
 			
@@ -368,10 +297,25 @@ public class ExamService implements IExamService{
 		}
 		
 	}
+	
+	@Transactional
+	public List<ExamTypeDTO> getAllTypes() {
+		List<ExamType> examTypes = examTypeRepository.findAll();
+		List<ExamTypeDTO> examTypeDTOs = new ArrayList<ExamTypeDTO>();
+		
+		for(int i=0; i<examTypes.size(); i++) {
+			ExamTypeDTO examTypeDTO = new ExamTypeDTO();
+			examTypeDTO.setIdexamType(examTypes.get(i).getIdexamType());
+			examTypeDTO.setDescription(examTypes.get(i).getDescription());
+			examTypeDTOs.add(examTypeDTO);
+		}
+		
+		return examTypeDTOs;
+	}
 
 
 	
-	@Transactional
+	/*@Transactional
 	public ExamDTO subscribe(int idexam, StudentDTO studentDTO) {
 		// TODO Auto-generated method stub
 		StudentHasExamId studentHasExamId = new StudentHasExamId();
@@ -455,7 +399,7 @@ public class ExamService implements IExamService{
 		newExamDTO.setSubject(subjectDTO);
 		
 		return newExamDTO;
-	}
+	}*/
 
 	
 }

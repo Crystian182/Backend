@@ -327,9 +327,8 @@ public class ClassroomService implements IClassroomService{
 	@Transactional(rollbackFor=ClassroomNotFoundException.class)
 	public List<ClassroomDTO> getAvailableByIdBuilding(int idBuilding, TypeLessonDTO typeLessonDTO) throws ClassroomNotFoundException {
 		
-		System.out.println("*********************************\n\n\n\n" + typeLessonDTO.getStart() + "\n\n\n\n\n");
-		//try {
-			List<Classroom> classrooms = classroomRepository.findAvailableClassesByBuild(idBuilding, typeLessonDTO.getScheduler().getTerm().getAcademicYear().getIdacademicYear(), typeLessonDTO.getScheduler().getTerm().getIdterm(), typeLessonDTO.getStart(), typeLessonDTO.getEnd(), typeLessonDTO.getDay().getIdDay());
+		try {
+			List<Classroom> classrooms = classroomRepository.findAvailableClassesByBuild(idBuilding, typeLessonDTO.getScheduler().getTerm().getIdterm(), typeLessonDTO.getStart(), typeLessonDTO.getEnd(), typeLessonDTO.getDay().getIdDay());
 			List<ClassroomDTO> classroomDTOs = new ArrayList<ClassroomDTO>();
 			for(int i=0; i<classrooms.size(); i++) {
 				BuildingDTO buildingDTO = new BuildingDTO();
@@ -349,9 +348,9 @@ public class ClassroomService implements IClassroomService{
 				classroomDTOs.add(classroomDTO);
 			}
 			return classroomDTOs;
-		/*} catch (Exception e) {
+		} catch (Exception e) {
 			throw new ClassroomNotFoundException();
-		}*/
+		}
 	}
 
 }

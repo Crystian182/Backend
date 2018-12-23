@@ -12,6 +12,7 @@ public interface ILessonService {
 	public LessonDTO getById(int id) throws LessonNotFoundException;
 	public LessonDTO save(LessonDTO lessonDTO);
 	public void delete(int id) throws LessonNotFoundException;
-	public List<TypeLessonDTO> getCurrentSchedulerByCourse(DegreeCourseDTO degreeCourseDTO);
+	public List<TypeLessonDTO> getCurrentSchedulerByCourse(DegreeCourseDTO degreeCourseDTO, int idterm);
+	public List<LessonDTO> getAllTeacherLessons(int idteacher);
 
 }

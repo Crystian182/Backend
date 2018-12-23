@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.unisalento.se.saw.Iservices.IExamService;
 import it.unisalento.se.saw.dto.ExamDTO;
+import it.unisalento.se.saw.dto.ExamTypeDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.dto.StudentDTO;
@@ -34,18 +35,29 @@ public class ExamRestController {
 		this.examService = examService;
 	}
 	
-	@GetMapping(value="/getAll", produces=MediaType.APPLICATION_JSON_VALUE)
+	/*@GetMapping(value="/getAll", produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<ExamDTO> getAll(){
 		return examService.getAll();
 
+	}*/
+	
+	@GetMapping(value="/getAllByCourseAndTerm/idcourse={idcourse}&idterm={idterm}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ExamDTO> getAllByCourse(@PathVariable("idcourse")int idcourse, @PathVariable("idterm")int idterm) throws ExamNotFoundException {
+		return examService.getAllByCourseAndTerm(idcourse, idterm);
 	}
 	
-	@GetMapping(value="/getAllByCourse/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<ExamDTO> getAllByCourse(@PathVariable("id")int id) throws ExamNotFoundException {
-		return examService.getAllByCourse(id);
+	@GetMapping(value="/getAllTypes", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ExamTypeDTO> getAllExamTypes() throws ExamNotFoundException {
+		return examService.getAllTypes();
 	}
 	
-	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/save", produces=MediaType.APPLICATION_JSON_VALUE)
+	public void save(@RequestBody List<ExamDTO> examDTOs){
+		examService.save(examDTOs);
+
+	}
+	
+	/*@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ExamDTO getById(@PathVariable("id")int id) throws ExamNotFoundException{
 		return examService.getById(id);
 	}
@@ -67,6 +79,6 @@ public class ExamRestController {
 	@PostMapping(value="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public void delete(@PathVariable("id")int id) throws ExamNotFoundException{
 		examService.delete(id);
-	}
+	}*/
 	
 }

@@ -6,13 +6,12 @@ import java.util.List;
 public class TypeLessonDTO {
 	
 	 private Integer idtypeLesson;
-     private ClassroomDTO classroom;
-     private DayDTO day;
-     private SchedulerDTO scheduler;
-     private TypeSubjectDTO typeSubject;
-     private Date start;
+	 private Date start;
      private Date end;
-     private List<LessonDTO> lessons;
+     private DayDTO day;
+     private SubjectDTO subject;
+     private ClassroomDTO classroom;
+     private SchedulerDTO scheduler;
      
 	public Integer getIdtypeLesson() {
 		return idtypeLesson;
@@ -38,11 +37,11 @@ public class TypeLessonDTO {
 	public void setScheduler(SchedulerDTO scheduler) {
 		this.scheduler = scheduler;
 	}
-	public TypeSubjectDTO getTypeSubject() {
-		return typeSubject;
+	public SubjectDTO getSubject() {
+		return subject;
 	}
-	public void setTypeSubject(TypeSubjectDTO typeSubject) {
-		this.typeSubject = typeSubject;
+	public void setSubject(SubjectDTO subject) {
+		this.subject = subject;
 	}
 	public Date getStart() {
 		return start;
@@ -55,12 +54,6 @@ public class TypeLessonDTO {
 	}
 	public void setEnd(Date end) {
 		this.end = end;
-	}
-	public List<LessonDTO> getLessons() {
-		return lessons;
-	}
-	public void setLessons(List<LessonDTO> lessons) {
-		this.lessons = lessons;
 	}
      
      

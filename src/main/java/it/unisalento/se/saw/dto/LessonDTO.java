@@ -7,11 +7,9 @@ public class LessonDTO {
 
 	private Integer idlesson;
     private ClassroomDTO classroom;
-    private SubjectDTO subject;
-    private int day;
     private Date start;
     private Date end;
-    
+    private TypeLessonDTO typeLesson;
     
 	public Integer getIdlesson() {
 		return idlesson;
@@ -25,18 +23,6 @@ public class LessonDTO {
 	public void setClassroom(ClassroomDTO classroom) {
 		this.classroom = classroom;
 	}
-	public SubjectDTO getSubject() {
-		return subject;
-	}
-	public void setSubject(SubjectDTO subject) {
-		this.subject = subject;
-	}
-	public int getDay() {
-		return day;
-	}
-	public void setDay(int day) {
-		this.day = day;
-	}
 	public Date getStart() {
 		return start;
 	}
@@ -48,6 +34,12 @@ public class LessonDTO {
 	}
 	public void setEnd(Date end) {
 		this.end = end;
+	}
+	public TypeLessonDTO getTypeLesson() {
+		return typeLesson;
+	}
+	public void setTypeLesson(TypeLessonDTO typeLesson) {
+		this.typeLesson = typeLesson;
 	}
 	
 	
