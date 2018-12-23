@@ -66,7 +66,7 @@ public class LessonService implements ILessonService{
 				classroomDTO.setLat(lessons.get(i).getClassroom().getLat());
 				classroomDTO.setLng(lessons.get(i).getClassroom().getLng());
 				classroomDTO.setBuilding(buildingDTO);
-				
+		/*	
 				
 				TeacherDTO teacherDTO = new TeacherDTO();
 				teacherDTO.setIdteacher(lessons.get(i).getTypeLesson().getSubject().getTeacher().getIduser());
@@ -112,7 +112,7 @@ public class LessonService implements ILessonService{
 				lessonDTO.setClassroom(classroomDTO);
 				lessonDTO.setTypeLesson(typeLessonDTO);
 		
-				lessonDTOs.add(lessonDTO);
+				lessonDTOs.add(lessonDTO);*/
 			}
 			
 		return lessonDTOs;
@@ -139,7 +139,7 @@ public class LessonService implements ILessonService{
 				classroomDTO.setLat(lessons.get(i).getClassroom().getLat());
 				classroomDTO.setLng(lessons.get(i).getClassroom().getLng());
 				classroomDTO.setBuilding(buildingDTO);
-				
+				/*
 				
 				TeacherDTO teacherDTO = new TeacherDTO();
 				teacherDTO.setIdteacher(lessons.get(i).getTypeLesson().getSubject().getTeacher().getIduser());
@@ -185,7 +185,7 @@ public class LessonService implements ILessonService{
 				lessonDTO.setClassroom(classroomDTO);
 				lessonDTO.setTypeLesson(typeLessonDTO);
 		
-				lessonDTOs.add(lessonDTO);
+				lessonDTOs.add(lessonDTO);*/
 			}
 			
 		return lessonDTOs;
@@ -212,7 +212,7 @@ public class LessonService implements ILessonService{
 			classroomDTO.setLat(lesson.getClassroom().getLat());
 			classroomDTO.setLng(lesson.getClassroom().getLng());
 			classroomDTO.setBuilding(buildingDTO);
-			
+			/*
 			TypeDegreeCourseDTO typeDegreeCourseDTO = new TypeDegreeCourseDTO();
 			typeDegreeCourseDTO.setIdtypeDegreeCourse(lesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getIdtypeDegreeCourse());
 			typeDegreeCourseDTO.setName(lesson.getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getName());
@@ -249,14 +249,15 @@ public class LessonService implements ILessonService{
 			TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
 			typeLessonDTO.setSubject(subjectDTO);
 		
-			LessonDTO lessonDTO = new LessonDTO();
+			
 			
 			lessonDTO.setIdlesson(lesson.getIdlesson());
 			lessonDTO.setStart(lesson.getStart());
 			lessonDTO.setEnd(lesson.getEnd());
 			lessonDTO.setClassroom(classroomDTO);
 			lessonDTO.setTypeLesson(typeLessonDTO);
-			
+			*/
+			LessonDTO lessonDTO = new LessonDTO();
 			return lessonDTO;
 
 		} catch (Exception e) {
@@ -312,7 +313,7 @@ public class LessonService implements ILessonService{
 		subject.setTypeSubject(typeSubject);
 		
 		/*TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
-		typeLessonDTO.seteSubject(subjectDTO);*/
+		typeLessonDTO.seteSubject(subjectDTO);
 	
 		Lesson lesson = new Lesson();
 		try {
