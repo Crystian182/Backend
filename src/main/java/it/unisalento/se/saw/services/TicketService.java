@@ -175,8 +175,7 @@ public class TicketService implements ITicketService {
 	public TicketDTO save(TicketDTO ticketDTO) {
 		Teacher teacher = new Teacher();
 		teacher.setIduser(ticketDTO.getTeacher().getIdteacher());
-		Employee employee = new Employee();
-		employee.setIduser(ticketDTO.getEmployee().getIdemployee());
+		
 		
 		Classroom classroom = new Classroom();
 		classroom.setIdclassroom(ticketDTO.getClassroom().getId());
@@ -196,7 +195,15 @@ public class TicketService implements ITicketService {
 		ticket.setTeacher(teacher);
 		ticket.setClassroom(classroom);
 		ticket.setTicketStatus(ticketStatus);
-		ticket.setEmployee(employee);
+		
+		try {
+			Employee employee = new Employee();
+			employee.setIduser(ticketDTO.getEmployee().getIdemployee());
+			ticket.setEmployee(employee);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	
 		
 		Ticket newTicket = ticketRepository.save(ticket);
 		 
@@ -205,10 +212,6 @@ public class TicketService implements ITicketService {
 		teacherDTO.setName(newTicket.getTeacher().getUser().getName());
 		teacherDTO.setSurname(newTicket.getTeacher().getUser().getSurname());
 		
-		EmployeeDTO employeeDTO = new EmployeeDTO();
-		employeeDTO.setIdemployee(newTicket.getEmployee().getIduser());
-		employeeDTO.setName(newTicket.getEmployee().getUser().getName());
-		employeeDTO.setSurname(newTicket.getEmployee().getUser().getSurname());
 		
 		BuildingDTO buildingDTO = new BuildingDTO();
 		buildingDTO.setId(newTicket.getClassroom().getBuilding().getIdbuilding());
@@ -226,10 +229,22 @@ public class TicketService implements ITicketService {
 		newTicketDTO.setId(newTicket.getIdticket());
 		newTicketDTO.setTitle(newTicket.getTitle());
 		newTicketDTO.setTicketStatus(ticketStatusDTO);
-		newTicketDTO.setEmployee(employeeDTO);
+		
 		newTicketDTO.setTeacher(teacherDTO);
 		newTicketDTO.setClassroom(classroomDTO);
 		newTicketDTO.setDate(newTicket.getDate());
+		
+		try {
+			EmployeeDTO employeeDTO = new EmployeeDTO();
+			employeeDTO.setIdemployee(newTicket.getEmployee().getIduser());
+			employeeDTO.setName(newTicket.getEmployee().getUser().getName());
+			employeeDTO.setSurname(newTicket.getEmployee().getUser().getSurname());
+			
+			newTicketDTO.setEmployee(employeeDTO);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		return newTicketDTO;
 		
 	}
