@@ -26,6 +26,7 @@ import it.unisalento.se.saw.domain.Lesson;
 import it.unisalento.se.saw.dto.FileDTO;
 import it.unisalento.se.saw.exceptions.FileNotExistsException;
 import it.unisalento.se.saw.repositories.BuildingRepository;
+import it.unisalento.se.saw.repositories.FeedbackFileRepository;
 import it.unisalento.se.saw.repositories.FeedbackRepository;
 import it.unisalento.se.saw.repositories.FileLessonRepository;
 import it.unisalento.se.saw.repositories.FileRepository;
@@ -37,7 +38,7 @@ public class FileService implements IFileService {
 	FileRepository fileRepository;
 	
 	@Autowired
-	FeedbackRepository feedbackFileRepository;
+	FeedbackFileRepository feedbackFileRepository;
 	
 	@Autowired
 	FileLessonRepository fileLessonRepository;
@@ -142,13 +143,8 @@ public class FileService implements IFileService {
 			FileDTO fileDTO = new FileDTO();
 			fileDTO.setIdFile(files.get(i).getIdfile());
 			fileDTO.setName(files.get(i).getName());
-			try {
-				fileDTO.setStars((feedbackFileRepository.getStars(files.get(i).getIdfile())).intValue());
-			} catch (Exception e) {
-				fileDTO.setStars(0);
-			}
-			
-			//fileDTO.setLink
+			fileDTO.setStars(feedbackFileRepository.getStars(files.get(i).getIdfile()));
+
 			fileDTOs.add(fileDTO);
 		}
 		

@@ -4,8 +4,7 @@ public class FileDTO {
 	
 	private int idFile;
 	private String name;
-	private int stars;
-	private String link;
+	private Double stars;
 	
 	public int getIdFile() {
 		return idFile;
@@ -19,17 +18,11 @@ public class FileDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getStars() {
+	public Double getStars() {
 		return stars;
 	}
-	public void setStars(int stars) {
+	public void setStars(Double stars) {
 		this.stars = stars;
-	}
-	public String getLink() {
-		return link;
-	}
-	public void setLink(String link) {
-		this.link = link;
 	}
 	
 	
