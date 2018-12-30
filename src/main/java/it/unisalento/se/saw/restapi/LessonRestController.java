@@ -18,8 +18,10 @@ import it.unisalento.se.saw.domain.Classroom;
 import it.unisalento.se.saw.domain.Lesson;
 import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
+import it.unisalento.se.saw.dto.FeedbackDTO;
 import it.unisalento.se.saw.dto.LessonDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
+import it.unisalento.se.saw.exceptions.ClassroomNotFoundException;
 import it.unisalento.se.saw.exceptions.LessonNotFoundException;
 
 @RestController
@@ -62,6 +64,22 @@ public class LessonRestController {
 	public void delete(@PathVariable("id")int id) throws LessonNotFoundException{
 		lessonService.delete(id);
 	}	
+	
+	@GetMapping(value="/getFeedback/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<FeedbackDTO> getFeedback(@PathVariable("id")int id) {
+		return lessonService.getFeedback(id);
+	}
+	
+	@GetMapping(value="/getAllLessonsByCourseAndTerm/idcourse={idcourse}&idterm={idterm}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<LessonDTO> getAllLessonsByCourseAndTerm(@PathVariable("idcourse")int idcourse, @PathVariable("idterm")int idterm){
+		return lessonService.getAllLessonsByCourseAndTerm(idcourse, idterm);
+	}
+	
+	@PostMapping(value="/edit", produces=MediaType.APPLICATION_JSON_VALUE)
+	public void editLessons(@RequestBody ArrayList<LessonDTO> lessonDTOs){
+		lessonService.edit(lessonDTOs);
+		
+	}
 	
 	
 }

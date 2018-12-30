@@ -10,11 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import it.unisalento.se.saw.Iservices.ISchedulerService;
 import it.unisalento.se.saw.domain.Classroom;
@@ -329,7 +326,9 @@ public class SchedulerService implements ISchedulerService {
 
 		while (startDate.isBefore(endDate.plusDays(1))){
 		    if ( startDate.getDayOfWeek() == day ){
-		        days.add(startDate.toDate());
+		    	if(this.isBusinessDay(startDate.toDate())) {
+		    		days.add(startDate.toDate());
+		    	}
 		        if(!reachedTheDay) {
 		        	reachedTheDay = true;
 		        }
@@ -355,6 +354,44 @@ public class SchedulerService implements ISchedulerService {
 	    LocalTime timePart = LocalTime.parse(startingTime);
 	    LocalDateTime dt = LocalDateTime.of(datePart, timePart);
 	    return Date.from(dt.atZone(ZoneId.systemDefault()).toInstant());
+	}
+	
+	public boolean isBusinessDay(Date date){
+		
+		
+		// check Labor Day (1st May)
+		if (date.getMonth() == 5 && date.getDay() == 1) {
+			return false;
+		}
+		
+		// check liberation day
+		if (date.getMonth() == 4 && date.getDay() == 25) {
+			return false;
+		}
+		
+		
+		// check if all saints
+		if (date.getMonth() == 11 && date.getDay() == 1) {
+			return false;
+		}
+		
+		// check if immaculate
+		if (date.getMonth() == 12 && date.getDay() == 8) {
+			return false;
+		}
+		
+		//check if sessione invernale
+		if ((date.getMonth() == 12 && date.getDay() >= 24) || (date.getMonth() == 1) || (date.getMonth() == 2)) {
+			return false;
+		}
+		
+		//check if sessione estiva
+		if ((date.getMonth() == 6) || (date.getMonth() == 7) || (date.getMonth() == 8)) {
+			return false;
+		}
+		
+		// IF NOTHING ELSE, IT'S A BUSINESS DAY
+		return true;
 	}
 
 }

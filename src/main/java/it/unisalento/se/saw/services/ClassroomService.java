@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import it.unisalento.se.saw.Iservices.IClassroomService;
 import it.unisalento.se.saw.domain.Building;
@@ -18,6 +19,7 @@ import it.unisalento.se.saw.domain.Tool;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
+import it.unisalento.se.saw.dto.FeedbackDTO;
 import it.unisalento.se.saw.dto.ToolDTO;
 import it.unisalento.se.saw.dto.TypeLessonDTO;
 import it.unisalento.se.saw.exceptions.AulaNotFoundException;

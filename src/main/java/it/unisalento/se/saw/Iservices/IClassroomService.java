@@ -2,7 +2,10 @@ package it.unisalento.se.saw.Iservices;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PathVariable;
+
 import it.unisalento.se.saw.dto.ClassroomDTO;
+import it.unisalento.se.saw.dto.FeedbackDTO;
 import it.unisalento.se.saw.dto.TypeLessonDTO;
 import it.unisalento.se.saw.exceptions.ClassroomNotFoundException;
 

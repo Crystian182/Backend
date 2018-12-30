@@ -1,6 +1,7 @@
 package it.unisalento.se.saw.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class ExamDTO {
 
@@ -9,6 +10,8 @@ public class ExamDTO {
 	  private SubjectDTO subject;
 	  private ExamTypeDTO examtype;
 	  private Date date;
+	  private ExamStatusDTO status;
+	  private List<ExamEnrollmentDTO> enrollments;
 	  
 		public Integer getIdexam() {
 			return idexam;
@@ -40,6 +43,19 @@ public class ExamDTO {
 		public void setExamtype(ExamTypeDTO examtype) {
 			this.examtype = examtype;
 		}
+		public ExamStatusDTO getStatus() {
+			return status;
+		}
+		public void setStatus(ExamStatusDTO status) {
+			this.status = status;
+		}
+		public List<ExamEnrollmentDTO> getEnrollments() {
+			return enrollments;
+		}
+		public void setEnrollments(List<ExamEnrollmentDTO> enrollments) {
+			this.enrollments = enrollments;
+		}
+		
 	
 		
 }

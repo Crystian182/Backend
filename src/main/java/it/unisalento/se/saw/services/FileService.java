@@ -20,9 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.unisalento.se.saw.Iservices.IFileService;
 import it.unisalento.se.saw.domain.Building;
+import it.unisalento.se.saw.domain.FeedbackFile;
 import it.unisalento.se.saw.domain.FileLesson;
 import it.unisalento.se.saw.domain.FileLessonId;
 import it.unisalento.se.saw.domain.Lesson;
+import it.unisalento.se.saw.dto.FeedbackDTO;
 import it.unisalento.se.saw.dto.FileDTO;
 import it.unisalento.se.saw.exceptions.FileNotExistsException;
 import it.unisalento.se.saw.repositories.BuildingRepository;
@@ -158,6 +160,23 @@ public class FileService implements IFileService {
 	
 	public it.unisalento.se.saw.domain.File getFile(int idfile) {
 		return fileRepository.getOne(idfile);
+	}
+	
+	public List<FeedbackDTO> getFeedbackFile(int idfile) {
+		
+		List<FeedbackFile> feedbacks = feedbackFileRepository.getFeedbackFile(idfile);
+		List<FeedbackDTO> feedbackDTOs = new ArrayList<FeedbackDTO>();
+		for(int i=0; i<feedbacks.size(); i++) {
+			FeedbackDTO feedbackDTO = new FeedbackDTO();
+			feedbackDTO.setId(feedbacks.get(i).getId().getIdfeedback());
+			feedbackDTO.setDescription(feedbacks.get(i).getDescription());
+			feedbackDTO.setDate(feedbacks.get(i).getFeedback().getDate());
+			feedbackDTO.setStars(feedbacks.get(i).getFeedback().getStars());
+			feedbackDTOs.add(feedbackDTO);
+		}
+		
+		return feedbackDTOs;
+		
 	}
 
 }

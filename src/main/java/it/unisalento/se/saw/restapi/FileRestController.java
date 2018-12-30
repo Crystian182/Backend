@@ -23,6 +23,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
 import it.unisalento.se.saw.Iservices.IFileService;
+import it.unisalento.se.saw.dto.FeedbackDTO;
 import it.unisalento.se.saw.dto.FileDTO;
 import it.unisalento.se.saw.exceptions.FileNotExistsException;
 
@@ -104,6 +105,11 @@ public class FileRestController {
 	   Resource file = fileService.getFileAsResource(String.valueOf(fil.getIdfile()), location);
        response.setHeader("Content-Disposition", "attachment; filename=\"" + fil.getName() + "\"");
        return new ResponseEntity<Resource>(file, HttpStatus.OK);
+   }
+   
+   @GetMapping("/getFeedbackFile/{idfile}")
+   public List<FeedbackDTO> getFeedbackFile(@PathVariable("idfile")int idfile) {
+       return fileService.getFeedbackFile(idfile);
    }
 
 	

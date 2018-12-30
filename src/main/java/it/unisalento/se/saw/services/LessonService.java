@@ -13,6 +13,8 @@ import it.unisalento.se.saw.domain.Building;
 import it.unisalento.se.saw.domain.Classroom;
 import it.unisalento.se.saw.domain.CourseType;
 import it.unisalento.se.saw.domain.DegreeCourse;
+import it.unisalento.se.saw.domain.FeedbackFile;
+import it.unisalento.se.saw.domain.FeedbackLesson;
 import it.unisalento.se.saw.domain.Lesson;
 import it.unisalento.se.saw.domain.Subject;
 import it.unisalento.se.saw.domain.TypeDegreeCourse;
@@ -24,6 +26,7 @@ import it.unisalento.se.saw.dto.ClassroomDTO;
 import it.unisalento.se.saw.dto.CourseTypeDTO;
 import it.unisalento.se.saw.dto.DayDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
+import it.unisalento.se.saw.dto.FeedbackDTO;
 import it.unisalento.se.saw.dto.LessonDTO;
 import it.unisalento.se.saw.dto.SchedulerDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
@@ -33,6 +36,7 @@ import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TypeLessonDTO;
 import it.unisalento.se.saw.dto.TypeSubjectDTO;
 import it.unisalento.se.saw.exceptions.LessonNotFoundException;
+import it.unisalento.se.saw.repositories.FeedbackLessonRepository;
 import it.unisalento.se.saw.repositories.LessonRepository;
 import it.unisalento.se.saw.repositories.TypeLessonRepository;
 
@@ -45,6 +49,9 @@ public class LessonService implements ILessonService{
 	
 	@Autowired
 	TypeLessonRepository typeLessonRepository;
+	
+	@Autowired
+	FeedbackLessonRepository feedbackLessonRepository;
 
 	@Transactional(readOnly = true)
 	public List<LessonDTO> getAll() {
@@ -459,5 +466,84 @@ public class LessonService implements ILessonService{
 		}
 		return typeLessonDTOs;
 	}
+	
+	public List<FeedbackDTO> getFeedback(int idlesson) {
+		List<FeedbackLesson> feedbacks = feedbackLessonRepository.getFeedbackLesson(idlesson);
+		List<FeedbackDTO> feedbackDTOs = new ArrayList<FeedbackDTO>();
+		for(int i=0; i<feedbacks.size(); i++) {
+			FeedbackDTO feedbackDTO = new FeedbackDTO();
+			feedbackDTO.setId(feedbacks.get(i).getId().getIdfeedback());
+			feedbackDTO.setDescription(feedbacks.get(i).getDescription());
+			feedbackDTO.setDate(feedbacks.get(i).getFeedback().getDate());
+			feedbackDTO.setStars(feedbacks.get(i).getFeedback().getStars());
+			feedbackDTOs.add(feedbackDTO);
+		}
+		
+		return feedbackDTOs;
+	}
+	
+	public List<LessonDTO> getAllLessonsByCourseAndTerm(int idcourse, int idterm) {
+		
+		List<Lesson> lessons = lessonRepository.getAllLessonsByCourseAndTerm(idcourse, idterm);
+		
+		List<LessonDTO> lessonDTOs = new ArrayList<LessonDTO>();
+		
+		for (int i=0; i<lessons.size(); i++) {
+			LessonDTO lessonDTO = new LessonDTO();
+			lessonDTO.setIdlesson(lessons.get(i).getIdlesson());
+			lessonDTO.setStart(lessons.get(i).getStart());
+			lessonDTO.setEnd(lessons.get(i).getEnd());
+			
+			BuildingDTO buildingDTO = new BuildingDTO();
+			buildingDTO.setId(lessons.get(i).getClassroom().getBuilding().getIdbuilding());
+			buildingDTO.setName(lessons.get(i).getClassroom().getBuilding().getName());
+			
+			ClassroomDTO classroomDTO = new ClassroomDTO();
+			classroomDTO.setId(lessons.get(i).getClassroom().getIdclassroom());
+			classroomDTO.setName(lessons.get(i).getClassroom().getName());
+			classroomDTO.setBuilding(buildingDTO);
+			
+			lessonDTO.setClassroom(classroomDTO);
+			
+			SubjectDTO subjectDTO = new SubjectDTO();
+			subjectDTO.setId(lessons.get(i).getTypeLesson().getSubject().getIdsubject());
+			subjectDTO.setName(lessons.get(i).getTypeLesson().getSubject().getTypeSubject().getName());
+			
+			TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
+			typeLessonDTO.setIdtypeLesson(lessons.get(i).getTypeLesson().getIdtypeLesson());
+			typeLessonDTO.setSubject(subjectDTO);
+			
+			lessonDTO.setTypeLesson(typeLessonDTO);
+			
+			lessonDTOs.add(lessonDTO);
+		}
+		
+		return lessonDTOs;
+		
+	}
+	
+	@Transactional
+	public void edit(ArrayList<LessonDTO> lessonDTOs) {
+		
+		for(int i=0; i<lessonDTOs.size(); i++) {
+			
+			Classroom classroom = new Classroom();
+			classroom.setIdclassroom(lessonDTOs.get(i).getClassroom().getId());
+			classroom.setName(lessonDTOs.get(i).getClassroom().getName());
+			
+			TypeLesson typeLesson = new TypeLesson();
+			typeLesson.setIdtypeLesson(lessonDTOs.get(i).getTypeLesson().getIdtypeLesson());
+		
+			Lesson lesson = new Lesson();
+			lesson.setIdlesson(lessonDTOs.get(i).getIdlesson());
+			lesson.setClassroom(classroom);
+			lesson.setTypeLesson(typeLesson);
+			lesson.setStart(lessonDTOs.get(i).getStart());
+			lesson.setEnd(lessonDTOs.get(i).getEnd());
+		
+			lessonRepository.save(lesson);
+			
+			}
+		}
 	
 }

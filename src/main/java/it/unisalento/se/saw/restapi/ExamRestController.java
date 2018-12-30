@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.unisalento.se.saw.Iservices.IExamService;
 import it.unisalento.se.saw.dto.ExamDTO;
+import it.unisalento.se.saw.dto.ExamEnrollmentDTO;
 import it.unisalento.se.saw.dto.ExamTypeDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.UserDTO;
@@ -54,7 +55,16 @@ public class ExamRestController {
 	@PostMapping(value="/save", produces=MediaType.APPLICATION_JSON_VALUE)
 	public void save(@RequestBody List<ExamDTO> examDTOs){
 		examService.save(examDTOs);
-
+	}
+	
+	@GetMapping(value="/getAllAvailableByTeacher/{idteacher}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ExamDTO> getAllAvailableByTeacher(@PathVariable("idteacher")int idteacher) throws ExamNotFoundException {
+		return examService.getAllAvailableByTeacher(idteacher);
+	}
+	
+	@PostMapping(value="/insertGrade/{idexam}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public void insertGrade(@RequestBody List<ExamEnrollmentDTO> enrollmentDTOs, @PathVariable("idexam")int idexam) throws ExamNotFoundException {
+		examService.insertGrade(enrollmentDTOs, idexam);
 	}
 	
 	/*@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)

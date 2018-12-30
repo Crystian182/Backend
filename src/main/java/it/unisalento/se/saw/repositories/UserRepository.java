@@ -43,6 +43,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	/*@Query("SELECT DISTINCT s FROM Student s, Enrollment e WHERE s.user.iduser!=:iduser AND s.user.iduser=e.student.user.iduser AND e.degreeCourse.iddegreeCourse=:idCourse AND (s.user.name LIKE LOWER(CONCAT('%', :keyword,'%')) OR s.user.surname LIKE LOWER(CONCAT('%', :keyword,'%')))")
 	public List<Student> searchStudentColleagues(@Param("idCourse")int idCourse, @Param("iduser")int iduser, @Param("keyword")String keyword);
-	*/
+	*/	
 	
 }

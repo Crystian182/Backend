@@ -5,23 +5,11 @@ import java.util.Date;
 public class StudentDTO {
 
 	private Integer idstudent;
-	private Integer serialNumber;
 	private String name;
 	private String surname;
 	private Date dateBirth;
-	private String placeBirth;
-	private String domicile;
-	private String residence;
+	private String email;
 
-	
-	
-
-	public Integer getSerialNumber() {
-		return serialNumber;
-	}
-	public void setSerialNumber(Integer serialNumber) {
-		this.serialNumber = serialNumber;
-	}
 	public Integer getIdstudent() {
 		return idstudent;
 	}
@@ -46,24 +34,13 @@ public class StudentDTO {
 	public void setDateBirth(Date dateBirth) {
 		this.dateBirth = dateBirth;
 	}
-	public String getPlaceBirth() {
-		return placeBirth;
+	public String getEmail() {
+		return email;
 	}
-	public void setPlaceBirth(String placeBirth) {
-		this.placeBirth = placeBirth;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	public String getDomicile() {
-		return domicile;
-	}
-	public void setDomicile(String domicile) {
-		this.domicile = domicile;
-	}
-	public String getResidence() {
-		return residence;
-	}
-	public void setResidence(String residence) {
-		this.residence = residence;
-	}
+	
 	
 	
 }

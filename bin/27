@@ -1,0 +1,28 @@
+Nelle seguenti classi generate da Hibernate, che si trovano in build/generated/src/java
+
+Classroom
+ClassroomHasInstruments
+Exam
+Instruments
+Lesson
+Ticket
+
+subject
+course
+
+Ovunque si trova l'annotazione:
+@OneToMany
+aggiungere 2 righe sotto, prima del codice java seguente, l'annotazione:
+@JsonManagedReference
+
+e
+
+Ovunque si trova l'annotazione:
+@ManyToOne
+aggiungere 2 righe sotto, prima del codice java seguente, l'annotazione:
+@JsonBackReference
+
+NOTA:
+questa soluzione risolve il problema del ciclo infinito col metodo findAll() dell'oggetto Classroom.
+E' possibile che, se findAll() è riferito ad altri oggetti, sia necessario applicare la stessa soluzione con eventuali classi
+aggiuntive che sono coinvolte in quello specifico oggetto.

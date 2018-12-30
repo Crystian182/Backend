@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import it.unisalento.se.saw.dto.FeedbackDTO;
 import it.unisalento.se.saw.dto.FileDTO;
 import it.unisalento.se.saw.exceptions.FileNotExistsException;
 
@@ -17,5 +18,6 @@ public interface IFileService {
 	public List<FileDTO> getLessonFiles(int idlesson);
 	public it.unisalento.se.saw.domain.File getBuildingImage(int idbuilding);
 	public it.unisalento.se.saw.domain.File getFile(int idfile);
+	public List<FeedbackDTO> getFeedbackFile(int idfile);
 
 }
