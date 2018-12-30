@@ -42,7 +42,25 @@ public class TicketService implements ITicketService {
 	public List<TicketDTO> getAll() {
 		List<Ticket> tickets = ticketRepository.findAll();
 		List<TicketDTO> ticketDTOs = new ArrayList<TicketDTO>();
+		
 		for(int i=0; i<tickets.size(); i++) {
+			
+			List<TicketMessage> ticketMessages = ticketRepository.getMessages(tickets.get(i).getIdticket());
+			
+			List<TicketMessageDTO> ticketMessageDTOs = new ArrayList<TicketMessageDTO>();
+			for(int j=0; j<ticketMessages.size(); j++) {
+				UserDTO userDTO = new UserDTO();
+				userDTO.setIduser(ticketMessages.get(j).getUser().getIduser());
+				userDTO.setSurname(ticketMessages.get(j).getUser().getSurname());
+				userDTO.setName(ticketMessages.get(j).getUser().getName());	
+				TicketMessageDTO ticketMessageDTO = new TicketMessageDTO();
+				ticketMessageDTO.setIdticketmessage(ticketMessages.get(j).getIdticketMessage());
+				ticketMessageDTO.setIdticket(ticketMessages.get(j).getTicket().getIdticket());
+				ticketMessageDTO.setDate(ticketMessages.get(j).getDate());
+				ticketMessageDTO.setText(ticketMessages.get(j).getText());
+				ticketMessageDTO.setUser(userDTO);
+				ticketMessageDTOs.add(ticketMessageDTO);
+			}
 			
 			TeacherDTO teacherDTO = new TeacherDTO();
 			teacherDTO.setIdteacher(tickets.get(i).getTeacher().getIduser());
@@ -80,6 +98,7 @@ public class TicketService implements ITicketService {
 			ticketDTO.setTeacher(teacherDTO);
 			ticketDTO.setClassroom(classroomDTO);
 			ticketDTO.setDate(tickets.get(i).getDate());
+			ticketDTO.setTicketmessages(ticketMessageDTOs);
 			ticketDTOs.add(ticketDTO);
 		}
 		return ticketDTOs;
