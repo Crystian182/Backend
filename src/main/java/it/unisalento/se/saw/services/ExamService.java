@@ -1,6 +1,9 @@
 package it.unisalento.se.saw.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +18,7 @@ import it.unisalento.se.saw.domain.Building;
 import it.unisalento.se.saw.domain.Classroom;
 import it.unisalento.se.saw.domain.CourseType;
 import it.unisalento.se.saw.domain.DegreeCourse;
+import it.unisalento.se.saw.domain.EnrollmentStatus;
 import it.unisalento.se.saw.domain.Exam;
 import it.unisalento.se.saw.domain.ExamStatus;
 import it.unisalento.se.saw.domain.ExamType;
@@ -510,6 +514,13 @@ public class ExamService implements IExamService{
 					
 				}
 				
+				Collections.sort(enrollmentsDTO, new Comparator<ExamEnrollmentDTO>() {
+                    @Override
+                    public int compare(ExamEnrollmentDTO o1, ExamEnrollmentDTO o2) {
+                        return o1.getStudent().getSurname().compareTo(o2.getStudent().getSurname());
+                    }
+                });
+				
 				examDTO.setEnrollments(enrollmentsDTO);
 				
 				examDTOs.add(examDTO);
@@ -526,20 +537,15 @@ public class ExamService implements IExamService{
 		for(int i=0; i<enrollmentDTOs.size(); i++) {
 			StudentHasExam enrollment = new StudentHasExam();
 			
-			User user = new User();
-			user.setIduser(enrollmentDTOs.get(i).getStudent().getIdstudent());
+			StudentHasExamId id = new StudentHasExamId();
 			
-			Student student = new Student();
-			student.setUser(user);
-			
-			Exam exam = new Exam();
-			exam.setIdexam(idexam);
+			id.setIdexam(idexam);
+			id.setIduser(enrollmentDTOs.get(i).getStudent().getIdstudent());
 			
 			Result result = new Result();
 			result.setIdresult(enrollmentDTOs.get(i).getResult().getIdresult());
 			
-			enrollment.setStudent(student);
-			enrollment.setExam(exam);
+			enrollment.setId(id);
 			enrollment.setResult(result);
 			enrollment.setDate(enrollmentDTOs.get(i).getDate());
 			enrollment.setGrade(enrollmentDTOs.get(i).getGrade());

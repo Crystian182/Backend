@@ -16,7 +16,7 @@ public interface ExamRepository extends JpaRepository<Exam, Integer> {
 	@Query("SELECT e FROM Exam e WHERE e.subject.degreeCourse.iddegreeCourse=:idcourse AND e.subject.term.idterm=:idterm")
 	public List<Exam> findAllByCourseAndTerm(@Param("idcourse")int idcourse, @Param("idterm")int idterm);
 
-	@Query("SELECT e FROM Exam e WHERE e.subject.teacher.iduser=:idteacher AND e.examStatus.idexamStatus=1 ORDER BY e.date DESC")
+	@Query("SELECT e FROM Exam e WHERE e.subject.teacher.iduser=:idteacher ORDER BY e.date DESC")
 	public List<Exam> getAllAvailableByTeacher(@Param("idteacher")int idteacher);
 	
 	@Modifying
