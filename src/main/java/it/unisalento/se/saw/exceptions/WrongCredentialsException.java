@@ -10,11 +10,11 @@ import it.unisalento.se.saw.models.Response;
 
 @ControllerAdvice  
 @RestController
-public class WrongPasswordException extends Exception {
+public class WrongCredentialsException extends Exception {
 
-    @ExceptionHandler(value = WrongPasswordException.class)  
+    @ExceptionHandler(value = WrongCredentialsException.class)  
     public ResponseEntity<Response> handleException(Exception e) {
-        return new ResponseEntity<Response>(new Response("Password errata"), HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<Response>(new Response("Credenziali errate"), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
 
