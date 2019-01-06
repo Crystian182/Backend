@@ -20,7 +20,7 @@ import it.unisalento.se.saw.dto.LoginDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
-import it.unisalento.se.saw.exceptions.WrongPasswordException;
+import it.unisalento.se.saw.exceptions.WrongCredentialsException;
 
 @RestController
 @RequestMapping("/user")
@@ -37,10 +37,10 @@ public class UserRestController {
 		this.userService = userService;
 	}
 	
-	@PostMapping(value="/login", produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserDTO login(@RequestBody LoginDTO request) throws UserNotFoundException, WrongPasswordException {
+	/*@PostMapping(value="/login", produces=MediaType.APPLICATION_JSON_VALUE)
+	public UserDTO login(@RequestBody LoginDTO request) throws UserNotFoundException, WrongCredentialsException {
 		return userService.login(request);
-	}
+	}*/
 	
 	/*@RequestMapping(value="/getAll", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<User> getAll(){

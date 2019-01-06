@@ -17,6 +17,7 @@ public class UserDTO {
     private String sex;
     private String citizenship;
     private String type;
+    private String token;
     
 	
 	public Integer getIduser() {
@@ -96,6 +97,12 @@ public class UserDTO {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
     
     

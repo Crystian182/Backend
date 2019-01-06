@@ -16,7 +16,7 @@ import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
-import it.unisalento.se.saw.exceptions.WrongPasswordException;
+import it.unisalento.se.saw.exceptions.WrongCredentialsException;
 import it.unisalento.se.saw.models.Login;
 import it.unisalento.se.saw.repositories.TeacherRepository;
 import it.unisalento.se.saw.repositories.UserRepository;
@@ -126,12 +126,12 @@ public class UserService implements IUserService{
 	}*/
 	
 	@Transactional(rollbackFor=UserNotFoundException.class)
-	public UserDTO login(LoginDTO request) throws UserNotFoundException, WrongPasswordException {
+	public UserDTO login(String email, String token) throws UserNotFoundException {
 		
-		User user = userRepository.checkUser(request.getEmail());
+		User user = userRepository.checkUser(email);
 		
 		try {
-			if(user.getPassword().equals(request.getPassword())) {
+			
 				UserDTO userDTO = new UserDTO();
 				userDTO.setIduser(user.getIduser());
 				userDTO.setName(user.getName());
@@ -144,6 +144,7 @@ public class UserService implements IUserService{
 				userDTO.setPhone(user.getPhone());
 				userDTO.setSex(user.getSex());
 				userDTO.setCitizenship(user.getCitizenship());
+				userDTO.setToken(token);
 				if(userRepository.isStudent(user.getIduser())) {
 					userDTO.setType("student");
 				} else if (userRepository.isTeacher(user.getIduser())) {
@@ -152,13 +153,12 @@ public class UserService implements IUserService{
 					userDTO.setType("employee");
 				}
 				return userDTO;
-			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			throw new UserNotFoundException();
 		}
 		
-		throw new WrongPasswordException();
 	}
 	
 	@Transactional(rollbackFor=UserNotFoundException.class)
@@ -185,6 +185,4 @@ public class UserService implements IUserService{
 	public boolean login(String email, String password){
 		return userRepository.login(email, password);
 	}*/
-
-	
 }

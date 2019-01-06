@@ -109,7 +109,7 @@ public class UserRestControllerTest {
 		user.setSex("m");
 		user.setCitizenship("ita");
 
-		when(userServiceMock.login(request)).thenReturn(userDTO);
+		//when(userServiceMock.login(request)).thenReturn(userDTO);
 	 
 		 mockMvc.perform(post("/user/login")
 		            .contentType(APPLICATION_JSON_UTF8)
