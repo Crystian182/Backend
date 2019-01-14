@@ -4,6 +4,8 @@ import java.util.List;
 
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.LoginDTO;
+import it.unisalento.se.saw.dto.StudentDTO;
+import it.unisalento.se.saw.dto.StudentHasDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
@@ -21,5 +23,6 @@ public interface IUserService {
 	public List<TeacherDTO> getTeachers() throws UserNotFoundException;
 	public TeacherDTO getTeacherById(int id) throws UserNotFoundException;
 	//public List<User> getColleagues(User user, String keyword) throws UserNotFoundException;
+	public StudentHasDegreeCourseDTO getInfo(int idstudent) throws UserNotFoundException;
 
 }
