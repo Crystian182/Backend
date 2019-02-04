@@ -12,13 +12,16 @@ import it.unisalento.se.saw.Iservices.IUserService;
 import it.unisalento.se.saw.domain.Student;
 import it.unisalento.se.saw.domain.StudentHasDegreeCourse;
 import it.unisalento.se.saw.domain.Teacher;
+import it.unisalento.se.saw.domain.Term;
 import it.unisalento.se.saw.domain.User;
+import it.unisalento.se.saw.dto.AcademicYearDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.EnrollmentStatusDTO;
 import it.unisalento.se.saw.dto.LoginDTO;
 import it.unisalento.se.saw.dto.StudentDTO;
 import it.unisalento.se.saw.dto.StudentHasDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
+import it.unisalento.se.saw.dto.TermDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
@@ -26,6 +29,7 @@ import it.unisalento.se.saw.exceptions.WrongCredentialsException;
 import it.unisalento.se.saw.models.Login;
 import it.unisalento.se.saw.repositories.StudentHasDegreeCourseRepository;
 import it.unisalento.se.saw.repositories.TeacherRepository;
+import it.unisalento.se.saw.repositories.TermRepository;
 import it.unisalento.se.saw.repositories.UserRepository;
 
 @Service
@@ -39,6 +43,9 @@ public class UserService implements IUserService{
 	
 	@Autowired
 	StudentHasDegreeCourseRepository studentHasDegreeCourseRepository;
+	
+	@Autowired
+	TermRepository termRepository;
 	
 	
 	@Transactional(readOnly=true)
@@ -213,9 +220,23 @@ public class UserService implements IUserService{
 		studentDTO.setIdstudent(student.getUser().getIduser());
 		studentDTO.setName(student.getUser().getName());
 		studentDTO.setSurname(student.getUser().getSurname());
+		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+		academicYearDTO.setIdacademicYear(studentHasDegreeCourse.getDegreeCourse().getAcademicYear().getIdacademicYear());
+		academicYearDTO.setYear(studentHasDegreeCourse.getDegreeCourse().getAcademicYear().getYear());
+		List<Term> terms = termRepository.getByAcademicYear(academicYearDTO.getIdacademicYear());
+		List<TermDTO> termDTOs= new ArrayList<TermDTO>();
+		for(int k=0; k<terms.size(); k++) {
+			TermDTO termDTO = new TermDTO();
+			termDTO.setIdterm(terms.get(k).getIdterm());
+			termDTO.setStart(terms.get(k).getStart());
+			termDTO.setEnd(terms.get(k).getEnd());
+			termDTOs.add(termDTO);
+		}
+		academicYearDTO.setTerms(termDTOs);	
 		DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 		degreeCourseDTO.setIdcourse(studentHasDegreeCourse.getDegreeCourse().getIddegreeCourse());
 		degreeCourseDTO.setName(studentHasDegreeCourse.getDegreeCourse().getTypeDegreeCourse().getName());
+		degreeCourseDTO.setAcademicYear(academicYearDTO);
 		EnrollmentStatusDTO enrollmentStatusDTO = new EnrollmentStatusDTO();
 		enrollmentStatusDTO.setIdenrollmentStatus(studentHasDegreeCourse.getEnrollmentStatus().getIdenrollmentStatus());
 		enrollmentStatusDTO.setDescription(studentHasDegreeCourse.getEnrollmentStatus().getDescription());

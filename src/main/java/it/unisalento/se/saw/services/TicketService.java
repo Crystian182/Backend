@@ -141,6 +141,7 @@ public class TicketService implements ITicketService {
 			}
 			BuildingDTO buildingDTO = new BuildingDTO();
 			buildingDTO.setId(ticket.getClassroom().getBuilding().getIdbuilding());
+			buildingDTO.setName(ticket.getClassroom().getBuilding().getName());
 			
 			ClassroomDTO classroomDTO = new ClassroomDTO();
 			classroomDTO.setId(ticket.getClassroom().getIdclassroom());
