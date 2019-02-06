@@ -54,8 +54,38 @@ public class UserService implements IUserService{
 	}
 	
 	@Transactional
-	public User save(User user) {
-		return userRepository.save(user);
+	public UserDTO save(UserDTO userDTO) {
+		User user = new User();
+		user.setIduser(userDTO.getIduser());
+		user.setName(userDTO.getName());
+		user.setSurname(userDTO.getSurname());
+		user.setDateBirth(userDTO.getDateBirth());
+		user.setCitizenship(userDTO.getCitizenship());
+		user.setDomicile(userDTO.getDomicile());
+		user.setPhone(userDTO.getPhone());
+		user.setResidence(userDTO.getResidence());
+		user.setSex(userDTO.getSex());
+		user.setSsn(userDTO.getSsn());
+		user.setEmail(userDTO.getEmail());
+		user.setPlaceBirth(userDTO.getPlaceBirth());
+		user.setPassword(userRepository.getOne(userDTO.getIduser()).getPassword());
+		userRepository.getOne(userDTO.getIduser());
+		User newUser = userRepository.save(user);
+		UserDTO newuserDTO = new UserDTO();
+		newuserDTO.setIduser(newUser.getIduser());
+		newuserDTO.setName(newUser.getName());
+		newuserDTO.setSurname(newUser.getSurname());
+		newuserDTO.setDateBirth(newUser.getDateBirth());
+		newuserDTO.setCitizenship(newUser.getCitizenship());
+		newuserDTO.setDomicile(newUser.getDomicile());
+		newuserDTO.setPhone(newUser.getPhone());
+		newuserDTO.setResidence(newUser.getResidence());
+		newuserDTO.setSex(newUser.getSex());
+		newuserDTO.setSsn(newUser.getSsn());
+		newuserDTO.setEmail(newUser.getEmail());
+		newuserDTO.setPlaceBirth(newUser.getPlaceBirth());
+		newuserDTO.setType(userDTO.getType());
+		return newuserDTO;
 	}
 	
 	@Transactional
@@ -159,6 +189,7 @@ public class UserService implements IUserService{
 				userDTO.setResidence(user.getResidence());
 				userDTO.setDomicile(user.getDomicile());
 				userDTO.setPhone(user.getPhone());
+				userDTO.setSsn(user.getSsn());
 				userDTO.setSex(user.getSex());
 				userDTO.setCitizenship(user.getCitizenship());
 				userDTO.setToken(token);

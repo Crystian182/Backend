@@ -59,16 +59,13 @@ public class UserRestController {
 		userDTO.setSurname("Vergallo");
 		return userDTO;
 		
-	}
+	}*/
 	
 	
 	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
-	public User post(@RequestBody UserDTO userDTO) {
-		User user = new User();
-		/*user.setName(userDTO.getName());
-		user.setSurname(userDTO.getSurname());*/
-		/*return userService.save(user);
-	}*/
+	public UserDTO save(@RequestBody UserDTO userDTO) {
+		return userService.save(userDTO);
+	}
 	
 	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public UserDTO getById(@PathVariable("id")int id) throws UserNotFoundException{
