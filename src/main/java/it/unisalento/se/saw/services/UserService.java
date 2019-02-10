@@ -47,35 +47,14 @@ public class UserService implements IUserService{
 	
 	@Autowired
 	TeacherRepository teacherRepository;
-	
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	private static final String location = "C:\\Users\\Federico\\Desktop\\Computer Engineering\\Backend\\Backend\\src\\main\\resources\\users\\";
 
-=======
->>>>>>> 35ed99471ba7be2b113e3884ffd0c645ae417b0c
-=======
->>>>>>> 35ed99471ba7be2b113e3884ffd0c645ae417b0c
-=======
->>>>>>> cf0567b617bd9b6f0f74626e30e7306f8bd89007
 	@Autowired
 	StudentHasDegreeCourseRepository studentHasDegreeCourseRepository;
 	
 	@Autowired
 	TermRepository termRepository;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-	
->>>>>>> 35ed99471ba7be2b113e3884ffd0c645ae417b0c
-=======
-	
->>>>>>> 35ed99471ba7be2b113e3884ffd0c645ae417b0c
-=======
-	
->>>>>>> cf0567b617bd9b6f0f74626e30e7306f8bd89007
 	
 	@Transactional(readOnly=true)
 	public List<User> getAll(){
