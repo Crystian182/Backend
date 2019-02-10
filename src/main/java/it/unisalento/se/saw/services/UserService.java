@@ -1,24 +1,42 @@
 package it.unisalento.se.saw.services;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.unisalento.se.saw.Iservices.IUserService;
+import it.unisalento.se.saw.domain.Student;
+import it.unisalento.se.saw.domain.StudentHasDegreeCourse;
 import it.unisalento.se.saw.domain.Teacher;
+import it.unisalento.se.saw.domain.Term;
 import it.unisalento.se.saw.domain.User;
+import it.unisalento.se.saw.dto.AcademicYearDTO;
+import it.unisalento.se.saw.dto.DegreeCourseDTO;
+import it.unisalento.se.saw.dto.EnrollmentStatusDTO;
 import it.unisalento.se.saw.dto.LoginDTO;
+import it.unisalento.se.saw.dto.StudentDTO;
+import it.unisalento.se.saw.dto.StudentHasDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
+import it.unisalento.se.saw.dto.TermDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 import it.unisalento.se.saw.exceptions.WrongCredentialsException;
 import it.unisalento.se.saw.models.Login;
+import it.unisalento.se.saw.repositories.StudentHasDegreeCourseRepository;
 import it.unisalento.se.saw.repositories.TeacherRepository;
+import it.unisalento.se.saw.repositories.TermRepository;
 import it.unisalento.se.saw.repositories.UserRepository;
 
 @Service
@@ -30,6 +48,34 @@ public class UserService implements IUserService{
 	@Autowired
 	TeacherRepository teacherRepository;
 	
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+	private static final String location = "C:\\Users\\Federico\\Desktop\\Computer Engineering\\Backend\\Backend\\src\\main\\resources\\users\\";
+
+=======
+>>>>>>> 35ed99471ba7be2b113e3884ffd0c645ae417b0c
+=======
+>>>>>>> 35ed99471ba7be2b113e3884ffd0c645ae417b0c
+=======
+>>>>>>> cf0567b617bd9b6f0f74626e30e7306f8bd89007
+	@Autowired
+	StudentHasDegreeCourseRepository studentHasDegreeCourseRepository;
+	
+	@Autowired
+	TermRepository termRepository;
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 35ed99471ba7be2b113e3884ffd0c645ae417b0c
+=======
+	
+>>>>>>> 35ed99471ba7be2b113e3884ffd0c645ae417b0c
+=======
+	
+>>>>>>> cf0567b617bd9b6f0f74626e30e7306f8bd89007
 	
 	@Transactional(readOnly=true)
 	public List<User> getAll(){
@@ -37,8 +83,38 @@ public class UserService implements IUserService{
 	}
 	
 	@Transactional
-	public User save(User user) {
-		return userRepository.save(user);
+	public UserDTO save(UserDTO userDTO) {
+		User user = new User();
+		user.setIduser(userDTO.getIduser());
+		user.setName(userDTO.getName());
+		user.setSurname(userDTO.getSurname());
+		user.setDateBirth(userDTO.getDateBirth());
+		user.setCitizenship(userDTO.getCitizenship());
+		user.setDomicile(userDTO.getDomicile());
+		user.setPhone(userDTO.getPhone());
+		user.setResidence(userDTO.getResidence());
+		user.setSex(userDTO.getSex());
+		user.setSsn(userDTO.getSsn());
+		user.setEmail(userDTO.getEmail());
+		user.setPlaceBirth(userDTO.getPlaceBirth());
+		user.setPassword(userRepository.getOne(userDTO.getIduser()).getPassword());
+		userRepository.getOne(userDTO.getIduser());
+		User newUser = userRepository.save(user);
+		UserDTO newuserDTO = new UserDTO();
+		newuserDTO.setIduser(newUser.getIduser());
+		newuserDTO.setName(newUser.getName());
+		newuserDTO.setSurname(newUser.getSurname());
+		newuserDTO.setDateBirth(newUser.getDateBirth());
+		newuserDTO.setCitizenship(newUser.getCitizenship());
+		newuserDTO.setDomicile(newUser.getDomicile());
+		newuserDTO.setPhone(newUser.getPhone());
+		newuserDTO.setResidence(newUser.getResidence());
+		newuserDTO.setSex(newUser.getSex());
+		newuserDTO.setSsn(newUser.getSsn());
+		newuserDTO.setEmail(newUser.getEmail());
+		newuserDTO.setPlaceBirth(newUser.getPlaceBirth());
+		newuserDTO.setType(userDTO.getType());
+		return newuserDTO;
 	}
 	
 	@Transactional
@@ -142,13 +218,16 @@ public class UserService implements IUserService{
 				userDTO.setResidence(user.getResidence());
 				userDTO.setDomicile(user.getDomicile());
 				userDTO.setPhone(user.getPhone());
+				userDTO.setSsn(user.getSsn());
 				userDTO.setSex(user.getSex());
 				userDTO.setCitizenship(user.getCitizenship());
 				userDTO.setToken(token);
 				if(userRepository.isStudent(user.getIduser())) {
 					userDTO.setType("student");
+					userDTO.setPropic(this.getUserImage(user.getFile().getIdfile()));
 				} else if (userRepository.isTeacher(user.getIduser())) {
 					userDTO.setType("teacher");
+					userDTO.setPropic(this.getUserImage(user.getFile().getIdfile()));
 				} else {
 					userDTO.setType("employee");
 				}
@@ -159,6 +238,17 @@ public class UserService implements IUserService{
 			throw new UserNotFoundException();
 		}
 		
+	}
+	
+	public String getUserImage(int idfile) throws IOException {
+		BufferedImage img = ImageIO.read(new File(location + idfile));             
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(img, "jpg", baos);
+		baos.flush();
+		Base64 base = new Base64(false);
+		String encodedImage = base.encodeToString(baos.toByteArray());
+		baos.close();
+		return encodedImage = java.net.URLEncoder.encode(encodedImage, "ISO-8859-1");
 	}
 	
 	@Transactional(rollbackFor=UserNotFoundException.class)
@@ -185,4 +275,52 @@ public class UserService implements IUserService{
 	public boolean login(String email, String password){
 		return userRepository.login(email, password);
 	}*/
+	
+	@Transactional(rollbackFor=UserNotFoundException.class)
+	public StudentHasDegreeCourseDTO getInfo(int idStudent) throws UserNotFoundException {
+		
+		StudentHasDegreeCourse studentHasDegreeCourse = studentHasDegreeCourseRepository.getStudentCourse(idStudent);
+		
+		StudentHasDegreeCourseDTO studentHasDegreeCourseDTO = new StudentHasDegreeCourseDTO();
+		
+		StudentDTO studentDTO = new StudentDTO();
+		Student student = userRepository.getStudent(idStudent);
+		User user = new User();
+		user.setName(student.getUser().getName());
+		user.setSurname(student.getUser().getSurname());
+		user.setIduser(student.getUser().getIduser());
+		student.setUser(user);
+		studentDTO.setIdstudent(student.getUser().getIduser());
+		studentDTO.setName(student.getUser().getName());
+		studentDTO.setSurname(student.getUser().getSurname());
+		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+		academicYearDTO.setIdacademicYear(studentHasDegreeCourse.getDegreeCourse().getAcademicYear().getIdacademicYear());
+		academicYearDTO.setYear(studentHasDegreeCourse.getDegreeCourse().getAcademicYear().getYear());
+		List<Term> terms = termRepository.getByAcademicYear(academicYearDTO.getIdacademicYear());
+		List<TermDTO> termDTOs= new ArrayList<TermDTO>();
+		for(int k=0; k<terms.size(); k++) {
+			TermDTO termDTO = new TermDTO();
+			termDTO.setIdterm(terms.get(k).getIdterm());
+			termDTO.setStart(terms.get(k).getStart());
+			termDTO.setEnd(terms.get(k).getEnd());
+			termDTOs.add(termDTO);
+		}
+		academicYearDTO.setTerms(termDTOs);	
+		DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
+		degreeCourseDTO.setIdcourse(studentHasDegreeCourse.getDegreeCourse().getIddegreeCourse());
+		degreeCourseDTO.setName(studentHasDegreeCourse.getDegreeCourse().getTypeDegreeCourse().getName());
+		degreeCourseDTO.setAcademicYear(academicYearDTO);
+		EnrollmentStatusDTO enrollmentStatusDTO = new EnrollmentStatusDTO();
+		enrollmentStatusDTO.setIdenrollmentStatus(studentHasDegreeCourse.getEnrollmentStatus().getIdenrollmentStatus());
+		enrollmentStatusDTO.setDescription(studentHasDegreeCourse.getEnrollmentStatus().getDescription());
+		
+		studentHasDegreeCourseDTO.setStudent(studentDTO);
+		studentHasDegreeCourseDTO.setDegreeCourse(degreeCourseDTO);
+		studentHasDegreeCourseDTO.setDate(studentHasDegreeCourse.getDate());
+		studentHasDegreeCourseDTO.setEnrollmentStatus(enrollmentStatusDTO);
+		
+		
+		return studentHasDegreeCourseDTO;
+		
+	}
 }

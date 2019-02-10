@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -30,7 +31,7 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Order(1)
+//@Order(1)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -61,11 +62,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    // configurazione Cors per poter consumare le api restful con richieste ajax
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
+        /*CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("*");
         configuration.setAllowedMethods(Arrays.asList("POST, PUT, GET, OPTIONS, DELETE"));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;*/
+    	CorsConfiguration configuration = new CorsConfiguration();
+        // This Origin header you can see that in Network tab
+    	//setallowedoriginis array aslist
+        configuration.addAllowedOrigin("*"); 
+        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        configuration.setAllowedHeaders(Arrays.asList("content-type"));
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -74,7 +87,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
+    	 httpSecurity
+         .csrf().disable()
+         .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
+         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().cors().and()
+         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+         .authorizeRequests()
+         .antMatchers(
+                 HttpMethod.GET,
+                 "/",
+                 "/*.html",
+                 "/favicon.ico",
+                 "/**/*.html",
+                 "/**/*.css",
+                 "/**/*.js",
+                 "/image/**").permitAll()
+         //.antMatchers("/socket/**").permitAll()
+         .antMatchers("/public/**").permitAll().and()
+         .authorizeRequests().anyRequest().authenticated().and();
+
+ httpSecurity
+         .headers().cacheControl();
+    	/*httpSecurity
                 .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 // non abbiamo bisogno di una sessione
@@ -86,11 +120,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/",
                         "/*.html",
                         "/favicon.ico",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js"
-                ).permitAll()
-                .antMatchers("/public/**").permitAll().and()
+                        "/**///*.html",
+                        //"/**/*.css",
+                        //"/**/*.js"
+                /*).permitAll()
+                .antMatchers("/public/**").permitAll()
+                .antMatchers("/socket/**").permitAll().and()
                 .authorizeRequests()
                 .anyRequest()
                 .authenticated()
@@ -100,7 +135,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Filtro Custom JWT
         httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
-        httpSecurity.headers().cacheControl();
+        httpSecurity.headers().cacheControl();*/
     }
 	
     @Bean

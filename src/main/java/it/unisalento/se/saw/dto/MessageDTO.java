@@ -8,6 +8,8 @@ public class MessageDTO {
 	private UserDTO sender;
 	private String text;
 	private Date date;
+	private PreviewChatDTO chat;
+	private boolean read;
 	
 	public Date getDate() {
 		return date;
@@ -32,6 +34,18 @@ public class MessageDTO {
 	}
 	public void setText(String text) {
 		this.text = text;
+	}
+	public PreviewChatDTO getChat() {
+		return chat;
+	}
+	public void setChat(PreviewChatDTO chat) {
+		this.chat = chat;
+	}
+	public boolean isRead() {
+		return read;
+	}
+	public void setRead(boolean read) {
+		this.read = read;
 	}
 	
 	

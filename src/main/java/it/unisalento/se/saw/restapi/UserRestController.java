@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import it.unisalento.se.saw.Iservices.IUserService;
+import it.unisalento.se.saw.domain.StudentHasDegreeCourse;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.LoginDTO;
+import it.unisalento.se.saw.dto.StudentHasDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
@@ -57,16 +59,13 @@ public class UserRestController {
 		userDTO.setSurname("Vergallo");
 		return userDTO;
 		
-	}
+	}*/
 	
 	
 	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
-	public User post(@RequestBody UserDTO userDTO) {
-		User user = new User();
-		/*user.setName(userDTO.getName());
-		user.setSurname(userDTO.getSurname());*/
-		/*return userService.save(user);
-	}*/
+	public UserDTO save(@RequestBody UserDTO userDTO) {
+		return userService.save(userDTO);
+	}
 	
 	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public UserDTO getById(@PathVariable("id")int id) throws UserNotFoundException{
@@ -84,5 +83,11 @@ public class UserRestController {
 	public TeacherDTO getTeachersById(@PathVariable("id")int id) throws UserNotFoundException{
 		TeacherDTO teacherDTO = userService.getTeacherById(id);
 		return teacherDTO;
+	}
+	
+	@GetMapping(value="/getInfoStudent/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public StudentHasDegreeCourseDTO getInfo(@PathVariable("id")int id) throws UserNotFoundException{
+		StudentHasDegreeCourseDTO studentHasDegreeCourseDTO = userService.getInfo(id);
+		return studentHasDegreeCourseDTO;
 	}
 }

@@ -3,35 +3,22 @@ package it.unisalento.se.saw.dto;
 
 public class PreviewChatDTO {
 	
-	private String id;
-	private String title;
-	private MessageDTO lastMessage;
-	private boolean isPublic;
+	private UserDTO toUser;
+	private SubjectDTO subject;
 	
-	public String getId() {
-		return id;
+	public UserDTO getToUser() {
+		return toUser;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setToUser(UserDTO toUser) {
+		this.toUser = toUser;
 	}
-	public String getTitle() {
-		return title;
+	public SubjectDTO getSubject() {
+		return subject;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setSubject(SubjectDTO subject) {
+		this.subject = subject;
 	}
-	public MessageDTO getLastMessage() {
-		return lastMessage;
-	}
-	public void setLastMessage(MessageDTO lastMessage) {
-		this.lastMessage = lastMessage;
-	}
-	public boolean isPublic() {
-		return isPublic;
-	}
-	public void setPublic(boolean isPublic) {
-		this.isPublic = isPublic;
-	}
+	
 	
 	
 

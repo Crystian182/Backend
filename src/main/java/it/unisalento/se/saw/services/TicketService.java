@@ -76,6 +76,7 @@ public class TicketService implements ITicketService {
 			}
 			BuildingDTO buildingDTO = new BuildingDTO();
 			buildingDTO.setId(tickets.get(i).getClassroom().getBuilding().getIdbuilding());
+			buildingDTO.setName(tickets.get(i).getClassroom().getBuilding().getName());
 			
 			ClassroomDTO classroomDTO = new ClassroomDTO();
 			classroomDTO.setId(tickets.get(i).getClassroom().getIdclassroom());
@@ -140,6 +141,7 @@ public class TicketService implements ITicketService {
 			}
 			BuildingDTO buildingDTO = new BuildingDTO();
 			buildingDTO.setId(ticket.getClassroom().getBuilding().getIdbuilding());
+			buildingDTO.setName(ticket.getClassroom().getBuilding().getName());
 			
 			ClassroomDTO classroomDTO = new ClassroomDTO();
 			classroomDTO.setId(ticket.getClassroom().getIdclassroom());

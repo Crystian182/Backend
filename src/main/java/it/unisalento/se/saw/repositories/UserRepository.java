@@ -45,4 +45,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	public List<Student> searchStudentColleagues(@Param("idCourse")int idCourse, @Param("iduser")int iduser, @Param("keyword")String keyword);
 	*/	
 	
+	@Query("SELECT t FROM Teacher t WHERE t.iduser!=:iduser AND (t.user.name LIKE LOWER(CONCAT('%', :keyword,'%')) OR t.user.surname LIKE LOWER(CONCAT('%', :keyword,'%')) OR CONCAT(t.user.name,' ', t.user.surname) LIKE LOWER(CONCAT('%', :keyword,'%')) OR CONCAT(t.user.surname,' ', t.user.name) LIKE LOWER(CONCAT('%', :keyword,'%')))")
+	public List<Teacher> searchTeachers(@Param("iduser")int iduser, @Param("keyword")String keyword);
+	
+	@Query("SELECT s FROM Student s WHERE s.user.iduser!=:iduser AND (s.user.name LIKE LOWER(CONCAT('%', :keyword,'%')) OR s.user.surname LIKE LOWER(CONCAT('%', :keyword,'%')) OR CONCAT(s.user.name,' ', s.user.surname) LIKE LOWER(CONCAT('%', :keyword,'%')) OR CONCAT(s.user.surname,' ', s.user.name) LIKE LOWER(CONCAT('%', :keyword,'%')))")
+	public List<Student> searchStudents(@Param("iduser")int iduser, @Param("keyword")String keyword);
+	
 }

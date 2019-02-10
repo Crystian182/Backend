@@ -244,12 +244,15 @@ public class DegreeCourseService implements IDegreeCourseService {
 			teacher.setIduser(degreeCourseDTO.getSubjects().get(j).getTeacherDTO().getIdteacher());
 			teacher.setUser(user);
 			subject.setTeacher(teacher);
+			Term term = new Term();
+			term.setIdterm(degreeCourseDTO.getSubjects().get(j).getTerm().getIdterm());
 			TypeSubject typeSubject = new TypeSubject();
 			typeSubject.setIdtypeSubject(degreeCourseDTO.getSubjects().get(j).getTypeSubjectDTO().getIdtypeSubject());
 			typeSubject.setName(degreeCourseDTO.getSubjects().get(j).getTypeSubjectDTO().getName());
 			subject.setTypeSubject(typeSubject);
 			subject.setDegreeCourse(newDegreeCourse);
 			subject.setTypeSubject(typeSubject);
+			subject.setTerm(term);
 			subjects.add(subject);
 		}
 			
@@ -301,11 +304,14 @@ public class DegreeCourseService implements IDegreeCourseService {
 			teacherDTO.setName(subjectsOfNewDegreeCourse.get(i).getTeacher().getUser().getName());
 			teacherDTO.setSurname(subjectsOfNewDegreeCourse.get(i).getTeacher().getUser().getSurname());
 			subjectDTO.setTeacherDTO(teacherDTO);
+			TermDTO termDTO = new TermDTO();
+			termDTO.setIdterm(subjectsOfNewDegreeCourse.get(i).getTerm().getIdterm());
 			TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
 			typeSubjectDTO.setIdtypeSubject(subjectsOfNewDegreeCourse.get(i).getTypeSubject().getIdtypeSubject());
 			typeSubjectDTO.setName(subjectsOfNewDegreeCourse.get(i).getTypeSubject().getName());
 			typeSubjectDTO.setDescription(subjectsOfNewDegreeCourse.get(i).getTypeSubject().getDescription());
 			subjectDTO.setTypeSubjectDTO(typeSubjectDTO);
+			subjectDTO.setTerm(termDTO);
 			subjectDTOs.add(subjectDTO);
 		}
 		newDegreeCourseDTO.setSubjects(subjectDTOs);

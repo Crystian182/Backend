@@ -1,5 +1,8 @@
 package it.unisalento.se.saw.restapi;
 
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import it.unisalento.se.saw.Iservices.IUserService;
@@ -37,6 +40,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class AuthenticationRestController {
+	
+	//private static String SERVER_KEY = "AAAAQVkzfAk:APA91bGHHPI1O839zNgKoGU73IN0jQ-2_kce-3BtOGZw9yC9C_3FxhYOpG7V7bEKIfpzsKmzboxBR5SwJsE8nvKLYafFD4fLBFD4kktCZ-jNR6qgXMSUySuzkmCthBDSJcWOlf7OH8f8";
+    //private static String DEVICE_TOKEN = "YOUR_DEVICE_TOKEN";
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -54,7 +60,7 @@ public class AuthenticationRestController {
     private IUserService userService;
 
     @RequestMapping(value = "public/login", method = RequestMethod.POST)
-    public UserDTO createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device, HttpServletResponse response) throws AuthenticationException, JsonProcessingException, WrongCredentialsException, UserNotFoundException {
+    public UserDTO createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device, HttpServletResponse response) throws Exception {
     	
     	try {
         // Effettuo l autenticazione
@@ -77,10 +83,37 @@ public class AuthenticationRestController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
         final String token = jwtTokenUtil.generateToken(userDetails, device);
         response.setHeader(tokenHeader,token);
+        String title = "My First Notification";
+        String message = "Hello, I'm push notification";
+        //this.sendPushNotification(title, message);
         // Ritorno il token
         return userService.login(authenticationRequest.getEmail(), token);
         //return ResponseEntity.ok(new JwtAuthenticationResponse(userDetails.getUsername(),userDetails.getAuthorities()));
     }
+    
+    /*public static void sendPushNotification(String title, String message) throws Exception {
+        String pushMessage = "{\"data\":{\"title\":\"" +
+                title +
+                "\",\"message\":\"" +
+                message +
+                "\"},\"to\":\"" +
+                DEVICE_TOKEN +
+                "\"}";
+        // Create connection to send FCM Message request.
+        URL url = new URL("https://fcm.googleapis.com/fcm/send");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestProperty("Authorization", "key=" + SERVER_KEY);
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
+
+        // Send FCM message content.
+        OutputStream outputStream = conn.getOutputStream();
+        outputStream.write(pushMessage.getBytes());
+
+        System.out.println(conn.getResponseCode());
+        System.out.println(conn.getResponseMessage());
+    }*/
 
     @RequestMapping(value = "refreshtoken", method = RequestMethod.GET)
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request, HttpServletResponse response) {
@@ -97,6 +130,22 @@ public class AuthenticationRestController {
         } else {
             return ResponseEntity.badRequest().body(null);
         }
+    }
+    
+    @RequestMapping(value = "public/istokenvalid", method = RequestMethod.GET)
+    public boolean isTokenValid(HttpServletRequest request, HttpServletResponse response) {
+        String token = request.getHeader(tokenHeader);
+
+        try {
+        	if (jwtTokenUtil.canTokenBeRefreshed(token)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NullPointerException ex) {
+        	return false;
+        }
+        
     }
     
 

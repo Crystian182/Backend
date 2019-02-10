@@ -235,6 +235,10 @@ public class SubjectService implements ISubjectService{
 		typeSubject.setIdtypeSubject(subjectDTO.getTypeSubjectDTO().getIdtypeSubject());
 		typeSubject.setName(subjectDTO.getTypeSubjectDTO().getName());
 		
+		Term term = new Term();
+		term.setIdterm(subjectDTO.getTerm().getIdterm());
+		//term.setNumber(subjectDTO.getTerm().);
+		
 		Subject subject= new Subject();
 		try {
 			subject.setIdsubject(subjectDTO.getId());
@@ -251,6 +255,8 @@ public class SubjectService implements ISubjectService{
 		teacherDTO.setName(newSubject.getTeacher().getUser().getName());
 		teacherDTO.setSurname(newSubject.getTeacher().getUser().getSurname());
 	
+		TermDTO termDTO = new TermDTO();
+		termDTO.setIdterm(newSubject.getTerm().getIdterm());
 		
 		TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
 		typeSubjectDTO.setIdtypeSubject(newSubject.getTypeSubject().getIdtypeSubject());
@@ -263,6 +269,7 @@ public class SubjectService implements ISubjectService{
 		newSubjectDTO.setName(newSubject.getTypeSubject().getName());
 		newSubjectDTO.setTeacherDTO(teacherDTO);
 		newSubjectDTO.setTypeSubjectDTO(typeSubjectDTO);
+		newSubjectDTO.setTerm(termDTO);
 		
 		return newSubjectDTO;
 	}

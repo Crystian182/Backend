@@ -18,7 +18,7 @@ public class UserDTO {
     private String citizenship;
     private String type;
     private String token;
-    
+    private String propic;
 	
 	public Integer getIduser() {
 		return iduser;
@@ -103,6 +103,12 @@ public class UserDTO {
 	}
 	public void setToken(String token) {
 		this.token = token;
+	}
+	public String getPropic() {
+		return propic;
+	}
+	public void setPropic(String propic) {
+		this.propic = propic;
 	}
     
     
