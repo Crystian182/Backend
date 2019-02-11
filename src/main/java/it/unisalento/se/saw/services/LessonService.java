@@ -513,6 +513,46 @@ public class LessonService implements ILessonService{
 		
 	}
 	
+public List<LessonDTO> getTodayLessons(int iduser) {
+		
+		List<Lesson> lessons = lessonRepository.getTodayLessons(iduser);
+		
+		List<LessonDTO> lessonDTOs = new ArrayList<LessonDTO>();
+		
+		for (int i=0; i<lessons.size(); i++) {
+			LessonDTO lessonDTO = new LessonDTO();
+			lessonDTO.setIdlesson(lessons.get(i).getIdlesson());
+			lessonDTO.setStart(lessons.get(i).getStart());
+			lessonDTO.setEnd(lessons.get(i).getEnd());
+			
+			BuildingDTO buildingDTO = new BuildingDTO();
+			buildingDTO.setId(lessons.get(i).getClassroom().getBuilding().getIdbuilding());
+			buildingDTO.setName(lessons.get(i).getClassroom().getBuilding().getName());
+			
+			ClassroomDTO classroomDTO = new ClassroomDTO();
+			classroomDTO.setId(lessons.get(i).getClassroom().getIdclassroom());
+			classroomDTO.setName(lessons.get(i).getClassroom().getName());
+			classroomDTO.setBuilding(buildingDTO);
+			
+			lessonDTO.setClassroom(classroomDTO);
+			
+			SubjectDTO subjectDTO = new SubjectDTO();
+			subjectDTO.setId(lessons.get(i).getTypeLesson().getSubject().getIdsubject());
+			subjectDTO.setName(lessons.get(i).getTypeLesson().getSubject().getTypeSubject().getName());
+			
+			TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
+			typeLessonDTO.setIdtypeLesson(lessons.get(i).getTypeLesson().getIdtypeLesson());
+			typeLessonDTO.setSubject(subjectDTO);
+			
+			lessonDTO.setTypeLesson(typeLessonDTO);
+			
+			lessonDTOs.add(lessonDTO);
+		}
+		
+		return lessonDTOs;
+		
+	}
+	
 	@Transactional
 	public void edit(ArrayList<LessonDTO> lessonDTOs) {
 		

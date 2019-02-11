@@ -1,5 +1,6 @@
 package it.unisalento.se.saw.restapi;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,7 @@ public class UserRestController {
 	
 	
 	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
-	public UserDTO save(@RequestBody UserDTO userDTO) {
+	public UserDTO save(@RequestBody UserDTO userDTO) throws IOException {
 		return userService.save(userDTO);
 	}
 	
@@ -87,7 +88,6 @@ public class UserRestController {
 	
 	@GetMapping(value="/getInfoStudent/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public StudentHasDegreeCourseDTO getInfo(@PathVariable("id")int id) throws UserNotFoundException{
-		StudentHasDegreeCourseDTO studentHasDegreeCourseDTO = userService.getInfo(id);
-		return studentHasDegreeCourseDTO;
+		return userService.getInfo(id);
 	}
 }

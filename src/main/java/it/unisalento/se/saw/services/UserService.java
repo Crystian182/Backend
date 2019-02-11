@@ -22,6 +22,7 @@ import it.unisalento.se.saw.domain.Teacher;
 import it.unisalento.se.saw.domain.Term;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.AcademicYearDTO;
+import it.unisalento.se.saw.dto.CourseTypeDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.EnrollmentStatusDTO;
 import it.unisalento.se.saw.dto.LoginDTO;
@@ -29,6 +30,7 @@ import it.unisalento.se.saw.dto.StudentDTO;
 import it.unisalento.se.saw.dto.StudentHasDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.dto.TermDTO;
+import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
@@ -61,8 +63,18 @@ public class UserService implements IUserService{
 		return userRepository.findAll();	
 	}
 	
+	@Transactional(readOnly=true)
+	public String getPropic(int iduser) throws IOException{
+		User user = userRepository.getOne(iduser);
+		try {
+			return this.getUserImage(user.getFile().getIdfile());
+		} catch (Exception e) {
+			return "null";
+		}
+	}
+	
 	@Transactional
-	public UserDTO save(UserDTO userDTO) {
+	public UserDTO save(UserDTO userDTO) throws IOException {
 		User user = new User();
 		user.setIduser(userDTO.getIduser());
 		user.setName(userDTO.getName());
@@ -77,7 +89,10 @@ public class UserService implements IUserService{
 		user.setEmail(userDTO.getEmail());
 		user.setPlaceBirth(userDTO.getPlaceBirth());
 		user.setPassword(userRepository.getOne(userDTO.getIduser()).getPassword());
-		userRepository.getOne(userDTO.getIduser());
+		
+		it.unisalento.se.saw.domain.File file = new it.unisalento.se.saw.domain.File();
+		file.setIdfile(userRepository.getOne(userDTO.getIduser()).getFile().getIdfile());
+		user.setFile(file);
 		User newUser = userRepository.save(user);
 		UserDTO newuserDTO = new UserDTO();
 		newuserDTO.setIduser(newUser.getIduser());
@@ -93,6 +108,7 @@ public class UserService implements IUserService{
 		newuserDTO.setEmail(newUser.getEmail());
 		newuserDTO.setPlaceBirth(newUser.getPlaceBirth());
 		newuserDTO.setType(userDTO.getType());
+		newuserDTO.setPropic(this.getUserImage(newUser.getFile().getIdfile()));
 		return newuserDTO;
 	}
 	
@@ -261,17 +277,7 @@ public class UserService implements IUserService{
 		StudentHasDegreeCourse studentHasDegreeCourse = studentHasDegreeCourseRepository.getStudentCourse(idStudent);
 		
 		StudentHasDegreeCourseDTO studentHasDegreeCourseDTO = new StudentHasDegreeCourseDTO();
-		
-		StudentDTO studentDTO = new StudentDTO();
-		Student student = userRepository.getStudent(idStudent);
-		User user = new User();
-		user.setName(student.getUser().getName());
-		user.setSurname(student.getUser().getSurname());
-		user.setIduser(student.getUser().getIduser());
-		student.setUser(user);
-		studentDTO.setIdstudent(student.getUser().getIduser());
-		studentDTO.setName(student.getUser().getName());
-		studentDTO.setSurname(student.getUser().getSurname());
+
 		AcademicYearDTO academicYearDTO = new AcademicYearDTO();
 		academicYearDTO.setIdacademicYear(studentHasDegreeCourse.getDegreeCourse().getAcademicYear().getIdacademicYear());
 		academicYearDTO.setYear(studentHasDegreeCourse.getDegreeCourse().getAcademicYear().getYear());
@@ -285,15 +291,24 @@ public class UserService implements IUserService{
 			termDTOs.add(termDTO);
 		}
 		academicYearDTO.setTerms(termDTOs);	
+		CourseTypeDTO courseType = new CourseTypeDTO();
+		courseType.setIdcourseType(studentHasDegreeCourse.getDegreeCourse().getTypeDegreeCourse().getCourseType().getIdcourseType());
+		courseType.setDescription(studentHasDegreeCourse.getDegreeCourse().getTypeDegreeCourse().getCourseType().getDescription());
+		courseType.setCfu(studentHasDegreeCourse.getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+		courseType.setDuration(studentHasDegreeCourse.getDegreeCourse().getTypeDegreeCourse().getCourseType().getDuration());
+		TypeDegreeCourseDTO typeDegreeCourse = new TypeDegreeCourseDTO();
+		typeDegreeCourse.setIdtypeDegreeCourse(studentHasDegreeCourse.getDegreeCourse().getTypeDegreeCourse().getIdtypeDegreeCourse());
+		typeDegreeCourse.setName(studentHasDegreeCourse.getDegreeCourse().getTypeDegreeCourse().getName());
+		typeDegreeCourse.setCourseType(courseType);
 		DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
 		degreeCourseDTO.setIdcourse(studentHasDegreeCourse.getDegreeCourse().getIddegreeCourse());
 		degreeCourseDTO.setName(studentHasDegreeCourse.getDegreeCourse().getTypeDegreeCourse().getName());
 		degreeCourseDTO.setAcademicYear(academicYearDTO);
+		degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourse);
 		EnrollmentStatusDTO enrollmentStatusDTO = new EnrollmentStatusDTO();
 		enrollmentStatusDTO.setIdenrollmentStatus(studentHasDegreeCourse.getEnrollmentStatus().getIdenrollmentStatus());
 		enrollmentStatusDTO.setDescription(studentHasDegreeCourse.getEnrollmentStatus().getDescription());
 		
-		studentHasDegreeCourseDTO.setStudent(studentDTO);
 		studentHasDegreeCourseDTO.setDegreeCourse(degreeCourseDTO);
 		studentHasDegreeCourseDTO.setDate(studentHasDegreeCourse.getDate());
 		studentHasDegreeCourseDTO.setEnrollmentStatus(enrollmentStatusDTO);

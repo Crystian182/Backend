@@ -22,6 +22,7 @@ public interface ILessonService {
 	public List<LessonDTO> getAllTeacherLessons(int idteacher);
 	public List<FeedbackDTO> getFeedback(int idlesson);
 	public List<LessonDTO> getAllLessonsByCourseAndTerm(int idcourse, int idterm);
+	public List<LessonDTO> getTodayLessons(int iduser);
 	public void edit(ArrayList<LessonDTO> lessonDTOs);
 
 }

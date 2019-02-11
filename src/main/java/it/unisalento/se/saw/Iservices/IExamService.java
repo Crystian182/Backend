@@ -19,6 +19,7 @@ public interface IExamService {
 	public void save(List<ExamDTO> examDTOs);
 	public List<ExamDTO> getAllAvailableByTeacher(int idteacher);
 	public void insertGrade(List<ExamEnrollmentDTO> enrollmentDTOs, int idexam);
+	public List<ExamEnrollmentDTO> getRecordBook(int idstudent);
 	/*public void delete(int id)  throws ExamNotFoundException;
 	public ExamDTO save(ExamDTO examDTO);
 	public ExamDTO subscribe(int idexam, StudentDTO studentDTO);*/

@@ -26,6 +26,10 @@ import it.unisalento.se.saw.domain.FileLessonId;
 import it.unisalento.se.saw.domain.Lesson;
 import it.unisalento.se.saw.dto.FeedbackDTO;
 import it.unisalento.se.saw.dto.FileDTO;
+import it.unisalento.se.saw.dto.FileLessonDTO;
+import it.unisalento.se.saw.dto.LessonDTO;
+import it.unisalento.se.saw.dto.SubjectDTO;
+import it.unisalento.se.saw.dto.TypeLessonDTO;
 import it.unisalento.se.saw.exceptions.FileNotExistsException;
 import it.unisalento.se.saw.repositories.BuildingRepository;
 import it.unisalento.se.saw.repositories.FeedbackFileRepository;
@@ -151,6 +155,40 @@ public class FileService implements IFileService {
 		}
 		
 		return fileDTOs;
+		
+	}
+	
+	public List<FileLessonDTO> getLastFiles(int idstudent) {
+		
+		List<FileLesson> files = fileLessonRepository.getLastFiles(idstudent);
+		List<FileLessonDTO> fileLessonDTOs = new ArrayList<FileLessonDTO>();
+		for(int i=0; i<files.size(); i++) {
+			FileDTO fileDTO = new FileDTO();
+			fileDTO.setIdFile(files.get(i).getId().getFileIdfile());
+			fileDTO.setName(files.get(i).getFile().getName());
+			
+			SubjectDTO subjectDTO = new SubjectDTO();
+			subjectDTO.setId(files.get(i).getLesson().getTypeLesson().getSubject().getIdsubject());
+			subjectDTO.setName(files.get(i).getLesson().getTypeLesson().getSubject().getTypeSubject().getName());
+			
+			TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
+			typeLessonDTO.setSubject(subjectDTO);
+			
+			LessonDTO lessonDTO = new LessonDTO();
+			lessonDTO.setIdlesson(files.get(i).getLesson().getIdlesson());
+			lessonDTO.setTypeLesson(typeLessonDTO);
+			lessonDTO.setStart(files.get(i).getLesson().getStart());
+			lessonDTO.setEnd(files.get(i).getLesson().getEnd());
+			
+			FileLessonDTO fileLessonDTO = new FileLessonDTO();
+			fileLessonDTO.setFile(fileDTO);
+			fileLessonDTO.setDate(files.get(i).getDate());
+			fileLessonDTO.setLesson(lessonDTO);
+
+			fileLessonDTOs.add(fileLessonDTO);
+		}
+		
+		return fileLessonDTOs;
 		
 	}
 	

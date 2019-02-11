@@ -1,5 +1,6 @@
 package it.unisalento.se.saw.Iservices;
 
+import java.io.IOException;
 import java.util.List;
 
 import it.unisalento.se.saw.domain.User;
@@ -16,7 +17,7 @@ import it.unisalento.se.saw.models.Login;
 public interface IUserService {
 	
 	public List<User> getAll();
-	public UserDTO save(UserDTO user);
+	public UserDTO save(UserDTO user) throws IOException;
 	public UserDTO login(String email, String token) throws UserNotFoundException;
 	public User getUser(int idUser) throws UserNotFoundException;
 	public UserDTO getById(int idUser) throws UserNotFoundException;

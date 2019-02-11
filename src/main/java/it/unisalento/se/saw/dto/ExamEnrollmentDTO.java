@@ -8,6 +8,8 @@ public class ExamEnrollmentDTO {
 	private Date date;
 	private int grade;
 	private ResultDTO result;
+	private ExamDTO exam;
+	
 	public StudentDTO getStudent() {
 		return student;
 	}
@@ -31,6 +33,12 @@ public class ExamEnrollmentDTO {
 	}
 	public void setResult(ResultDTO result) {
 		this.result = result;
+	}
+	public ExamDTO getExam() {
+		return exam;
+	}
+	public void setExam(ExamDTO exam) {
+		this.exam = exam;
 	}
 	
 

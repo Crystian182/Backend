@@ -22,6 +22,5 @@ public interface ExamRepository extends JpaRepository<Exam, Integer> {
 	@Modifying
 	@Query("UPDATE Exam e set e.examStatus.idexamStatus=2")
 	public void closeExam(@Param("idexam")int idexam);
-
 	
 }

@@ -67,6 +67,11 @@ public class ExamRestController {
 		examService.insertGrade(enrollmentDTOs, idexam);
 	}
 	
+	@GetMapping(value="/getRecordBook/{idstudent}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ExamEnrollmentDTO> getRecordBook(@PathVariable("idstudent")int idstudent) throws ExamNotFoundException {
+		return examService.getRecordBook(idstudent);
+	}
+	
 	/*@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ExamDTO getById(@PathVariable("id")int id) throws ExamNotFoundException{
 		return examService.getById(id);

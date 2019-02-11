@@ -25,6 +25,7 @@ import org.springframework.core.io.Resource;
 import it.unisalento.se.saw.Iservices.IFileService;
 import it.unisalento.se.saw.dto.FeedbackDTO;
 import it.unisalento.se.saw.dto.FileDTO;
+import it.unisalento.se.saw.dto.FileLessonDTO;
 import it.unisalento.se.saw.exceptions.FileNotExistsException;
 
 @RestController
@@ -110,6 +111,11 @@ public class FileRestController {
    @GetMapping("/getFeedbackFile/{idfile}")
    public List<FeedbackDTO> getFeedbackFile(@PathVariable("idfile")int idfile) {
        return fileService.getFeedbackFile(idfile);
+   }
+   
+   @GetMapping("/getLastFiles/{idstudent}")
+   public List<FileLessonDTO> getLastFiles(@PathVariable("idstudent")int idstudent) {
+       return fileService.getLastFiles(idstudent);
    }
 
 	
