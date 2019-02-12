@@ -412,6 +412,8 @@ public class LessonService implements ILessonService{
 			ClassroomDTO classroomDTO = new ClassroomDTO();
 			classroomDTO.setId(lessons.get(i).getClassroom().getIdclassroom());
 			classroomDTO.setName(lessons.get(i).getClassroom().getName());
+			classroomDTO.setLat(lessons.get(i).getClassroom().getLat());
+			classroomDTO.setLng(lessons.get(i).getClassroom().getLng());
 			
 			BuildingDTO buildingDTO = new BuildingDTO();
 			buildingDTO.setId(lessons.get(i).getClassroom().getBuilding().getIdbuilding());
