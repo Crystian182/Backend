@@ -1,5 +1,6 @@
 package it.unisalento.se.saw.Iservices;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public interface ILessonService {
 	public List<LessonDTO> getAllTeacherLessons(int idteacher);
 	public List<FeedbackDTO> getFeedback(int idlesson);
 	public List<LessonDTO> getAllLessonsByCourseAndTerm(int idcourse, int idterm);
+	public List<LessonDTO> searchLessons(int idcourse, int idterm, int idsubject, String from, String to) throws ParseException;
 	public List<LessonDTO> getTodayLessons(int iduser);
 	public void edit(ArrayList<LessonDTO> lessonDTOs);
 

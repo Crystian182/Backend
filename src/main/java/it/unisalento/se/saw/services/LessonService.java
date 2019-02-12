@@ -1,6 +1,10 @@
 package it.unisalento.se.saw.services;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -473,6 +477,47 @@ public class LessonService implements ILessonService{
 		}
 		
 		return feedbackDTOs;
+	}
+	
+	public List<LessonDTO> searchLessons(int idcourse, int idterm, int idsubject, String from, String to) throws ParseException {
+		
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		List<Lesson> lessons = lessonRepository.searchLessons(idcourse, idterm, idsubject, format.parse(from), format.parse(to));
+		
+		List<LessonDTO> lessonDTOs = new ArrayList<LessonDTO>();
+		
+		for (int i=0; i<lessons.size(); i++) {
+			LessonDTO lessonDTO = new LessonDTO();
+			lessonDTO.setIdlesson(lessons.get(i).getIdlesson());
+			lessonDTO.setStart(lessons.get(i).getStart());
+			lessonDTO.setEnd(lessons.get(i).getEnd());
+			
+			BuildingDTO buildingDTO = new BuildingDTO();
+			buildingDTO.setId(lessons.get(i).getClassroom().getBuilding().getIdbuilding());
+			buildingDTO.setName(lessons.get(i).getClassroom().getBuilding().getName());
+			
+			ClassroomDTO classroomDTO = new ClassroomDTO();
+			classroomDTO.setId(lessons.get(i).getClassroom().getIdclassroom());
+			classroomDTO.setName(lessons.get(i).getClassroom().getName());
+			classroomDTO.setBuilding(buildingDTO);
+			
+			lessonDTO.setClassroom(classroomDTO);
+			
+			SubjectDTO subjectDTO = new SubjectDTO();
+			subjectDTO.setId(lessons.get(i).getTypeLesson().getSubject().getIdsubject());
+			subjectDTO.setName(lessons.get(i).getTypeLesson().getSubject().getTypeSubject().getName());
+			
+			TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
+			typeLessonDTO.setIdtypeLesson(lessons.get(i).getTypeLesson().getIdtypeLesson());
+			typeLessonDTO.setSubject(subjectDTO);
+			
+			lessonDTO.setTypeLesson(typeLessonDTO);
+			
+			lessonDTOs.add(lessonDTO);
+		}
+		
+		return lessonDTOs;
+		
 	}
 	
 	public List<LessonDTO> getAllLessonsByCourseAndTerm(int idcourse, int idterm) {

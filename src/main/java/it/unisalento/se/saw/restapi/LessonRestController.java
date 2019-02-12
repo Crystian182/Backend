@@ -1,5 +1,6 @@
 package it.unisalento.se.saw.restapi;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +74,11 @@ public class LessonRestController {
 	@GetMapping(value="/getAllLessonsByCourseAndTerm/idcourse={idcourse}&idterm={idterm}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<LessonDTO> getAllLessonsByCourseAndTerm(@PathVariable("idcourse")int idcourse, @PathVariable("idterm")int idterm){
 		return lessonService.getAllLessonsByCourseAndTerm(idcourse, idterm);
+	}
+	
+	@GetMapping(value="/searchLessons/idcourse={idcourse}&idterm={idterm}&idsubject={idsubject}&from={from}&to={to}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<LessonDTO> searchLessons(@PathVariable("idcourse")int idcourse, @PathVariable("idterm")int idterm, @PathVariable("idsubject")int idsubject, @PathVariable("from")String from, @PathVariable("to")String to) throws ParseException{
+		return lessonService.searchLessons(idcourse, idterm, idsubject, from, to);
 	}
 	
 	@PostMapping(value="/edit", produces=MediaType.APPLICATION_JSON_VALUE)
