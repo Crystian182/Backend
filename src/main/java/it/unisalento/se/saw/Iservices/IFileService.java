@@ -18,6 +18,7 @@ public interface IFileService {
 	public Resource getFileAsResource(String filename, String location) throws FileNotExistsException;
 	public List<FileDTO> getLessonFiles(int idlesson);
 	public List<FileLessonDTO> getLastFiles(int idstudent);
+	public List<FileLessonDTO> getSubjectFiles(int idsubject);
 	public it.unisalento.se.saw.domain.File getBuildingImage(int idbuilding);
 	public it.unisalento.se.saw.domain.File getFile(int idfile);
 	public List<FeedbackDTO> getFeedbackFile(int idfile);

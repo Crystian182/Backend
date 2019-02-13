@@ -534,6 +534,99 @@ public class ExamService implements IExamService{
 		
 	}
 	
+	public void bookStudent(int idstudent, int idexam) {
+		
+		StudentHasExamId id = new StudentHasExamId();
+		id.setIdexam(idexam);
+		id.setIduser(idstudent);
+		
+		Result result = new Result();
+		result.setIdresult(1);
+		
+		StudentHasExam enrollment = new StudentHasExam();
+		enrollment.setId(id);
+		enrollment.setResult(result);
+		enrollment.setDate(new Date());
+		
+		this.studentHasExamRepository.save(enrollment);
+	}
+	
+	public List<ExamDTO> getAllAvailableByStudent(int idstudent) {
+
+		List<Exam> exams = examRepository.getAllAvailableByStudent(idstudent);
+		List<ExamDTO> examDTOs = new ArrayList<ExamDTO>();
+		for(int i=0; i<exams.size(); i++) {
+			
+			BuildingDTO buildingDTO = new BuildingDTO();
+			buildingDTO.setId(exams.get(i).getClassroom().getBuilding().getIdbuilding());
+			buildingDTO.setName(exams.get(i).getClassroom().getBuilding().getName());
+			buildingDTO.setAddress(exams.get(i).getClassroom().getBuilding().getAddress());
+			
+			TeacherDTO teacherDTO = new TeacherDTO();
+			teacherDTO.setIdteacher(exams.get(i).getSubject().getTeacher().getIduser());
+			teacherDTO.setSurname(exams.get(i).getSubject().getTeacher().getUser().getName());
+			teacherDTO.setName(exams.get(i).getSubject().getTeacher().getUser().getSurname());
+			
+			DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
+			degreeCourseDTO.setIdcourse(exams.get(i).getSubject().getDegreeCourse().getIddegreeCourse());
+			
+			TypeDegreeCourseDTO typeDegreeCourseDTO = new TypeDegreeCourseDTO();
+			typeDegreeCourseDTO.setIdtypeDegreeCourse(exams.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getIdtypeDegreeCourse());
+			typeDegreeCourseDTO.setName(exams.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getName());
+			
+			CourseTypeDTO courseTypeDTO = new CourseTypeDTO();
+			courseTypeDTO.setIdcourseType(exams.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getIdcourseType());
+			courseTypeDTO.setDescription(exams.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getDescription());
+			courseTypeDTO.setCfu(exams.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+			courseTypeDTO.setDuration(exams.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+			typeDegreeCourseDTO.setCourseType(courseTypeDTO);
+			
+			degreeCourseDTO.setCfu(exams.get(i).getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+			academicYearDTO.setIdacademicYear(exams.get(i).getSubject().getDegreeCourse().getAcademicYear().getIdacademicYear());
+			academicYearDTO.setYear(exams.get(i).getSubject().getDegreeCourse().getAcademicYear().getYear());
+			degreeCourseDTO.setAcademicYear(academicYearDTO);
+			degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
+			
+			ClassroomDTO classroomDTO = new ClassroomDTO();
+			classroomDTO.setId(exams.get(i).getClassroom().getIdclassroom());
+			classroomDTO.setName(exams.get(i).getClassroom().getName());
+			classroomDTO.setSeats(exams.get(i).getClassroom().getSeats());
+			classroomDTO.setBuilding(buildingDTO);
+			
+			SubjectDTO subjectDTO = new SubjectDTO();
+			subjectDTO.setId(exams.get(i).getSubject().getIdsubject());
+			subjectDTO.setName(exams.get(i).getSubject().getTypeSubject().getName());
+			subjectDTO.setTeacherDTO(teacherDTO);
+			subjectDTO.setDegreecourseDTO(degreeCourseDTO);
+			subjectDTO.setCfu(exams.get(i).getSubject().getCfu());
+			
+			ExamStatusDTO statusDTO = new ExamStatusDTO();
+			statusDTO.setIdstatus(exams.get(i).getExamStatus().getIdexamStatus());
+			statusDTO.setDescription(exams.get(i).getExamStatus().getDescription());
+			
+			ExamDTO examDTO = new ExamDTO();
+			
+			examDTO.setIdexam(exams.get(i).getIdexam());
+			examDTO.setClassroom(classroomDTO);
+			examDTO.setSubject(subjectDTO);
+			examDTO.setDate(exams.get(i).getDate());
+			examDTO.setStatus(statusDTO);
+			
+			ExamTypeDTO examTypeDTO = new ExamTypeDTO();
+			examTypeDTO.setIdexamType(exams.get(i).getExamType().getIdexamType());
+			examTypeDTO.setDescription(exams.get(i).getExamType().getDescription());
+			
+			examDTO.setExamtype(examTypeDTO);
+			
+			examDTOs.add(examDTO);
+		
+		}
+		return examDTOs;
+		
+	
+}
+	
 	public List<ExamEnrollmentDTO> getRecordBook(int idstudent) {
 
 		List<Subject> subjects = subjectRepository.getCoursesByIdStudent(idstudent);
@@ -623,6 +716,73 @@ public class ExamService implements IExamService{
 		
 	
 }
+	
+	public List<ExamEnrollmentDTO> getAllEnrollments(int idstudent) {
+
+		
+			List<StudentHasExam> enrollments = studentHasExamRepository.getAllEnrollment(idstudent);
+			List<ExamEnrollmentDTO> examEnrollmentDTOs = new ArrayList<ExamEnrollmentDTO>();
+			for(int i=0; i<enrollments.size(); i++) {
+				BuildingDTO buildingDTO = new BuildingDTO();
+				buildingDTO.setId(enrollments.get(i).getExam().getClassroom().getBuilding().getIdbuilding());
+				buildingDTO.setName(enrollments.get(i).getExam().getClassroom().getBuilding().getName());
+				buildingDTO.setAddress(enrollments.get(i).getExam().getClassroom().getBuilding().getAddress());
+				
+				ClassroomDTO classroomDTO = new ClassroomDTO();
+				classroomDTO.setId(enrollments.get(i).getExam().getClassroom().getIdclassroom());
+				classroomDTO.setName(enrollments.get(i).getExam().getClassroom().getName());
+				classroomDTO.setSeats(enrollments.get(i).getExam().getClassroom().getSeats());
+				classroomDTO.setBuilding(buildingDTO);
+				
+				ExamTypeDTO examType = new ExamTypeDTO();
+				examType.setIdexamType(enrollments.get(i).getExam().getExamType().getIdexamType());
+				examType.setDescription(enrollments.get(i).getExam().getExamType().getDescription());
+				
+				TeacherDTO teacherDTO = new TeacherDTO();
+				teacherDTO.setIdteacher(enrollments.get(i).getExam().getSubject().getTeacher().getIduser());
+				teacherDTO.setSurname(enrollments.get(i).getExam().getSubject().getTeacher().getUser().getName());
+				teacherDTO.setName(enrollments.get(i).getExam().getSubject().getTeacher().getUser().getSurname());
+				
+				SubjectDTO subjectDTO = new SubjectDTO();
+				subjectDTO.setId(enrollments.get(i).getExam().getSubject().getIdsubject());
+				subjectDTO.setName(enrollments.get(i).getExam().getSubject().getTypeSubject().getName());
+				subjectDTO.setCfu(enrollments.get(i).getExam().getSubject().getCfu());
+				subjectDTO.setTeacherDTO(teacherDTO);
+
+				ExamStatusDTO status = new ExamStatusDTO();
+				status.setIdstatus(enrollments.get(i).getExam().getExamStatus().getIdexamStatus());
+				status.setDescription(enrollments.get(i).getExam().getExamStatus().getDescription());
+				
+				ExamDTO examDTO = new ExamDTO();
+				examDTO.setIdexam(enrollments.get(i).getExam().getIdexam());
+				examDTO.setDate(enrollments.get(i).getExam().getDate());
+				examDTO.setClassroom(classroomDTO);
+				examDTO.setExamtype(examType);
+				examDTO.setSubject(subjectDTO);
+				examDTO.setStatus(status);
+				
+				ResultDTO result = new ResultDTO();
+				result.setIdresult(enrollments.get(i).getResult().getIdresult());
+				result.setDescription(enrollments.get(i).getResult().getDescription());
+				
+				ExamEnrollmentDTO enrollmentDTO = new ExamEnrollmentDTO();
+				enrollmentDTO.setExam(examDTO);
+				enrollmentDTO.setDate(enrollments.get(i).getDate());
+				if(enrollments.get(i).getGrade() != null) {
+					enrollmentDTO.setGrade(enrollments.get(i).getGrade());
+				} else {
+					enrollmentDTO.setGrade(0);
+				}
+				
+				enrollmentDTO.setResult(result);
+				
+				examEnrollmentDTOs.add(enrollmentDTO);
+				
+			}
+				return examEnrollmentDTOs;
+				
+			} 
+		
 	
 	@Transactional
 	public void insertGrade(List<ExamEnrollmentDTO> enrollmentDTOs, int idexam) {

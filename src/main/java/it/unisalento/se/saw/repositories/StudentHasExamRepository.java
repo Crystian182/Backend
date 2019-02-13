@@ -20,4 +20,7 @@ public interface StudentHasExamRepository extends JpaRepository<StudentHasExam, 
 	@Query("SELECT i FROM Exam e, StudentHasExam i WHERE i.exam.subject.idsubject=:idsubject AND i.student.iduser=:idstudent AND i.result.idresult=2 AND i.exam.idexam=e.idexam")
 	public StudentHasExam getPassedExam(@Param("idstudent")int idstudent, @Param("idsubject")int idsubject);
 	
+	@Query("SELECT i FROM StudentHasExam i WHERE i.student.iduser=:idstudent ORDER BY i.date DESC")
+	public List<StudentHasExam> getAllEnrollment(@Param("idstudent")int idstudent);
+	
 }

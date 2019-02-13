@@ -23,4 +23,7 @@ public interface ExamRepository extends JpaRepository<Exam, Integer> {
 	@Query("UPDATE Exam e set e.examStatus.idexamStatus=2")
 	public void closeExam(@Param("idexam")int idexam);
 	
+	@Query("SELECT e FROM Exam e, StudentHasDegreeCourse i WHERE i.student.iduser=:idstudent AND i.degreeCourse.iddegreeCourse=e.subject.degreeCourse.iddegreeCourse AND e.examStatus.idexamStatus=1 AND CURDATE()<=DATE(e.date)-1 AND e.subject.typeSubject.idtypeSubject NOT IN (SELECT r.exam.subject.typeSubject.idtypeSubject FROM StudentHasExam r WHERE r.student.iduser=:idstudent AND r.result.idresult=2) AND e.idexam NOT IN (SELECT y.exam.idexam FROM StudentHasExam y WHERE y.student.iduser=:idstudent AND y.result.idresult=1) ORDER BY e.date DESC")
+	public List<Exam> getAllAvailableByStudent(@Param("idstudent")int idstudent);
+	
 }

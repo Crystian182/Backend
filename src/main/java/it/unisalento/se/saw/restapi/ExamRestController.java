@@ -72,6 +72,21 @@ public class ExamRestController {
 		return examService.getRecordBook(idstudent);
 	}
 	
+	@GetMapping(value="/getAllAvailableByStudent/{idstudent}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ExamDTO> getAllAvailableByStudent(@PathVariable("idstudent")int idstudent) throws ExamNotFoundException {
+		return examService.getAllAvailableByStudent(idstudent);
+	}
+	
+	@GetMapping(value="/bookStudent/idstudent={idstudent}&idexam={idexam}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public void bookStudent(@PathVariable("idstudent")int idstudent, @PathVariable("idexam")int idexam) throws ExamNotFoundException {
+		examService.bookStudent(idstudent, idexam);
+	}
+	
+	@GetMapping(value="/getAllEnrollments/{idstudent}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ExamEnrollmentDTO> getAllEnrollments(@PathVariable("idstudent")int idstudent) throws ExamNotFoundException {
+		return examService.getAllEnrollments(idstudent);
+	}
+	
 	/*@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ExamDTO getById(@PathVariable("id")int id) throws ExamNotFoundException{
 		return examService.getById(id);

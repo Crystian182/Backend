@@ -86,4 +86,10 @@ public class SubjectRestController {
 		return subjectService.saveType(typeSubjectDTO);
 	}
 	
+	@GetMapping(value="/getByIdStudent/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<SubjectDTO> getByIdStudent(@PathVariable("id")int id) throws SubjectNotFoundException {
+		
+		return subjectService.getByIdStudent(id);
+		
+	}
 }

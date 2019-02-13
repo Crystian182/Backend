@@ -121,6 +121,11 @@ public class FileRestController {
        return fileService.getLastFiles(idstudent);
    }
    
+   @GetMapping("/getSubjectFiles/{idsubject}")
+   public List<FileLessonDTO> getSubjectFiles(@PathVariable("idsubject")int idsubject) {
+       return fileService.getSubjectFiles(idsubject);
+   }
+   
    @PostMapping(value="/saveFeedback/idfile={idfile}&idlesson={idlesson}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public void saveFeedback(@PathVariable("idfile")int idfile, @PathVariable("idlesson")int idlesson, @RequestBody FeedbackDTO feedbackDTO){
 	   fileService.saveFeedback(idfile, idlesson, feedbackDTO);

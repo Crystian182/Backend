@@ -180,7 +180,12 @@ public class FileService implements IFileService {
 		Feedback newFeed = this.feedbackRepository.save(feedback);
 		
 		Lesson lesson = new Lesson();
-		lesson.setIdlesson(idlesson);
+		
+		if(idlesson != 0) {
+			lesson.setIdlesson(idlesson);
+		} else {
+			lesson.setIdlesson(fileLessonRepository.getIdLessonFromIdFile(idfile));
+		}
 		
 		FeedbackFileId id = new FeedbackFileId();
 		id.setIdfeedback(newFeed.getIdfeedback());
@@ -228,6 +233,42 @@ public class FileService implements IFileService {
 		return fileLessonDTOs;
 		
 	}
+	
+public List<FileLessonDTO> getSubjectFiles(int idsubject) {
+		
+		List<FileLesson> files = fileLessonRepository.getSubjectFiles(idsubject);
+		List<FileLessonDTO> fileLessonDTOs = new ArrayList<FileLessonDTO>();
+		for(int i=0; i<files.size(); i++) {
+			FileDTO fileDTO = new FileDTO();
+			fileDTO.setIdFile(files.get(i).getId().getFileIdfile());
+			fileDTO.setName(files.get(i).getFile().getName());
+			fileDTO.setStars(feedbackFileRepository.getStars(files.get(i).getFile().getIdfile()));
+			
+			SubjectDTO subjectDTO = new SubjectDTO();
+			subjectDTO.setId(files.get(i).getLesson().getTypeLesson().getSubject().getIdsubject());
+			subjectDTO.setName(files.get(i).getLesson().getTypeLesson().getSubject().getTypeSubject().getName());
+			
+			TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
+			typeLessonDTO.setSubject(subjectDTO);
+			
+			LessonDTO lessonDTO = new LessonDTO();
+			lessonDTO.setIdlesson(files.get(i).getLesson().getIdlesson());
+			lessonDTO.setTypeLesson(typeLessonDTO);
+			lessonDTO.setStart(files.get(i).getLesson().getStart());
+			lessonDTO.setEnd(files.get(i).getLesson().getEnd());
+			
+			FileLessonDTO fileLessonDTO = new FileLessonDTO();
+			fileLessonDTO.setFile(fileDTO);
+			fileLessonDTO.setDate(files.get(i).getDate());
+			fileLessonDTO.setLesson(lessonDTO);
+
+			fileLessonDTOs.add(fileLessonDTO);
+		}
+		
+		return fileLessonDTOs;
+		
+	}
+	
 	
 	public it.unisalento.se.saw.domain.File getBuildingImage(int idbuilding) {
 		return buildingRepository.getOne(idbuilding).getFile();
