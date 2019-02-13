@@ -20,16 +20,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.unisalento.se.saw.Iservices.IFileService;
 import it.unisalento.se.saw.domain.Building;
+import it.unisalento.se.saw.domain.Feedback;
 import it.unisalento.se.saw.domain.FeedbackFile;
+import it.unisalento.se.saw.domain.FeedbackFileId;
+import it.unisalento.se.saw.domain.FeedbackLesson;
+import it.unisalento.se.saw.domain.FeedbackLessonId;
 import it.unisalento.se.saw.domain.FileLesson;
 import it.unisalento.se.saw.domain.FileLessonId;
 import it.unisalento.se.saw.domain.Lesson;
+import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.FeedbackDTO;
 import it.unisalento.se.saw.dto.FileDTO;
 import it.unisalento.se.saw.dto.FileLessonDTO;
 import it.unisalento.se.saw.dto.LessonDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TypeLessonDTO;
+import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.FileNotExistsException;
 import it.unisalento.se.saw.repositories.BuildingRepository;
 import it.unisalento.se.saw.repositories.FeedbackFileRepository;
@@ -45,6 +51,9 @@ public class FileService implements IFileService {
 	
 	@Autowired
 	FeedbackFileRepository feedbackFileRepository;
+	
+	@Autowired
+	FeedbackRepository feedbackRepository;
 	
 	@Autowired
 	FileLessonRepository fileLessonRepository;
@@ -158,6 +167,34 @@ public class FileService implements IFileService {
 		
 	}
 	
+	public void saveFeedback(int idfile, int idlesson, FeedbackDTO feedbackDTO) {
+		
+		User user = new User();
+		user.setIduser(feedbackDTO.getUser().getIduser());
+		
+		Feedback feedback = new Feedback();
+		feedback.setStars(feedbackDTO.getStars());
+		feedback.setDate(feedbackDTO.getDate());
+		feedback.setUser(user);
+		
+		Feedback newFeed = this.feedbackRepository.save(feedback);
+		
+		Lesson lesson = new Lesson();
+		lesson.setIdlesson(idlesson);
+		
+		FeedbackFileId id = new FeedbackFileId();
+		id.setIdfeedback(newFeed.getIdfeedback());
+		id.setIdfile(idfile);
+		id.setIdlesson(idlesson);
+		
+		FeedbackFile feedFile = new FeedbackFile();
+		feedFile.setId(id);
+		feedFile.setDescription(feedbackDTO.getDescription());
+		
+		this.feedbackFileRepository.save(feedFile);
+		
+	}
+	
 	public List<FileLessonDTO> getLastFiles(int idstudent) {
 		
 		List<FileLesson> files = fileLessonRepository.getLastFiles(idstudent);
@@ -205,11 +242,15 @@ public class FileService implements IFileService {
 		List<FeedbackFile> feedbacks = feedbackFileRepository.getFeedbackFile(idfile);
 		List<FeedbackDTO> feedbackDTOs = new ArrayList<FeedbackDTO>();
 		for(int i=0; i<feedbacks.size(); i++) {
+			UserDTO user = new UserDTO();
+			user.setIduser(feedbacks.get(i).getFeedback().getUser().getIduser());
+			
 			FeedbackDTO feedbackDTO = new FeedbackDTO();
 			feedbackDTO.setId(feedbacks.get(i).getId().getIdfeedback());
 			feedbackDTO.setDescription(feedbacks.get(i).getDescription());
 			feedbackDTO.setDate(feedbacks.get(i).getFeedback().getDate());
 			feedbackDTO.setStars(feedbacks.get(i).getFeedback().getStars());
+			feedbackDTO.setUser(user);
 			feedbackDTOs.add(feedbackDTO);
 		}
 		

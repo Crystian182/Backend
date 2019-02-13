@@ -21,5 +21,6 @@ public interface IFileService {
 	public it.unisalento.se.saw.domain.File getBuildingImage(int idbuilding);
 	public it.unisalento.se.saw.domain.File getFile(int idfile);
 	public List<FeedbackDTO> getFeedbackFile(int idfile);
+	public void saveFeedback(int idfile, int idlesson, FeedbackDTO feedbackDTO);
 
 }

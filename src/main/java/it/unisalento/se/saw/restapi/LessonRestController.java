@@ -92,4 +92,10 @@ public class LessonRestController {
 		return lessonService.getTodayLessons(iduser);
 	}
 	
+	@PostMapping(value="/saveFeedback/{idlesson}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public void saveFeedback(@PathVariable("idlesson")int idlesson, @RequestBody FeedbackDTO feedbackDTO){
+		lessonService.saveFeedback(idlesson, feedbackDTO);
+		
+	}
+	
 }

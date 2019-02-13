@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -117,6 +120,12 @@ public class FileRestController {
    public List<FileLessonDTO> getLastFiles(@PathVariable("idstudent")int idstudent) {
        return fileService.getLastFiles(idstudent);
    }
+   
+   @PostMapping(value="/saveFeedback/idfile={idfile}&idlesson={idlesson}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public void saveFeedback(@PathVariable("idfile")int idfile, @PathVariable("idlesson")int idlesson, @RequestBody FeedbackDTO feedbackDTO){
+	   fileService.saveFeedback(idfile, idlesson, feedbackDTO);
+		
+	}
 
 	
 }

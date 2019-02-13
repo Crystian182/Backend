@@ -2,12 +2,15 @@ package it.unisalento.se.saw.dto;
 
 import java.util.Date;
 
+import it.unisalento.se.saw.domain.User;
+
 public class FeedbackDTO {
 	
 	private int id;
 	private Date date;
 	private String description;
 	private int stars;
+	private UserDTO user;
 	
 	public int getId() {
 		return id;
@@ -32,6 +35,12 @@ public class FeedbackDTO {
 	}
 	public void setStars(int stars) {
 		this.stars = stars;
+	}
+	public UserDTO getUser() {
+		return user;
+	}
+	public void setUser(UserDTO user) {
+		this.user = user;
 	}
 	
 	

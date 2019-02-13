@@ -17,13 +17,17 @@ import it.unisalento.se.saw.domain.Building;
 import it.unisalento.se.saw.domain.Classroom;
 import it.unisalento.se.saw.domain.CourseType;
 import it.unisalento.se.saw.domain.DegreeCourse;
+import it.unisalento.se.saw.domain.Feedback;
 import it.unisalento.se.saw.domain.FeedbackFile;
+import it.unisalento.se.saw.domain.FeedbackFileId;
 import it.unisalento.se.saw.domain.FeedbackLesson;
+import it.unisalento.se.saw.domain.FeedbackLessonId;
 import it.unisalento.se.saw.domain.Lesson;
 import it.unisalento.se.saw.domain.Subject;
 import it.unisalento.se.saw.domain.TypeDegreeCourse;
 import it.unisalento.se.saw.domain.TypeLesson;
 import it.unisalento.se.saw.domain.TypeSubject;
+import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.AcademicYearDTO;
 import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
@@ -39,8 +43,10 @@ import it.unisalento.se.saw.dto.TermDTO;
 import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TypeLessonDTO;
 import it.unisalento.se.saw.dto.TypeSubjectDTO;
+import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.LessonNotFoundException;
 import it.unisalento.se.saw.repositories.FeedbackLessonRepository;
+import it.unisalento.se.saw.repositories.FeedbackRepository;
 import it.unisalento.se.saw.repositories.LessonRepository;
 import it.unisalento.se.saw.repositories.TypeLessonRepository;
 
@@ -56,6 +62,9 @@ public class LessonService implements ILessonService{
 	
 	@Autowired
 	FeedbackLessonRepository feedbackLessonRepository;
+	
+	@Autowired
+	FeedbackRepository feedbackRepository;
 
 	 @Transactional(readOnly = true)
 	 public List<LessonDTO> getAll() {
@@ -464,15 +473,45 @@ public class LessonService implements ILessonService{
 		return typeLessonDTOs;
 	}
 	
+	public void saveFeedback(int idlesson, FeedbackDTO feedbackDTO) {
+		
+		User user = new User();
+		user.setIduser(feedbackDTO.getUser().getIduser());
+		
+		Feedback feedback = new Feedback();
+		feedback.setStars(feedbackDTO.getStars());
+		feedback.setDate(feedbackDTO.getDate());
+		feedback.setUser(user);
+		
+		Feedback newFeed = this.feedbackRepository.save(feedback);
+		
+		Lesson lesson = new Lesson();
+		lesson.setIdlesson(idlesson);
+		
+		FeedbackLessonId id = new FeedbackLessonId();
+		id.setIdfeedback(newFeed.getIdfeedback());
+		id.setIdlesson(idlesson);
+		FeedbackLesson feedLesson = new FeedbackLesson();
+		feedLesson.setId(id);
+		feedLesson.setDescription(feedbackDTO.getDescription());
+		
+		FeedbackLesson newFeedLesson = this.feedbackLessonRepository.save(feedLesson);
+		
+	}
+	
 	public List<FeedbackDTO> getFeedback(int idlesson) {
 		List<FeedbackLesson> feedbacks = feedbackLessonRepository.getFeedbackLesson(idlesson);
 		List<FeedbackDTO> feedbackDTOs = new ArrayList<FeedbackDTO>();
 		for(int i=0; i<feedbacks.size(); i++) {
+			UserDTO user = new UserDTO();
+			user.setIduser(feedbacks.get(i).getFeedback().getUser().getIduser());
+			
 			FeedbackDTO feedbackDTO = new FeedbackDTO();
 			feedbackDTO.setId(feedbacks.get(i).getId().getIdfeedback());
 			feedbackDTO.setDescription(feedbacks.get(i).getDescription());
 			feedbackDTO.setDate(feedbacks.get(i).getFeedback().getDate());
 			feedbackDTO.setStars(feedbacks.get(i).getFeedback().getStars());
+			feedbackDTO.setUser(user);
 			feedbackDTOs.add(feedbackDTO);
 		}
 		

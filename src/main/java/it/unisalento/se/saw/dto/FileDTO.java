@@ -1,5 +1,7 @@
 package it.unisalento.se.saw.dto;
 
+import java.util.Date;
+
 public class FileDTO {
 	
 	private int idFile;

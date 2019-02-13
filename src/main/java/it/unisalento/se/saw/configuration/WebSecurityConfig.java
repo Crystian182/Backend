@@ -103,7 +103,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                  "/**/*.js",
                  "/image/**").permitAll()
          //.antMatchers("/socket/**").permitAll()
-         .antMatchers("/public/**").permitAll().and()
+         .antMatchers("/public/**").permitAll()
+         .antMatchers("/file/download/filelesson/**").permitAll().and()
          .authorizeRequests().anyRequest().authenticated().and();
 
  httpSecurity
