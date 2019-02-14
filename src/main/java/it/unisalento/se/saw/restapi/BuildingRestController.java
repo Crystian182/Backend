@@ -1,5 +1,6 @@
 package it.unisalento.se.saw.restapi;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class BuildingRestController {
 	}
 	
 	@GetMapping(value="/getAll", produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<BuildingDTO> getAll(){
+	public List<BuildingDTO> getAll() throws IOException{
 		return buildingService.getAll();
 	}
 	

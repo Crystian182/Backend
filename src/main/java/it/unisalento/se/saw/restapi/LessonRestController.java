@@ -98,4 +98,10 @@ public class LessonRestController {
 		
 	}
 	
+	@GetMapping(value="/getTeacherTodayLessons/{iduser}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<LessonDTO> getTeacherTodayLessons(@PathVariable("iduser")int iduser){
+		return lessonService.getTeacherTodayLessons(iduser);
+	}
+	
+	
 }

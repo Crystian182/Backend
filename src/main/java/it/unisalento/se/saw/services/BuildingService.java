@@ -1,8 +1,15 @@
 package it.unisalento.se.saw.services;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +20,7 @@ import it.unisalento.se.saw.domain.Classroom;
 import it.unisalento.se.saw.domain.ClassroomHasTool;
 import it.unisalento.se.saw.domain.ClassroomHasToolId;
 import it.unisalento.se.saw.domain.Tool;
+import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.BuildingDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
 import it.unisalento.se.saw.dto.ToolDTO;
@@ -26,6 +34,8 @@ import it.unisalento.se.saw.repositories.UserRepository;
 @Service
 public class BuildingService implements IBuildingService{
 	
+	private static final String location = "C:\\Users\\Federico\\Desktop\\Computer Engineering\\Backend\\Backend\\src\\main\\resources\\";
+	
 	@Autowired
 	BuildingRepository buildingRepository;
 	
@@ -36,7 +46,7 @@ public class BuildingService implements IBuildingService{
 	ClassroomHasToolRepository classroomHasToolRepository;
 	
 	@Transactional(readOnly=true)
-	public List<BuildingDTO> getAll(){
+	public List<BuildingDTO> getAll() throws IOException{
 		List<BuildingDTO> buildingDTOs = new ArrayList<BuildingDTO>();
 		List<Building> buildings = buildingRepository.findAll();
 		for(int i=0; i<buildings.size(); i++) {
@@ -46,9 +56,50 @@ public class BuildingService implements IBuildingService{
 			buildingDTO.setAddress(buildings.get(i).getAddress());
 			buildingDTO.setLat(buildings.get(i).getLat());
 			buildingDTO.setLng(buildings.get(i).getLng());
+			buildingDTO.setPic(this.getImage(buildings.get(i).getFile().getIdfile()));
+			
+			List<Classroom> classrooms = classroomRepository.findClassesByBuild(buildings.get(i).getIdbuilding());
+			if(classrooms != null) {
+				List<ClassroomDTO> classroomDTOs = new ArrayList<ClassroomDTO>();
+				for(int j = 0; j<classrooms.size(); j++) {
+					ClassroomDTO classroomDTO = new ClassroomDTO();
+					classroomDTO.setId(classrooms.get(j).getIdclassroom());
+					classroomDTO.setName(classrooms.get(j).getName());
+					classroomDTO.setSeats(classrooms.get(j).getSeats());
+					classroomDTO.setLat(classrooms.get(j).getLat());
+					classroomDTO.setLng(classrooms.get(j).getLng());
+					
+					List<ToolDTO> toolDTOs = new ArrayList<ToolDTO>();
+					List<ClassroomHasTool> toolsInClassroom = classroomHasToolRepository.getToolByClassroomId(classrooms.get(j).getIdclassroom());
+					
+					for(int h=0; h<toolsInClassroom.size(); h++) {
+						ToolDTO toolDTO = new ToolDTO();
+						toolDTO.setId(toolsInClassroom.get(h).getId().getIdtool());
+						toolDTO.setName(toolsInClassroom.get(h).getTool().getName());
+						toolDTO.setQuantity(toolsInClassroom.get(h).getQuantity());
+						toolDTOs.add(toolDTO);
+					}
+					classroomDTO.setTool(toolDTOs);
+					classroomDTOs.add(classroomDTO);
+				}
+				buildingDTO.setClassrooms(classroomDTOs);
+			}
+			
 			buildingDTOs.add(buildingDTO);
 		}
 		return buildingDTOs;
+	}
+	
+	
+	public String getImage(int idfile) throws IOException {
+		BufferedImage img = ImageIO.read(new File(location + idfile));             
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(img, "jpg", baos);
+		baos.flush();
+		Base64 base = new Base64(false);
+		String encodedImage = base.encodeToString(baos.toByteArray());
+		baos.close();
+		return encodedImage = java.net.URLEncoder.encode(encodedImage, "ISO-8859-1");
 	}
 	
 	@Transactional(rollbackFor=BuildingNotFoundException.class)

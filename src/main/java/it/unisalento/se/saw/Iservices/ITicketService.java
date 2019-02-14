@@ -14,5 +14,7 @@ public interface ITicketService {
 	public List<TicketMessageDTO> getMessages(int idticket);
 	public TicketDTO saveMessages(TicketDTO ticketDTO, TicketMessageDTO ticketMessageDTO);
 	public TicketMessageDTO saveMessage(TicketMessageDTO ticketMessageDTO);
+	public List<TicketDTO> getAllTeacherTickets(int idteacher);
+	public List<TicketDTO> getAllClassroomTickets(int idclassroom);
 
 }

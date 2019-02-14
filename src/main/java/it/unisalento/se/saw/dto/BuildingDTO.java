@@ -10,6 +10,7 @@ public class BuildingDTO {
 	private float lat;
 	private float lng;
 	private List<ClassroomDTO> classrooms;
+	private String pic;
 	
 	public int getId() {
 		return id;
@@ -46,6 +47,12 @@ public class BuildingDTO {
 	}
 	public void setClassrooms(List<ClassroomDTO> classrooms) {
 		this.classrooms = classrooms;
+	}
+	public String getPic() {
+		return pic;
+	}
+	public void setPic(String pic) {
+		this.pic = pic;
 	}
 	
 

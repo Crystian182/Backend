@@ -39,7 +39,10 @@ public class TicketRestController {
 		return ticketService.getAll();
 	}
 	
-	
+	@GetMapping(value="/getAllTeacherTickets/{idteacher}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<TicketDTO> getAllTeacherTickets(@PathVariable("idteacher")int idteacher){
+		return ticketService.getAllTeacherTickets(idteacher);
+	}
 	
 	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public TicketDTO getById(@PathVariable("id")int id) throws TicketNotFoundException{
@@ -73,6 +76,11 @@ public class TicketRestController {
 	public TicketMessageDTO savemessage(@RequestBody TicketMessageDTO ticketMessageDTO){
 		return ticketService.saveMessage(ticketMessageDTO);
 		
+	}
+	
+	@GetMapping(value="/getAllClassroomTickets/{idclassroom}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<TicketDTO> getAllClassroomTickets(@PathVariable("idclassroom")int idclassroom){
+		return ticketService.getAllClassroomTickets(idclassroom);
 	}
 	
 }

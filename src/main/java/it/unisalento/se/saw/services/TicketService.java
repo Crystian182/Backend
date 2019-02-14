@@ -106,6 +106,141 @@ public class TicketService implements ITicketService {
 		
 	}
 	
+	@Transactional(readOnly = true)
+	public List<TicketDTO> getAllTeacherTickets(int idteacher) {
+		List<Ticket> tickets = ticketRepository.getAllTeacherTickets(idteacher);
+		List<TicketDTO> ticketDTOs = new ArrayList<TicketDTO>();
+		
+		for(int i=0; i<tickets.size(); i++) {
+			
+			List<TicketMessage> ticketMessages = ticketRepository.getMessagesASC(tickets.get(i).getIdticket());
+			
+			List<TicketMessageDTO> ticketMessageDTOs = new ArrayList<TicketMessageDTO>();
+			for(int j=0; j<ticketMessages.size(); j++) {
+				UserDTO userDTO = new UserDTO();
+				userDTO.setIduser(ticketMessages.get(j).getUser().getIduser());
+				userDTO.setSurname(ticketMessages.get(j).getUser().getSurname());
+				userDTO.setName(ticketMessages.get(j).getUser().getName());	
+				TicketMessageDTO ticketMessageDTO = new TicketMessageDTO();
+				ticketMessageDTO.setIdticketmessage(ticketMessages.get(j).getIdticketMessage());
+				ticketMessageDTO.setIdticket(ticketMessages.get(j).getTicket().getIdticket());
+				ticketMessageDTO.setDate(ticketMessages.get(j).getDate());
+				ticketMessageDTO.setText(ticketMessages.get(j).getText());
+				ticketMessageDTO.setUser(userDTO);
+				ticketMessageDTOs.add(ticketMessageDTO);
+			}
+			
+			TeacherDTO teacherDTO = new TeacherDTO();
+			teacherDTO.setIdteacher(tickets.get(i).getTeacher().getIduser());
+			teacherDTO.setName(tickets.get(i).getTeacher().getUser().getName());
+			teacherDTO.setSurname(tickets.get(i).getTeacher().getUser().getSurname());
+			EmployeeDTO employeeDTO = new EmployeeDTO();
+			try {
+			employeeDTO.setIdemployee(tickets.get(i).getEmployee().getIduser());
+			employeeDTO.setName(tickets.get(i).getEmployee().getUser().getName());
+			employeeDTO.setSurname(tickets.get(i).getEmployee().getUser().getSurname());
+			} catch (Exception e) {
+				
+			}
+			BuildingDTO buildingDTO = new BuildingDTO();
+			buildingDTO.setId(tickets.get(i).getClassroom().getBuilding().getIdbuilding());
+			buildingDTO.setName(tickets.get(i).getClassroom().getBuilding().getName());
+			
+			ClassroomDTO classroomDTO = new ClassroomDTO();
+			classroomDTO.setId(tickets.get(i).getClassroom().getIdclassroom());
+			classroomDTO.setName(tickets.get(i).getClassroom().getName());
+			classroomDTO.setBuilding(buildingDTO);
+			
+			TicketStatusDTO ticketStatusDTO = new TicketStatusDTO();
+			ticketStatusDTO.setIdstatus(tickets.get(i).getTicketStatus().getIdticketStatus());
+			ticketStatusDTO.setDescription(tickets.get(i).getTicketStatus().getDescription());
+			
+			TicketDTO ticketDTO = new TicketDTO();
+			ticketDTO.setId(tickets.get(i).getIdticket());
+			ticketDTO.setTitle(tickets.get(i).getTitle());
+			ticketDTO.setTicketStatus(ticketStatusDTO);
+			try {
+			ticketDTO.setEmployee(employeeDTO);
+			} catch (Exception e) {
+				
+			}
+			ticketDTO.setTeacher(teacherDTO);
+			ticketDTO.setClassroom(classroomDTO);
+			ticketDTO.setDate(tickets.get(i).getDate());
+			ticketDTO.setTicketmessages(ticketMessageDTOs);
+			ticketDTOs.add(ticketDTO);
+		}
+		return ticketDTOs;
+		
+	}
+	
+	@Transactional(readOnly = true)
+	public List<TicketDTO> getAllClassroomTickets(int idclassroom) {
+		List<Ticket> tickets = ticketRepository.getAllClassroomTickets(idclassroom);
+		List<TicketDTO> ticketDTOs = new ArrayList<TicketDTO>();
+		
+		for(int i=0; i<tickets.size(); i++) {
+			
+			List<TicketMessage> ticketMessages = ticketRepository.getMessagesASC(tickets.get(i).getIdticket());
+			
+			List<TicketMessageDTO> ticketMessageDTOs = new ArrayList<TicketMessageDTO>();
+			for(int j=0; j<ticketMessages.size(); j++) {
+				UserDTO userDTO = new UserDTO();
+				userDTO.setIduser(ticketMessages.get(j).getUser().getIduser());
+				userDTO.setSurname(ticketMessages.get(j).getUser().getSurname());
+				userDTO.setName(ticketMessages.get(j).getUser().getName());	
+				TicketMessageDTO ticketMessageDTO = new TicketMessageDTO();
+				ticketMessageDTO.setIdticketmessage(ticketMessages.get(j).getIdticketMessage());
+				ticketMessageDTO.setIdticket(ticketMessages.get(j).getTicket().getIdticket());
+				ticketMessageDTO.setDate(ticketMessages.get(j).getDate());
+				ticketMessageDTO.setText(ticketMessages.get(j).getText());
+				ticketMessageDTO.setUser(userDTO);
+				ticketMessageDTOs.add(ticketMessageDTO);
+			}
+			
+			TeacherDTO teacherDTO = new TeacherDTO();
+			teacherDTO.setIdteacher(tickets.get(i).getTeacher().getIduser());
+			teacherDTO.setName(tickets.get(i).getTeacher().getUser().getName());
+			teacherDTO.setSurname(tickets.get(i).getTeacher().getUser().getSurname());
+			EmployeeDTO employeeDTO = new EmployeeDTO();
+			try {
+			employeeDTO.setIdemployee(tickets.get(i).getEmployee().getIduser());
+			employeeDTO.setName(tickets.get(i).getEmployee().getUser().getName());
+			employeeDTO.setSurname(tickets.get(i).getEmployee().getUser().getSurname());
+			} catch (Exception e) {
+				
+			}
+			BuildingDTO buildingDTO = new BuildingDTO();
+			buildingDTO.setId(tickets.get(i).getClassroom().getBuilding().getIdbuilding());
+			buildingDTO.setName(tickets.get(i).getClassroom().getBuilding().getName());
+			
+			ClassroomDTO classroomDTO = new ClassroomDTO();
+			classroomDTO.setId(tickets.get(i).getClassroom().getIdclassroom());
+			classroomDTO.setName(tickets.get(i).getClassroom().getName());
+			classroomDTO.setBuilding(buildingDTO);
+			
+			TicketStatusDTO ticketStatusDTO = new TicketStatusDTO();
+			ticketStatusDTO.setIdstatus(tickets.get(i).getTicketStatus().getIdticketStatus());
+			ticketStatusDTO.setDescription(tickets.get(i).getTicketStatus().getDescription());
+			
+			TicketDTO ticketDTO = new TicketDTO();
+			ticketDTO.setId(tickets.get(i).getIdticket());
+			ticketDTO.setTitle(tickets.get(i).getTitle());
+			ticketDTO.setTicketStatus(ticketStatusDTO);
+			try {
+			ticketDTO.setEmployee(employeeDTO);
+			} catch (Exception e) {
+				
+			}
+			ticketDTO.setTeacher(teacherDTO);
+			ticketDTO.setClassroom(classroomDTO);
+			ticketDTO.setDate(tickets.get(i).getDate());
+			ticketDTO.setTicketmessages(ticketMessageDTOs);
+			ticketDTOs.add(ticketDTO);
+		}
+		return ticketDTOs;
+		
+	}
 	@Transactional(rollbackFor=TicketNotFoundException.class)
 	public TicketDTO getById(int id) throws TicketNotFoundException{
 		try {
