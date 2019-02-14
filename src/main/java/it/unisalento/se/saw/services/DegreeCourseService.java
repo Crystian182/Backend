@@ -185,6 +185,34 @@ public class DegreeCourseService implements IDegreeCourseService {
 		
 	}
 
+@Transactional(rollbackFor=DegreeCourseNotFoundException.class)
+public List<DegreeCourseDTO> getTeacherCourses(int idteacher) throws DegreeCourseNotFoundException{
+	try {
+		List<DegreeCourse> degreeCourses = degreeCourseRepository.getCourseTeacher(idteacher);
+		
+		List<DegreeCourseDTO> degreeCourseDTOs = new ArrayList<DegreeCourseDTO>();
+		
+		for(int i=0; i<degreeCourses.size(); i++) {
+			DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
+			degreeCourseDTO.setIdcourse(degreeCourses.get(i).getIddegreeCourse());
+			degreeCourseDTO.setName(degreeCourses.get(i).getTypeDegreeCourse().getName());
+			degreeCourseDTO.setCfu(degreeCourses.get(i).getTypeDegreeCourse().getCourseType().getCfu());
+			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+			academicYearDTO.setIdacademicYear(degreeCourses.get(i).getAcademicYear().getIdacademicYear());
+			academicYearDTO.setYear(degreeCourses.get(i).getAcademicYear().getYear());
+			degreeCourseDTO.setAcademicYear(academicYearDTO);
+			
+			degreeCourseDTOs.add(degreeCourseDTO);
+		}
+		
+		return degreeCourseDTOs;
+	} catch (Exception e) {
+		throw new DegreeCourseNotFoundException();
+	}
+	
+}
+
+
 	@Transactional
 	public DegreeCourseDTO save(DegreeCourseDTO degreeCourseDTO) {
 		

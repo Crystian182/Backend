@@ -19,4 +19,5 @@ public interface IDegreeCourseService {
 	public List<CourseTypeDTO> getAllCourseTypes();
 	public CourseTypeDTO getCourseType(int id);
 	public List<DegreeCourseDTO> getCourseByType(int idTypeCourse) throws DegreeCourseNotFoundException;
+	public List<DegreeCourseDTO> getTeacherCourses(int idteacher) throws DegreeCourseNotFoundException;
 }

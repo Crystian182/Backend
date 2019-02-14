@@ -83,4 +83,8 @@ public class DegreeCourseRestController {
 		return degreeCourseService.saveType(typeDegreeCourseDTO);
 	}
 	
+	@GetMapping(value="/getTeacherCourses/{idteacher}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<DegreeCourseDTO> getTeacherCourses(@PathVariable("idteacher")int idteacher) throws DegreeCourseNotFoundException{
+		return degreeCourseService.getTeacherCourses(idteacher);
+	}
 }

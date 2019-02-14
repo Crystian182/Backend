@@ -19,4 +19,7 @@ public interface TypeLessonRepository extends JpaRepository<TypeLesson, Integer>
 	@Query("SELECT t FROM TypeLesson t WHERE t.scheduler.idscheduler=:idScheduler")
 	public List<TypeLesson> getTypeLessonsOfScheduler(@Param("idScheduler")int idScheduler);
 	
+	@Query("SELECT t FROM TypeLesson t, Subject s WHERE s.teacher.iduser=:idteacher AND s.idsubject=t.subject.idsubject AND NOW()>=t.scheduler.term.start AND NOW()<=t.scheduler.term.end")
+	public List<TypeLesson> getCurrentSchedulerTeacher(@Param("idteacher")int idteacher);
+	
 }

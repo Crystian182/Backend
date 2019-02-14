@@ -473,6 +473,70 @@ public class LessonService implements ILessonService{
 		return typeLessonDTOs;
 	}
 	
+	@Transactional
+	public List<TypeLessonDTO> getCurrentSchedulerTeacher(int idteacher){
+		List<TypeLesson> lessons = typeLessonRepository.getCurrentSchedulerTeacher(idteacher);
+		
+		if(lessons == null) {
+			return null;
+		}
+		
+		List<TypeLessonDTO> typeLessonDTOs = new ArrayList<TypeLessonDTO>();
+		for(int i=0; i<lessons.size(); i++) {
+			TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
+			typeLessonDTO.setIdtypeLesson(lessons.get(i).getIdtypeLesson());
+			
+			ClassroomDTO classroomDTO = new ClassroomDTO();
+			classroomDTO.setId(lessons.get(i).getClassroom().getIdclassroom());
+			classroomDTO.setName(lessons.get(i).getClassroom().getName());
+			classroomDTO.setLat(lessons.get(i).getClassroom().getLat());
+			classroomDTO.setLng(lessons.get(i).getClassroom().getLng());
+			
+			BuildingDTO buildingDTO = new BuildingDTO();
+			buildingDTO.setId(lessons.get(i).getClassroom().getBuilding().getIdbuilding());
+			buildingDTO.setName(lessons.get(i).getClassroom().getBuilding().getName());
+			
+			classroomDTO.setBuilding(buildingDTO);
+			
+			typeLessonDTO.setClassroom(classroomDTO);
+			
+			DayDTO dayDTO = new DayDTO();
+			dayDTO.setIdDay(lessons.get(i).getDay().getIdday());
+			dayDTO.setName(lessons.get(i).getDay().getName());
+			
+			typeLessonDTO.setDay(dayDTO);
+			
+			SchedulerDTO schedulerDTO = new SchedulerDTO();
+			schedulerDTO.setIdScheduler(lessons.get(i).getScheduler().getIdscheduler());
+			
+			TermDTO termDTO = new TermDTO();
+			termDTO.setIdterm(lessons.get(i).getScheduler().getTerm().getIdterm());
+			termDTO.setStart(lessons.get(i).getScheduler().getTerm().getStart());
+			termDTO.setEnd(lessons.get(i).getScheduler().getTerm().getEnd());
+			
+			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
+			academicYearDTO.setIdacademicYear(lessons.get(i).getScheduler().getTerm().getAcademicYear().getIdacademicYear());
+			academicYearDTO.setYear(lessons.get(i).getScheduler().getTerm().getAcademicYear().getYear());
+			
+			termDTO.setAcademicYear(academicYearDTO);
+			
+			schedulerDTO.setTerm(termDTO);
+			
+			typeLessonDTO.setScheduler(schedulerDTO);
+			
+			SubjectDTO subjectDTO = new SubjectDTO();
+			subjectDTO.setId(lessons.get(i).getSubject().getIdsubject());
+			subjectDTO.setName(lessons.get(i).getSubject().getTypeSubject().getName());
+			
+			typeLessonDTO.setSubject(subjectDTO);
+			typeLessonDTO.setStart(new java.sql.Time(lessons.get(i).getStart().getTime()));
+			typeLessonDTO.setEnd(new java.sql.Time(lessons.get(i).getEnd().getTime()));
+			
+			typeLessonDTOs.add(typeLessonDTO);
+		}
+		return typeLessonDTOs;
+	}
+	
 	public void saveFeedback(int idlesson, FeedbackDTO feedbackDTO) {
 		
 		User user = new User();
@@ -522,6 +586,47 @@ public class LessonService implements ILessonService{
 		
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 		List<Lesson> lessons = lessonRepository.searchLessons(idcourse, idterm, idsubject, format.parse(from), format.parse(to));
+		
+		List<LessonDTO> lessonDTOs = new ArrayList<LessonDTO>();
+		
+		for (int i=0; i<lessons.size(); i++) {
+			LessonDTO lessonDTO = new LessonDTO();
+			lessonDTO.setIdlesson(lessons.get(i).getIdlesson());
+			lessonDTO.setStart(lessons.get(i).getStart());
+			lessonDTO.setEnd(lessons.get(i).getEnd());
+			
+			BuildingDTO buildingDTO = new BuildingDTO();
+			buildingDTO.setId(lessons.get(i).getClassroom().getBuilding().getIdbuilding());
+			buildingDTO.setName(lessons.get(i).getClassroom().getBuilding().getName());
+			
+			ClassroomDTO classroomDTO = new ClassroomDTO();
+			classroomDTO.setId(lessons.get(i).getClassroom().getIdclassroom());
+			classroomDTO.setName(lessons.get(i).getClassroom().getName());
+			classroomDTO.setBuilding(buildingDTO);
+			
+			lessonDTO.setClassroom(classroomDTO);
+			
+			SubjectDTO subjectDTO = new SubjectDTO();
+			subjectDTO.setId(lessons.get(i).getTypeLesson().getSubject().getIdsubject());
+			subjectDTO.setName(lessons.get(i).getTypeLesson().getSubject().getTypeSubject().getName());
+			
+			TypeLessonDTO typeLessonDTO = new TypeLessonDTO();
+			typeLessonDTO.setIdtypeLesson(lessons.get(i).getTypeLesson().getIdtypeLesson());
+			typeLessonDTO.setSubject(subjectDTO);
+			
+			lessonDTO.setTypeLesson(typeLessonDTO);
+			
+			lessonDTOs.add(lessonDTO);
+		}
+		
+		return lessonDTOs;
+		
+	}
+	
+public List<LessonDTO> searchTeacherLessons(int idsubject, String from, String to) throws ParseException {
+		
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		List<Lesson> lessons = lessonRepository.searchTeacherLessons(idsubject, format.parse(from), format.parse(to));
 		
 		List<LessonDTO> lessonDTOs = new ArrayList<LessonDTO>();
 		

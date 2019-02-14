@@ -51,5 +51,10 @@ public class SchedulerRestController {
 	public Integer periodHasScheduler(@PathVariable("idterm") int idterm, @PathVariable("idcourse") int idcourse){
 		return schedulerService.periodHasScheduler(idterm, idcourse);
 	}
+	
+	@GetMapping(value="/getSchedulerTeacher/{idteacher}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<TypeLessonDTO> getCurrentSchedulerTeacher(@PathVariable("idteacher") int idteacher){
+		return lessonService.getCurrentSchedulerTeacher(idteacher);
+	}
 
 }

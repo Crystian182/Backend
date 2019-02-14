@@ -32,4 +32,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 	
 	@Query("SELECT l FROM Lesson l WHERE l.typeLesson.scheduler.degreeCourse.iddegreeCourse=:idcourse AND l.typeLesson.scheduler.term.idterm=:idterm AND l.typeLesson.subject.idsubject=:idsubject AND DATE(l.start)>=:from AND DATE(l.end)<=:to")
 	public List<Lesson> searchLessons(@Param("idcourse")int idcourse, @Param("idterm")int idterm, @Param("idsubject")int idsubject, @Param("from")Date from, @Param("to")Date to);
+	
+	@Query("SELECT l FROM Lesson l WHERE l.typeLesson.subject.idsubject=:idsubject AND DATE(l.start)>=:from AND DATE(l.end)<=:to")
+	public List<Lesson> searchTeacherLessons(@Param("idsubject")int idsubject, @Param("from")Date from, @Param("to")Date to);
 }

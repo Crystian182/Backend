@@ -81,6 +81,11 @@ public class LessonRestController {
 		return lessonService.searchLessons(idcourse, idterm, idsubject, from, to);
 	}
 	
+	@GetMapping(value="/searchTeacherLessons/idsubject={idsubject}&from={from}&to={to}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<LessonDTO> searchTeacherLessons(@PathVariable("idsubject")int idsubject, @PathVariable("from")String from, @PathVariable("to")String to) throws ParseException{
+		return lessonService.searchTeacherLessons(idsubject, from, to);
+	}
+	
 	@PostMapping(value="/edit", produces=MediaType.APPLICATION_JSON_VALUE)
 	public void editLessons(@RequestBody ArrayList<LessonDTO> lessonDTOs){
 		lessonService.edit(lessonDTOs);

@@ -20,10 +20,12 @@ public interface ILessonService {
 	public LessonDTO save(LessonDTO lessonDTO);
 	public void delete(int id) throws LessonNotFoundException;
 	public List<TypeLessonDTO> getCurrentSchedulerByCourse(DegreeCourseDTO degreeCourseDTO, int idterm);
+	public List<TypeLessonDTO> getCurrentSchedulerTeacher(int idteacher);
 	public List<LessonDTO> getAllTeacherLessons(int idteacher);
 	public List<FeedbackDTO> getFeedback(int idlesson);
 	public List<LessonDTO> getAllLessonsByCourseAndTerm(int idcourse, int idterm);
 	public List<LessonDTO> searchLessons(int idcourse, int idterm, int idsubject, String from, String to) throws ParseException;
+	public List<LessonDTO> searchTeacherLessons(int idsubject, String from, String to) throws ParseException;
 	public List<LessonDTO> getTodayLessons(int iduser);
 	public List<LessonDTO> getTeacherTodayLessons(int iduser);
 	public void edit(ArrayList<LessonDTO> lessonDTOs);
