@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.unisalento.se.saw.Iservices.IFCMService;
 import it.unisalento.se.saw.Iservices.ITicketService;
 import it.unisalento.se.saw.domain.Classroom;
 import it.unisalento.se.saw.domain.Employee;
@@ -27,6 +28,7 @@ import it.unisalento.se.saw.dto.TicketMessageDTO;
 import it.unisalento.se.saw.exceptions.TicketNotFoundException;
 import it.unisalento.se.saw.repositories.TicketMessageRepository;
 import it.unisalento.se.saw.repositories.TicketRepository;
+import it.unisalento.se.saw.repositories.UserRepository;
 
 
 @Service
@@ -37,6 +39,12 @@ public class TicketService implements ITicketService {
 	
 	@Autowired
 	TicketMessageRepository ticketMessageRepository;
+	
+	@Autowired
+	UserRepository userRepository;
+	
+	@Autowired
+	IFCMService fcmService;
 	
 	@Transactional(readOnly = true)
 	public List<TicketDTO> getAll() {
@@ -341,8 +349,10 @@ public class TicketService implements ITicketService {
 		ticketStatus.setDescription(ticketDTO.getTicketStatus().getDescription());
 		
 		Ticket ticket = new Ticket();
+		int oldstatus = 0;
 		try {
 			ticket.setIdticket(ticketDTO.getId());
+			oldstatus = ticketRepository.getOne(ticketDTO.getId()).getTicketStatus().getIdticketStatus();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -399,6 +409,16 @@ public class TicketService implements ITicketService {
 			newTicketDTO.setEmployee(employeeDTO);
 		} catch (Exception e) {
 			// TODO: handle exception
+		}
+		
+		if(oldstatus != 0) {
+			if(oldstatus != newTicket.getTicketStatus().getIdticketStatus()) {
+				try {
+					fcmService.newTicket(newTicket, "status");
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
 		}
 		
 		return newTicketDTO;
@@ -458,6 +478,15 @@ public class TicketService implements ITicketService {
 		userDTO.setName(newTicketMessage.getUser().getName());
 
 		newTicketMessageDTO.setUser(userDTO);
+		Ticket tickett = ticketRepository.getOne(ticketMessageDTO.getIdticket());
+		
+		if(!userRepository.isTeacher(user.getIduser())) {
+			try {
+				fcmService.newTicket(tickett, "message");
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
 		
 		return newTicketMessageDTO;
 	}

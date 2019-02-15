@@ -800,6 +800,11 @@ public List<LessonDTO> getTeacherTodayLessons(int iduser) {
 		
 		for(int i=0; i<lessonDTOs.size(); i++) {
 			
+			Lesson oldLess = lessonRepository.getOne(lessonDTOs.get(i).getIdlesson());
+			int oldroom = oldLess.getClassroom().getIdclassroom();
+			Date oldstart = oldLess.getStart();
+			Date oldend = oldLess.getEnd();
+			
 			Classroom classroom = new Classroom();
 			classroom.setIdclassroom(lessonDTOs.get(i).getClassroom().getId());
 			classroom.setName(lessonDTOs.get(i).getClassroom().getName());
@@ -814,10 +819,36 @@ public List<LessonDTO> getTeacherTodayLessons(int iduser) {
 			lesson.setStart(lessonDTOs.get(i).getStart());
 			lesson.setEnd(lessonDTOs.get(i).getEnd());
 		
-			lessonRepository.save(lesson);
 			
+			
+			Lesson newLess = lessonRepository.save(lesson);
+			
+			if(oldroom != newLess.getClassroom().getIdclassroom() && (oldstart != newLess.getStart() || oldend != newLess.getEnd())) {
+				try {
+					fcmService.lessonChanged(newLess, "both");
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			} else {
+				if(oldroom != newLess.getClassroom().getIdclassroom()) {
+					try {
+						fcmService.lessonChanged(newLess, "room");
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+				} else if (oldstart != newLess.getStart() || oldend != newLess.getEnd()) {
+					try {
+						fcmService.lessonChanged(newLess, "hour");
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+				}
 			}
+			
+						
+			
 		}
+	}
 	
 	 @Transactional
 	 public void delete(int id) throws LessonNotFoundException {
