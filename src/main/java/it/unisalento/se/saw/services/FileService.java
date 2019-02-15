@@ -18,6 +18,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.unisalento.se.saw.Iservices.IFCMService;
 import it.unisalento.se.saw.Iservices.IFileService;
 import it.unisalento.se.saw.domain.Building;
 import it.unisalento.se.saw.domain.Feedback;
@@ -60,6 +61,9 @@ public class FileService implements IFileService {
 	
 	@Autowired
 	BuildingRepository buildingRepository;
+	
+	@Autowired
+	IFCMService fcmService;
 	
 	@Transactional
 	public void saveFileBuilding(InputStream inputStream, String path, String filename, int idbuilding) {
@@ -118,6 +122,12 @@ public class FileService implements IFileService {
 			FileDTO fileDTO = new FileDTO();
 			fileDTO.setIdFile(savedFile.getIdfile());
 			fileDTO.setName(savedFile.getName());
+			
+			try {
+				fcmService.newFileLesson(idlesson);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			//fileDTO.setLink(link);
 			return fileDTO;
 		} catch (Exception e) {

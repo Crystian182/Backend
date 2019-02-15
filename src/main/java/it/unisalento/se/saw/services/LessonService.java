@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.unisalento.se.saw.Iservices.IFCMService;
 import it.unisalento.se.saw.Iservices.ILessonService;
 import it.unisalento.se.saw.domain.AcademicYear;
 import it.unisalento.se.saw.domain.Building;
@@ -65,6 +66,9 @@ public class LessonService implements ILessonService{
 	
 	@Autowired
 	FeedbackRepository feedbackRepository;
+	
+	@Autowired
+	IFCMService fcmService;
 
 	 @Transactional(readOnly = true)
 	 public List<LessonDTO> getAll() {
@@ -560,6 +564,13 @@ public class LessonService implements ILessonService{
 		feedLesson.setDescription(feedbackDTO.getDescription());
 		
 		FeedbackLesson newFeedLesson = this.feedbackLessonRepository.save(feedLesson);
+		
+		try {
+			fcmService.newFeedBackLesson(idlesson);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		
 	}
 	

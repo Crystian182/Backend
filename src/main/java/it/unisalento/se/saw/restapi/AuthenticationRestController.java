@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import it.unisalento.se.saw.Iservices.IFCMService;
 import it.unisalento.se.saw.Iservices.IUserService;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
@@ -13,9 +14,12 @@ import it.unisalento.se.saw.security.JwtAuthenticationRequest;
 import it.unisalento.se.saw.security.JwtTokenUtil;
 import it.unisalento.se.saw.services.JwtAuthenticationResponse;
 import it.unisalento.se.saw.services.UserService;
+import net.minidev.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 
@@ -58,6 +63,7 @@ public class AuthenticationRestController {
     
     @Autowired
     private IUserService userService;
+    
 
     @RequestMapping(value = "public/login", method = RequestMethod.POST)
     public UserDTO createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device, HttpServletResponse response) throws Exception {
@@ -85,7 +91,6 @@ public class AuthenticationRestController {
         response.setHeader(tokenHeader,token);
         String title = "My First Notification";
         String message = "Hello, I'm push notification";
-        //this.sendPushNotification(title, message);
         // Ritorno il token
         return userService.login(authenticationRequest.getEmail(), token);
         //return ResponseEntity.ok(new JwtAuthenticationResponse(userDetails.getUsername(),userDetails.getAuthorities()));

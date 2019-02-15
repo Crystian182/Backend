@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import it.unisalento.se.saw.domain.Student;
 import it.unisalento.se.saw.domain.Subject;
 
 @Repository
@@ -34,6 +35,9 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer> {
 	
 	@Query("SELECT s FROM Subject s, StudentHasDegreeCourse e WHERE e.student.iduser=:id AND e.degreeCourse.iddegreeCourse=s.degreeCourse.iddegreeCourse")
 	public List<Subject> getCoursesByIdStudent(@Param("id")int id);
+	
+	@Query("SELECT s FROM Student s, StudentHasDegreeCourse e, Subject m WHERE m.idsubject=:id AND m.degreeCourse.iddegreeCourse=e.degreeCourse.iddegreeCourse AND e.student.iduser=s.iduser")
+	public List<Student> getStudentByIdCourse(@Param("id")int id);
 	
 
 }
