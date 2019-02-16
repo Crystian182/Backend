@@ -75,7 +75,7 @@ public class UserRestControllerTest {
 		
 	}
 	
-	@Test
+	/*@Test
 	public void loginTest() throws Exception {
 		
 		LoginDTO request = new LoginDTO();
@@ -120,7 +120,7 @@ public class UserRestControllerTest {
 		
 		//verify(userServiceMock, times(1)).login(request);
 		//verifyNoMoreInteractions(userServiceMock);
-	}
+	}*/
 	
 	public String objToJson(LoginDTO request) throws JsonProcessingException {
 		 ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
