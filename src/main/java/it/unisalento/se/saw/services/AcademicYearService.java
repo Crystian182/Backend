@@ -2,6 +2,7 @@ package it.unisalento.se.saw.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,11 +33,13 @@ public class AcademicYearService implements IAcademicYearService {
 		
 		List<TermDTO> termDTOs = new ArrayList<TermDTO>();
 		
-		for(int i=0; i<terms.size(); i++) {
+		ListIterator<Term> i = terms.listIterator();
+		while (i.hasNext()) {
 			TermDTO termDTO = new TermDTO();
-			termDTO.setIdterm(terms.get(i).getIdterm());
-			termDTO.setStart(terms.get(i).getStart());
-			termDTO.setEnd(terms.get(i).getEnd());
+			Term obj = i.next();
+			termDTO.setIdterm(obj.getIdterm());
+			termDTO.setStart(obj.getStart());
+			termDTO.setEnd(obj.getEnd());
 			termDTOs.add(termDTO);
 		}
 		
@@ -48,10 +51,12 @@ public class AcademicYearService implements IAcademicYearService {
 		
 		List<AcademicYearDTO> aaDTOs = new ArrayList<AcademicYearDTO>();
 		
-		for(int i=0; i < aa.size(); i++) {
+		ListIterator<AcademicYear> i = aa.listIterator();
+		while (i.hasNext()) {
 			AcademicYearDTO aaDTO = new AcademicYearDTO();
-			aaDTO.setIdacademicYear(aa.get(i).getIdacademicYear());
-			aaDTO.setYear(aa.get(i).getYear());
+			AcademicYear obj = i.next();
+			aaDTO.setIdacademicYear(obj.getIdacademicYear());
+			aaDTO.setYear(obj.getYear());
 			
 			aaDTOs.add(aaDTO);
 		}
@@ -63,21 +68,30 @@ public class AcademicYearService implements IAcademicYearService {
 	public List<AcademicYearDTO> getAll() {
 		List<AcademicYear> academicYears = academicYearRepository.findAll();
 		List<AcademicYearDTO> academicYearDTOs = new ArrayList<AcademicYearDTO>();
-		for(int i=0; i<academicYears.size(); i++) {
-			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
-			academicYearDTO.setIdacademicYear(academicYears.get(i).getIdacademicYear());
-			academicYearDTO.setYear(academicYears.get(i).getYear());
-			List<Term> terms = termRepository.getByAcademicYear(academicYears.get(i).getIdacademicYear());
+		
+		List<AcademicYearDTO> aaDTOs = new ArrayList<AcademicYearDTO>();
+		
+		ListIterator<AcademicYear> i = academicYears.listIterator();
+		while (i.hasNext()) {
+			AcademicYearDTO aaDTO = new AcademicYearDTO();
+			AcademicYear obj = i.next();
+			aaDTO.setIdacademicYear(obj.getIdacademicYear());
+			aaDTO.setYear(obj.getYear());
+			List<Term> terms = termRepository.getByAcademicYear(obj.getIdacademicYear());
 			List<TermDTO> termDTOs= new ArrayList<TermDTO>();
-			for(int k=0; k<terms.size(); k++) {
+			ListIterator<Term> it = terms.listIterator();
+			while (it.hasNext()) {
 				TermDTO termDTO = new TermDTO();
-				termDTO.setIdterm(terms.get(k).getIdterm());
-				termDTO.setStart(terms.get(k).getStart());
-				termDTO.setEnd(terms.get(k).getEnd());
+				Term obj2 = it.next();
+				termDTO.setIdterm(obj2.getIdterm());
+				termDTO.setStart(obj2.getStart());
+				termDTO.setEnd(obj2.getEnd());
 				termDTOs.add(termDTO);
 			}
-			academicYearDTO.setTerms(termDTOs);
-			academicYearDTOs.add(academicYearDTO);
+			aaDTO.setTerms(termDTOs);
+			academicYearDTOs.add(aaDTO);
+			
+			aaDTOs.add(aaDTO);
 		}
 		return  academicYearDTOs;
 	}
@@ -122,28 +136,34 @@ public class AcademicYearService implements IAcademicYearService {
 	@Transactional
 	public List<TermDTO> saveAllTerm(List<TermDTO> termDTOs) {
 		List<Term> terms = new ArrayList<Term>();
-		for(int k=0; k<termDTOs.size(); k++) {
+		ListIterator<TermDTO> i = termDTOs.listIterator();
+		while (i.hasNext()) {
+			TermDTO obj = i.next();
+
 			Term term = new Term();
-			term.setIdterm(termDTOs.get(k).getIdterm());
-			term.setStart(termDTOs.get(k).getStart());
-			term.setEnd(termDTOs.get(k).getEnd());
+			term.setIdterm(obj.getIdterm());
+			term.setStart(obj.getStart());
+			term.setEnd(obj.getEnd());
 			AcademicYear academicYear = new AcademicYear();
-			academicYear.setIdacademicYear(termDTOs.get(k).getAcademicYear().getIdacademicYear());
-			academicYear.setYear(termDTOs.get(k).getAcademicYear().getYear());
+			academicYear.setIdacademicYear(obj.getAcademicYear().getIdacademicYear());
+			academicYear.setYear(obj.getAcademicYear().getYear());
 			term.setAcademicYear(academicYear);
 			terms.add(term);
 		}
 		List<Term> newterms = termRepository.saveAll(terms);
 		
 		List<TermDTO> newtermDTOs = new ArrayList<TermDTO>();
-		for(int i=0; i<newterms.size(); i++) {
+		
+		ListIterator<Term> it = newterms.listIterator();
+		while (it.hasNext()) {
 			TermDTO termDTO = new TermDTO();
-			termDTO.setIdterm(newterms.get(i).getIdterm());
-			termDTO.setStart(newterms.get(i).getStart());
-			termDTO.setEnd(newterms.get(i).getEnd());
+			Term obj = it.next();
+			termDTO.setIdterm(obj.getIdterm());
+			termDTO.setStart(obj.getStart());
+			termDTO.setEnd(obj.getEnd());
 			AcademicYearDTO academicYearDTO = new AcademicYearDTO();
-			academicYearDTO.setIdacademicYear(newterms.get(i).getAcademicYear().getIdacademicYear());
-			academicYearDTO.setYear(newterms.get(i).getAcademicYear().getYear());
+			academicYearDTO.setIdacademicYear(obj.getAcademicYear().getIdacademicYear());
+			academicYearDTO.setYear(obj.getAcademicYear().getYear());
 			termDTO.setAcademicYear(academicYearDTO);
 			newtermDTOs.add(termDTO);
 		}

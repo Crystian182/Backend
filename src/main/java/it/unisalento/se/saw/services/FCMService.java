@@ -15,6 +15,9 @@ import it.unisalento.se.saw.Iservices.IFCMService;
 import it.unisalento.se.saw.domain.Lesson;
 import it.unisalento.se.saw.domain.Student;
 import it.unisalento.se.saw.domain.Ticket;
+import it.unisalento.se.saw.factory.AbstractFactory;
+import it.unisalento.se.saw.factory.FactoryProducer;
+import it.unisalento.se.saw.models.Notification;
 import it.unisalento.se.saw.repositories.LessonRepository;
 import it.unisalento.se.saw.repositories.SubjectRepository;
 import it.unisalento.se.saw.repositories.TicketRepository;
@@ -44,13 +47,12 @@ public class FCMService implements IFCMService {
 			tokenTeacher = tokenTeacher.substring(1, tokenTeacher.length()-1);
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 			
-			JSONObject msg = new JSONObject();
-			msg.put("title", "Nuovo Feedback!");
-		   msg.put("body", "Hai ricevuto un nuovo FeedBack per la tua lezione di " + lesson.getTypeLesson().getSubject().getTypeSubject().getName() + " del " + sdf.format(lesson.getStart()));
-		   msg.put("type", "lesson");
-		   
-		   msg.put("idlesson", idlesson);
-			   tokens.add(tokenTeacher);
+			AbstractFactory notificationFactory = FactoryProducer.getFactory("NOTIFICATION");
+			Notification notifica = notificationFactory.getNotification("NEWFEEDBACKLESSON");
+			
+			JSONObject msg = notifica.getJSONObject(lesson.getIdlesson(), lesson.getTypeLesson().getSubject().getTypeSubject().getName(), lesson.getStart());
+			
+			tokens.add(tokenTeacher);
 		   this.send(tokens, msg);
 		}
 	}
@@ -70,13 +72,12 @@ public class FCMService implements IFCMService {
 		
 		if(tokens != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			AbstractFactory notificationFactory = FactoryProducer.getFactory("NOTIFICATION");
+			Notification notifica = notificationFactory.getNotification("NEWFILE");
 			
-			JSONObject msg = new JSONObject();
-			msg.put("title", "Nuovo Upload!");
-		   msg.put("body", "E' presente un nuovo file per la lezione di " + lesson.getTypeLesson().getSubject().getTypeSubject().getName() + " del " + sdf.format(lesson.getStart()));
-		   msg.put("type", "lesson");
-		   
-		   msg.put("idlesson", idlesson);
+			JSONObject msg = notifica.getJSONObject(lesson.getIdlesson(), lesson.getTypeLesson().getSubject().getTypeSubject().getName(), lesson.getStart());
+			
+			
 		   this.send(tokens, msg);
 		}
 	}
@@ -94,9 +95,21 @@ public class FCMService implements IFCMService {
 		}
 		
 		if(tokens != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-			JSONObject msg = new JSONObject();
+			
+			AbstractFactory notificationFactory = FactoryProducer.getFactory("NOTIFICATION");
+			Notification notifica;
+			
+			if(whatChanged.equals("room")) {
+				notifica = notificationFactory.getNotification("ROOMCHANGED");
+			} else if(whatChanged.equals("both")) {
+				notifica = notificationFactory.getNotification("BOTHCHANGED");
+			} else {
+				notifica = notificationFactory.getNotification("TIMECHANGED");
+			}
+			
+			JSONObject msg = notifica.getJSONObject(lesson.getIdlesson(), lesson.getTypeLesson().getSubject().getTypeSubject().getName(), lesson.getStart());
+			this.send(tokens, msg);
+			/*JSONObject msg = new JSONObject();
 			msg.put("title", "Aggiornamento Lezione!");
 			if(whatChanged.equals("room")) {
 				msg.put("body", "L'aula per la lezione di " + lesson.getTypeLesson().getSubject().getTypeSubject().getName() + " del " + sdf2.format(lesson.getStart()) + " è cambiata!");
@@ -108,8 +121,8 @@ public class FCMService implements IFCMService {
 			
 		   msg.put("type", "lesson");
 		   
-		   msg.put("idlesson", lesson.getIdlesson());
-		   this.send(tokens, msg);
+		   msg.put("idlesson", lesson.getIdlesson());*/
+		   
 		}
 	}
 	
@@ -120,17 +133,17 @@ public class FCMService implements IFCMService {
 			tokenTeacher = tokenTeacher.substring(1, tokenTeacher.length()-1);
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 			
-			JSONObject msg = new JSONObject();
-			msg.put("title", "Nuovo Messaggio!");
+			AbstractFactory notificationFactory = FactoryProducer.getFactory("NOTIFICATION");
+			Notification notifica;
+			
 			if(whatChanged.equals("status")) {
-				msg.put("body", "La tua segnalazione del " + sdf.format(ticket.getDate()) + " ha ricevuto un aggiornamento");
+				notifica = notificationFactory.getNotification("NEWTICKETSTATUS");
 			} else {
-				msg.put("body", "Hai ricevuto un nuovo Messaggio per la tua segnalazione del " + sdf.format(ticket.getDate()));
+				notifica = notificationFactory.getNotification("NEWTICKETMESSAGE");
 			}
-		   
-		   msg.put("type", "ticket");
-		   
-		   msg.put("idticket", ticket.getIdticket());
+			
+			JSONObject msg = notifica.getJSONObject(ticket.getIdticket(), "", ticket.getDate());
+
 			   tokens.add(tokenTeacher);
 		   this.send(tokens, msg);
 		}

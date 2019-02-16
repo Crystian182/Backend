@@ -225,6 +225,7 @@ public class UserService implements IUserService{
 					userDTO.setPropic(this.getUserImage(user.getFile().getIdfile()));
 				} else {
 					userDTO.setType("employee");
+					userDTO.setPropic(this.getUserImage(user.getFile().getIdfile()));
 				}
 				return userDTO;
 			

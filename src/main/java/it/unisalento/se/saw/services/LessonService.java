@@ -797,6 +797,7 @@ public List<LessonDTO> getTeacherTodayLessons(int iduser) {
 	
 	@Transactional
 	public void edit(ArrayList<LessonDTO> lessonDTOs) {
+		SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
 		for(int i=0; i<lessonDTOs.size(); i++) {
 			
@@ -823,7 +824,7 @@ public List<LessonDTO> getTeacherTodayLessons(int iduser) {
 			
 			Lesson newLess = lessonRepository.save(lesson);
 			
-			if(oldroom != newLess.getClassroom().getIdclassroom() && (oldstart != newLess.getStart() || oldend != newLess.getEnd())) {
+			if(oldroom != newLess.getClassroom().getIdclassroom() && (!sdf2.format(oldstart).equals(sdf2.format(newLess.getStart())) || !sdf2.format(oldend).equals(sdf2.format(newLess.getEnd())))) {
 				try {
 					fcmService.lessonChanged(newLess, "both");
 				} catch (Exception e) {
@@ -836,7 +837,7 @@ public List<LessonDTO> getTeacherTodayLessons(int iduser) {
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
-				} else if (oldstart != newLess.getStart() || oldend != newLess.getEnd()) {
+				} else if (!sdf2.format(oldstart).equals(sdf2.format(newLess.getStart())) || !sdf2.format(oldend).equals(sdf2.format(newLess.getEnd()))) {
 					try {
 						fcmService.lessonChanged(newLess, "hour");
 					} catch (Exception e) {
