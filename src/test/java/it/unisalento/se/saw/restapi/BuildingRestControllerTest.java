@@ -76,6 +76,7 @@ public class BuildingRestControllerTest {
 		building1.setLat((float) 17.9);
 		building1.setLng((float) 21.3);
 		building1.setClassrooms(classrooms1);
+		building1.setPic("abc");
 		buildings.add(building1);
 		
 		when(buildingServiceMock.getAll()).thenReturn(buildings);
@@ -86,6 +87,7 @@ public class BuildingRestControllerTest {
 			.andExpect(jsonPath("$[0].id", is(1)))
 			.andExpect(jsonPath("$[0].name", is("Stecca")))
 			.andExpect(jsonPath("$[0].address", is("Via Ecotekne")))
+			.andExpect(jsonPath("$[0].pic", is("abc")))
 			.andExpect(jsonPath("$[0].classrooms[0].id", is(1)))
 			.andExpect(jsonPath("$[0].classrooms[0].name", is("I1")))
 			.andExpect(jsonPath("$[0].classrooms[0].seats", is(180)));

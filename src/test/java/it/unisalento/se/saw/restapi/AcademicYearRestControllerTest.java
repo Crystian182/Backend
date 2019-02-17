@@ -128,12 +128,14 @@ public class AcademicYearRestControllerTest {
 		term1.setIdterm(1);
 		term1.setStart(mockDate);
 		term1.setEnd(mockDate);
+		term1.setAcademicYear(year1);
 		terms.add(term1);
 		
 		TermDTO term2 = new TermDTO();
 		term2.setIdterm(2);
 		term2.setStart(mockDate);
 		term2.setEnd(mockDate);
+		term2.setAcademicYear(year1);
 		terms.add(term2);
 		
 		when(academicYearServiceMock.getTermsByAcademicYearId(1)).thenReturn(terms);
@@ -144,9 +146,13 @@ public class AcademicYearRestControllerTest {
 			.andExpect(jsonPath("$[0].idterm", is(1)))
 			.andExpect(jsonPath("$[0].start", is(mockDate.getTime())))
 			.andExpect(jsonPath("$[0].end", is(mockDate.getTime())))
+			.andExpect(jsonPath("$[0].academicYear.idacademicYear", is(1)))
+			.andExpect(jsonPath("$[0].academicYear.year", is(2018)))
 			.andExpect(jsonPath("$[1].idterm", is(2)))
 			.andExpect(jsonPath("$[1].start", is(mockDate.getTime())))
-			.andExpect(jsonPath("$[1].end", is(mockDate.getTime())));
+			.andExpect(jsonPath("$[1].end", is(mockDate.getTime())))
+			.andExpect(jsonPath("$[1].academicYear.idacademicYear", is(1)))
+			.andExpect(jsonPath("$[1].academicYear.year", is(2018)));
 		
 		verify(academicYearServiceMock, times(1)).getTermsByAcademicYearId(1);
 		verifyNoMoreInteractions(academicYearServiceMock);

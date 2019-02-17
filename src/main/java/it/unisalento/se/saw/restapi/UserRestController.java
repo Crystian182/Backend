@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.unisalento.se.saw.Iservices.IUserService;
 import it.unisalento.se.saw.domain.StudentHasDegreeCourse;
 import it.unisalento.se.saw.domain.User;
-import it.unisalento.se.saw.dto.LoginDTO;
 import it.unisalento.se.saw.dto.StudentHasDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.dto.UserDTO;
@@ -38,30 +37,7 @@ public class UserRestController {
 	
 	public UserRestController(IUserService userService) {
 		this.userService = userService;
-	}
-	
-	/*@PostMapping(value="/login", produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserDTO login(@RequestBody LoginDTO request) throws UserNotFoundException, WrongCredentialsException {
-		return userService.login(request);
-	}*/
-	
-	/*@RequestMapping(value="/getAll", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<User> getAll(){
-		return userService.getAll();
-		
-	}
-	
-	@GetMapping(value="/getById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-	
-	public UserDTO getById(@PathVariable("id")int id) throws UserNotFoundException{
-		User user = userService.getById(id);
-		UserDTO userDTO = new UserDTO();
-		userDTO.setName("Cristian");
-		userDTO.setSurname("Vergallo");
-		return userDTO;
-		
-	}*/
-	
+	}	
 	
 	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public UserDTO save(@RequestBody UserDTO userDTO) throws IOException {

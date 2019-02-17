@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import it.unisalento.se.saw.domain.User;
-import it.unisalento.se.saw.dto.LoginDTO;
 import it.unisalento.se.saw.dto.StudentDTO;
 import it.unisalento.se.saw.dto.StudentHasDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;

@@ -3,7 +3,6 @@ package it.unisalento.se.saw.Iservices;
 import java.io.IOException;
 import java.util.List;
 
-import it.unisalento.se.saw.dto.MessageDTO;
 import it.unisalento.se.saw.dto.PreviewChatDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.ChatNotFoundException;

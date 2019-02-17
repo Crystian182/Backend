@@ -25,7 +25,6 @@ import it.unisalento.se.saw.dto.AcademicYearDTO;
 import it.unisalento.se.saw.dto.CourseTypeDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.EnrollmentStatusDTO;
-import it.unisalento.se.saw.dto.LoginDTO;
 import it.unisalento.se.saw.dto.StudentDTO;
 import it.unisalento.se.saw.dto.StudentHasDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;

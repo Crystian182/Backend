@@ -39,6 +39,7 @@ import it.unisalento.se.saw.dto.DayDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.FeedbackDTO;
 import it.unisalento.se.saw.dto.LessonDTO;
+import it.unisalento.se.saw.dto.SchedulerDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TypeLessonDTO;

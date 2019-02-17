@@ -25,7 +25,6 @@ import it.unisalento.se.saw.domain.Teacher;
 import it.unisalento.se.saw.domain.User;
 import it.unisalento.se.saw.dto.AcademicYearDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
-import it.unisalento.se.saw.dto.MessageDTO;
 import it.unisalento.se.saw.dto.PreviewChatDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TermDTO;

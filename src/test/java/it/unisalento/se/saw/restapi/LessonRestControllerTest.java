@@ -34,8 +34,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unisalento.se.saw.Iservices.ILessonService;
 import it.unisalento.se.saw.dto.AcademicYearDTO;
 import it.unisalento.se.saw.dto.ClassroomDTO;
+import it.unisalento.se.saw.dto.DayDTO;
+import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.FeedbackDTO;
 import it.unisalento.se.saw.dto.LessonDTO;
+import it.unisalento.se.saw.dto.SchedulerDTO;
+import it.unisalento.se.saw.dto.SubjectDTO;
+import it.unisalento.se.saw.dto.TermDTO;
+import it.unisalento.se.saw.dto.TypeLessonDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.repositories.LessonRepository;
 
@@ -297,12 +303,56 @@ public class LessonRestControllerTest {
 		ClassroomDTO classroom1 = new ClassroomDTO();
 		classroom1.setId(1);
 		classroom1.setName("I1");
+		
+		TermDTO term = new TermDTO();
+		term.setIdterm(1);
+		
+		DayDTO day = new DayDTO();
+		day.setIdDay(1);
+		day.setName("Lunedi");
+		
+		DegreeCourseDTO course = new DegreeCourseDTO();
+		course.setIdcourse(1);
+		
+		SubjectDTO subject = new SubjectDTO();
+		subject.setId(1);
+		subject.setName("Analisi 1");
+		
+		SchedulerDTO scheduler1 = new SchedulerDTO();
+		scheduler1.setIdScheduler(1);
+		scheduler1.setTerm(term);
+		scheduler1.setDegreeCourse(course);
+		
+		SchedulerDTO scheduler = new SchedulerDTO();
+		scheduler.setIdScheduler(1);
+		scheduler.setTerm(term);
+		scheduler.setDegreeCourse(course);
+		
+		TypeLessonDTO typeLesson = new TypeLessonDTO();
+		typeLesson.setIdtypeLesson(1);
+		typeLesson.setClassroom(classroom1);
+		typeLesson.setDay(day);
+		typeLesson.setStart(mockDate);
+		typeLesson.setEnd(mockDate);
+		typeLesson.setSubject(subject);
+		typeLesson.setScheduler(scheduler);
+		
+		List<TypeLessonDTO> typeLessons = new ArrayList<TypeLessonDTO>();
+		typeLessons.add(typeLesson);
+		
+		scheduler1.setTypeLessons(typeLessons);
 
 		LessonDTO lesson1 = new LessonDTO();
 		lesson1.setIdlesson(1);
 		lesson1.setStart(mockDate);
 		lesson1.setEnd(mockDate);
 		lesson1.setClassroom(classroom1);
+		lesson1.setTypeLesson(typeLesson);
+		
+		List<LessonDTO> lessons = new ArrayList<LessonDTO>();
+		lessons.add(lesson1);
+		
+		scheduler1.setLessons(lessons);
 		
 		when(lessonServiceMock.getById(1)).thenReturn(lesson1);
 		
@@ -313,7 +363,19 @@ public class LessonRestControllerTest {
 			.andExpect(jsonPath("$.start", is(mockDate.getTime())))
 			.andExpect(jsonPath("$.end", is(mockDate.getTime())))
 			.andExpect(jsonPath("$.classroom.id", is(1)))
-			.andExpect(jsonPath("$.classroom.name", is("I1")));
+			.andExpect(jsonPath("$.classroom.name", is("I1")))
+			.andExpect(jsonPath("$.typeLesson.idtypeLesson", is(1)))
+			.andExpect(jsonPath("$.typeLesson.start", is(mockDate.getTime())))
+			.andExpect(jsonPath("$.typeLesson.end", is(mockDate.getTime())))
+			.andExpect(jsonPath("$.typeLesson.day.idDay", is(1)))
+			.andExpect(jsonPath("$.typeLesson.day.name", is("Lunedi")))
+			.andExpect(jsonPath("$.typeLesson.subject.id", is(1)))
+			.andExpect(jsonPath("$.typeLesson.subject.name", is("Analisi 1")))
+			.andExpect(jsonPath("$.typeLesson.classroom.id", is(1)))
+			.andExpect(jsonPath("$.typeLesson.classroom.name", is("I1")))
+			.andExpect(jsonPath("$.typeLesson.scheduler.idScheduler", is(1)))
+			.andExpect(jsonPath("$.typeLesson.scheduler.term.idterm", is(1)))
+			.andExpect(jsonPath("$.typeLesson.scheduler.degreeCourse.idcourse", is(1)));
 		
 		verify(lessonServiceMock, times(1)).getById(1);
 		verifyNoMoreInteractions(lessonServiceMock);
@@ -417,7 +479,7 @@ public class LessonRestControllerTest {
 	}
 	
 	public void saveFeedBackTest() throws Exception {
-Date mockDate = new Date();
+		Date mockDate = new Date();
 		
 		UserDTO user = new UserDTO();
 		user.setIduser(1);

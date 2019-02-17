@@ -35,6 +35,7 @@ import it.unisalento.se.saw.Iservices.IDegreeCourseService;
 import it.unisalento.se.saw.dto.AcademicYearDTO;
 import it.unisalento.se.saw.dto.CourseTypeDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
+import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
 
 
@@ -60,6 +61,17 @@ public class DegreeCourseRestControllerTest {
 		typeCourse.setIdtypeDegreeCourse(1);
 		typeCourse.setName("Ingegneria dell'Informazione");
 		
+		AcademicYearDTO year1 = new AcademicYearDTO();
+		year1.setIdacademicYear(1);
+		year1.setYear(2018);
+		
+		List<SubjectDTO> subjects = new ArrayList<SubjectDTO>();
+		
+		SubjectDTO subject1 = new SubjectDTO();
+		subject1.setId(1);
+		subject1.setName("Analisi 1");
+		subjects.add(subject1);
+		
 		List<DegreeCourseDTO> courses = new ArrayList<DegreeCourseDTO>();
 		
 		DegreeCourseDTO course1 = new DegreeCourseDTO();
@@ -67,6 +79,8 @@ public class DegreeCourseRestControllerTest {
 		course1.setName("Ingegneria dell'Informazione");
 		course1.setCfu(180);
 		course1.setTypeDegreeCourse(typeCourse);
+		course1.setAcademicYear(year1);
+		course1.setSubjects(subjects);
 		courses.add(course1);
 		
 		when(degreeCourseServiceMock.getAll()).thenReturn(courses);
@@ -78,7 +92,11 @@ public class DegreeCourseRestControllerTest {
 			.andExpect(jsonPath("$[0].name", is("Ingegneria dell'Informazione")))
 			.andExpect(jsonPath("$[0].cfu", is(180)))
 			.andExpect(jsonPath("$[0].typeDegreeCourse.idtypeDegreeCourse", is(1)))
-			.andExpect(jsonPath("$[0].typeDegreeCourse.name", is("Ingegneria dell'Informazione")));
+			.andExpect(jsonPath("$[0].typeDegreeCourse.name", is("Ingegneria dell'Informazione")))
+			.andExpect(jsonPath("$[0].academicYear.idacademicYear", is(1)))
+			.andExpect(jsonPath("$[0].academicYear.year", is(2018)))
+			.andExpect(jsonPath("$[0].subjects[0].id", is(1)))
+			.andExpect(jsonPath("$[0].subjects[0].name", is("Analisi 1")));
 		
 		verify(degreeCourseServiceMock, times(1)).getAll();
 		verifyNoMoreInteractions(degreeCourseServiceMock);

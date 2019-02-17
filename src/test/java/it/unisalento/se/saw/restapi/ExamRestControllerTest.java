@@ -33,9 +33,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.unisalento.se.saw.Iservices.IExamService;
 import it.unisalento.se.saw.dto.AcademicYearDTO;
+import it.unisalento.se.saw.dto.ClassroomDTO;
 import it.unisalento.se.saw.dto.ExamDTO;
 import it.unisalento.se.saw.dto.ExamEnrollmentDTO;
+import it.unisalento.se.saw.dto.ExamStatusDTO;
 import it.unisalento.se.saw.dto.ExamTypeDTO;
+import it.unisalento.se.saw.dto.ResultDTO;
 import it.unisalento.se.saw.dto.StudentDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.repositories.ExamRepository;
@@ -64,9 +67,40 @@ public class ExamRestControllerTest {
 		
 		Date mockDate = new Date();
 		
+		ClassroomDTO classroom = new ClassroomDTO();
+		classroom.setId(1);
+		classroom.setName("I1");
+		
+		ExamTypeDTO examType = new ExamTypeDTO();
+		examType.setIdexamType(1);
+		examType.setDescription("Prova orale");
+		
+		ExamStatusDTO examStatus = new ExamStatusDTO();
+		examStatus.setIdstatus(1);
+		examStatus.setDescription("Aperto");
+		
 		SubjectDTO subject = new SubjectDTO();
 		subject.setId(1);
 		subject.setName("Analisi 1");
+		
+		
+		StudentDTO student = new StudentDTO();
+		student.setIdstudent(1);
+		student.setName("Cristian");
+		student.setSurname("Vergallo");
+		
+		ResultDTO result = new ResultDTO();
+		result.setIdresult(1);
+		result.setDescription("Superato");
+		
+		List<ExamEnrollmentDTO> examEnrollments = new ArrayList<ExamEnrollmentDTO>();
+
+		ExamEnrollmentDTO examEnrollment1 = new ExamEnrollmentDTO();
+		examEnrollment1.setDate(mockDate);
+		examEnrollment1.setGrade(18);
+		examEnrollment1.setStudent(student);
+		examEnrollment1.setResult(result);
+		examEnrollments.add(examEnrollment1);
 		
 		List<ExamDTO> exams = new ArrayList<ExamDTO>();
 
@@ -74,6 +108,10 @@ public class ExamRestControllerTest {
 		exam1.setIdexam(1);
 		exam1.setDate(mockDate);
 		exam1.setSubject(subject);
+		exam1.setClassroom(classroom);
+		exam1.setExamtype(examType);
+		exam1.setStatus(examStatus);
+		exam1.setEnrollments(examEnrollments);
 		exams.add(exam1);
 		
 		when(examServiceMock.getAllByCourseAndTerm(1,1)).thenReturn(exams);
@@ -84,7 +122,13 @@ public class ExamRestControllerTest {
 			.andExpect(jsonPath("$[0].idexam", is(1)))
 			.andExpect(jsonPath("$[0].date", is(mockDate.getTime())))
 			.andExpect(jsonPath("$[0].subject.id", is(1)))
-			.andExpect(jsonPath("$[0].subject.name", is("Analisi 1")));
+			.andExpect(jsonPath("$[0].subject.name", is("Analisi 1")))
+			.andExpect(jsonPath("$[0].classroom.id", is(1)))
+			.andExpect(jsonPath("$[0].classroom.name", is("I1")))
+			.andExpect(jsonPath("$[0].examtype.idexamType", is(1)))
+			.andExpect(jsonPath("$[0].examtype.description", is("Prova orale")))
+			.andExpect(jsonPath("$[0].status.idstatus", is(1)))
+			.andExpect(jsonPath("$[0].status.description", is("Aperto")));
 		
 		verify(examServiceMock, times(1)).getAllByCourseAndTerm(1,1);
 		verifyNoMoreInteractions(examServiceMock);
@@ -199,6 +243,12 @@ public class ExamRestControllerTest {
 		student.setIdstudent(1);
 		student.setName("Cristian");
 		student.setSurname("Vergallo");
+		student.setEmail("cristian.vergallo@email.it");
+		student.setDateBirth(mockDate);
+		
+		ResultDTO result = new ResultDTO();
+		result.setIdresult(1);
+		result.setDescription("Superato");
 		
 		List<ExamEnrollmentDTO> examEnrollments = new ArrayList<ExamEnrollmentDTO>();
 
@@ -207,6 +257,7 @@ public class ExamRestControllerTest {
 		examEnrollment1.setDate(mockDate);
 		examEnrollment1.setGrade(18);
 		examEnrollment1.setStudent(student);
+		examEnrollment1.setResult(result);
 		examEnrollments.add(examEnrollment1);
 		
 		when(examServiceMock.getRecordBook(1)).thenReturn(examEnrollments);
@@ -217,12 +268,16 @@ public class ExamRestControllerTest {
 			.andExpect(jsonPath("$[0].student.idstudent", is(1)))
 			.andExpect(jsonPath("$[0].student.name", is("Cristian")))
 			.andExpect(jsonPath("$[0].student.surname", is("Vergallo")))
+			.andExpect(jsonPath("$[0].student.email", is("cristian.vergallo@email.it")))
+			.andExpect(jsonPath("$[0].student.dateBirth", is(mockDate.getTime())))
 			.andExpect(jsonPath("$[0].date", is(mockDate.getTime())))
 			.andExpect(jsonPath("$[0].grade", is(18)))
 			.andExpect(jsonPath("$[0].exam.idexam", is(1)))
 			.andExpect(jsonPath("$[0].exam.date", is(mockDate.getTime())))
 			.andExpect(jsonPath("$[0].exam.subject.id", is(1)))
-			.andExpect(jsonPath("$[0].exam.subject.name", is("Analisi 1")));
+			.andExpect(jsonPath("$[0].exam.subject.name", is("Analisi 1")))
+			.andExpect(jsonPath("$[0].result.idresult", is(1)))
+			.andExpect(jsonPath("$[0].result.description", is("Superato")));
 		
 		verify(examServiceMock, times(1)).getRecordBook(1);
 		verifyNoMoreInteractions(examServiceMock);
