@@ -5,6 +5,5 @@ import it.unisalento.se.saw.dto.TicketStatusDTO;
 
 public interface ITicketStatusService {
 	public List<TicketStatusDTO> getAll();
-	public TicketStatusDTO getById(int id);
 
 }

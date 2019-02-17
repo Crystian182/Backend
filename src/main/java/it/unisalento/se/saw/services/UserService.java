@@ -34,7 +34,6 @@ import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 import it.unisalento.se.saw.exceptions.WrongCredentialsException;
-import it.unisalento.se.saw.models.Login;
 import it.unisalento.se.saw.repositories.StudentHasDegreeCourseRepository;
 import it.unisalento.se.saw.repositories.TeacherRepository;
 import it.unisalento.se.saw.repositories.TermRepository;

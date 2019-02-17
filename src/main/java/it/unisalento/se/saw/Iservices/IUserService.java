@@ -10,7 +10,6 @@ import it.unisalento.se.saw.dto.TeacherDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
 import it.unisalento.se.saw.exceptions.WrongCredentialsException;
-import it.unisalento.se.saw.models.Login;
 
 
 public interface IUserService {

@@ -31,16 +31,5 @@ public class TicketStatusService implements ITicketStatusService{
 		return ticketStatusDTOs;
 	}
 	
-	@Transactional(readOnly = true)
-	public TicketStatusDTO getById(int id) {
-		TicketStatus ticketStatus = statusRepository.getById(id);
-		
-		TicketStatusDTO ticketStatusDTO = new TicketStatusDTO();
-		ticketStatusDTO.setIdstatus(ticketStatus.getIdticketStatus());
-		ticketStatusDTO.setDescription(ticketStatus.getDescription());
-		return ticketStatusDTO;
-	}
-
-	
 
 }
