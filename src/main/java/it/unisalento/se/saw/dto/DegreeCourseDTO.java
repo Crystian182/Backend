@@ -31,9 +31,6 @@ public class DegreeCourseDTO {
 	public void setTypeDegreeCourse(TypeDegreeCourseDTO typeDegreeCourse) {
 		this.typeDegreeCourse = typeDegreeCourse;
 	}
-	public void setIdcourse(int idcourse) {
-		this.idcourse = idcourse;
-	}
 	public AcademicYearDTO getAcademicYear() {
 		return academicYear;
 	}

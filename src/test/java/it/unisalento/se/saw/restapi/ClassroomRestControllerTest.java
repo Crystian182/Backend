@@ -245,7 +245,7 @@ public class ClassroomRestControllerTest {
 		verifyNoMoreInteractions(classroomServiceMock);
 	}
 	
-	/*public void saveTest() throws Exception {
+	public void saveTest() throws Exception {
 		BuildingDTO building1 = new BuildingDTO();
 		building1.setId(1);
 		building1.setName("Stecca");
@@ -304,7 +304,7 @@ public class ClassroomRestControllerTest {
 		
 		verify(classroomServiceMock, times(1)).getAvailableByIdBuilding(1, typeLesson);
 		verifyNoMoreInteractions(classroomServiceMock);
-	}*/
+	}
 	
 	static String asJsonString(final Object obj) {
         try {
