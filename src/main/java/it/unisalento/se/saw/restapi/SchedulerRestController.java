@@ -37,6 +37,10 @@ public class SchedulerRestController {
 		this.lessonService = lessonService;
 	}
 	
+	public SchedulerRestController(ISchedulerService schedulerService) {
+		this.schedulerService = schedulerService;
+	}
+	
 	@PostMapping(value="/getScheduler/{idterm}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<TypeLessonDTO> getCurrentSchedulerByCourse(@PathVariable("idterm") int idterm, @RequestBody DegreeCourseDTO degreeCourseDTO){
 		return lessonService.getCurrentSchedulerByCourse(degreeCourseDTO, idterm);

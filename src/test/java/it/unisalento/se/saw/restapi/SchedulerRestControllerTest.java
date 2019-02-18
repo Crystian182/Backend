@@ -13,6 +13,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -53,6 +54,7 @@ public class SchedulerRestControllerTest {
 	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),MediaType.APPLICATION_JSON.getSubtype(),Charset.forName("utf8"));
 
 	private MockMvc mockMvc;
+	private MockMvc mockMvc2;
 	
 	@Mock
 	private ILessonService lessonServiceMock;
@@ -63,6 +65,7 @@ public class SchedulerRestControllerTest {
 	@Before
 	public void setUp() {
 		mockMvc = MockMvcBuilders.standaloneSetup(new SchedulerRestController(lessonServiceMock)).setViewResolvers(viewResolver()).build();
+		mockMvc2 = MockMvcBuilders.standaloneSetup(new SchedulerRestController(schedulerServiceMock)).setViewResolvers(viewResolver()).build();
 	}
 	
 	@Test
@@ -112,7 +115,7 @@ public class SchedulerRestControllerTest {
 		verifyNoMoreInteractions(lessonServiceMock);
 	}
 	
-	/*@Test
+	@Test
 	public void getCurrentSchedulerByCourseTest() throws Exception {
 		
 		Date mockDate = new Date();
@@ -150,7 +153,7 @@ public class SchedulerRestControllerTest {
 		course1.setCfu(180);
 		course1.setTypeDegreeCourse(typeCourse);
 		
-		when(lessonServiceMock.getCurrentSchedulerByCourse(course1, 1)).thenReturn(typeLessons);
+		when(lessonServiceMock.getCurrentSchedulerByCourse(any(DegreeCourseDTO.class), any(Integer.class))).thenReturn(typeLessons);
 		
 		mockMvc.perform(post("/scheduler/getScheduler/{idterm}", 1).contentType(MediaType.APPLICATION_JSON).content(asJsonString(course1)))
 		.andExpect(status().isOk())
@@ -164,9 +167,80 @@ public class SchedulerRestControllerTest {
 			.andExpect(jsonPath("$[0].classroom.id", is(1)))
 			.andExpect(jsonPath("$[0].classroom.name", is("I1")));
 		
-		verify(lessonServiceMock, times(1)).getCurrentSchedulerByCourse(course1, 1);
+		verify(lessonServiceMock, times(1)).getCurrentSchedulerByCourse(any(DegreeCourseDTO.class), any(Integer.class));
 		verifyNoMoreInteractions(lessonServiceMock);
-	}*/
+	}
+	
+	@Test
+	public void saveSchedulerTest() throws Exception {
+		
+		Date mockDate = new Date();
+		
+		ClassroomDTO classroom1 = new ClassroomDTO();
+		classroom1.setId(1);
+		classroom1.setName("I1");
+		
+		SubjectDTO subject = new SubjectDTO();
+		subject.setId(1);
+		subject.setName("Analisi 1");
+		
+		DayDTO day = new DayDTO();
+		day.setIdDay(1);
+		day.setName("Lunedi");
+		
+		List<TypeLessonDTO> typeLessons = new ArrayList<TypeLessonDTO>();
+
+		TypeLessonDTO typeLesson1 = new TypeLessonDTO();
+		typeLesson1.setIdtypeLesson(1);
+		typeLesson1.setStart(mockDate);
+		typeLesson1.setEnd(mockDate);
+		typeLesson1.setClassroom(classroom1);
+		typeLesson1.setDay(day);
+		typeLesson1.setSubject(subject);
+		typeLessons.add(typeLesson1);
+		
+		TypeDegreeCourseDTO typeCourse = new TypeDegreeCourseDTO();
+		typeCourse.setIdtypeDegreeCourse(1);
+		typeCourse.setName("Ingegneria dell'Informazione");
+		
+		DegreeCourseDTO course1 = new DegreeCourseDTO();
+		course1.setIdcourse(1);
+		course1.setName("Ingegneria dell'Informazione");
+		course1.setCfu(180);
+		course1.setTypeDegreeCourse(typeCourse);
+		
+		SchedulerDTO schedulerDTO = new SchedulerDTO();
+		schedulerDTO.setIdScheduler(1);
+		schedulerDTO.setTypeLessons(typeLessons);
+		schedulerDTO.setDegreeCourse(course1);
+		
+		when(schedulerServiceMock.save(any(SchedulerDTO.class))).thenReturn(schedulerDTO);
+		
+		mockMvc2.perform(post("/scheduler/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(schedulerDTO)))
+		.andExpect(status().isOk())
+			.andExpect(jsonPath("$.idScheduler", is(1)))
+			.andExpect(jsonPath("$.typeLessons[0].idtypeLesson", is(1)))
+			.andExpect(jsonPath("$.typeLessons[0].start", is(mockDate.getTime())))
+			.andExpect(jsonPath("$.typeLessons[0].end", is(mockDate.getTime())))
+			.andExpect(jsonPath("$.degreeCourse.idcourse", is(1)));
+		
+		verify(schedulerServiceMock, times(1)).save(any(SchedulerDTO.class));
+		verifyNoMoreInteractions(schedulerServiceMock);
+	}
+	
+	@Test
+	public void periodHasSchedulerTest() throws Exception {
+		
+		when(schedulerServiceMock.periodHasScheduler(1,1)).thenReturn(1);
+		
+		mockMvc2.perform(get("/scheduler/exists/{idterm}&{idcourse}", 1, 1))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(APPLICATION_JSON_UTF8))
+			.andExpect(jsonPath("$", is(1)));
+		
+		verify(schedulerServiceMock, times(1)).periodHasScheduler(1,1);
+		verifyNoMoreInteractions(schedulerServiceMock);
+	}
 	
 	static String asJsonString(final Object obj) {
         try {
