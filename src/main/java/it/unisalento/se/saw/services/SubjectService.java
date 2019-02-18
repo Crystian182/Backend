@@ -60,7 +60,7 @@ public class SubjectService implements ISubjectService{
 				courseTypeDTO.setIdcourseType(subjects.get(i).getDegreeCourse().getTypeDegreeCourse().getCourseType().getIdcourseType());
 				courseTypeDTO.setDescription(subjects.get(i).getDegreeCourse().getTypeDegreeCourse().getCourseType().getDescription());
 				courseTypeDTO.setCfu(subjects.get(i).getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
-				courseTypeDTO.setDuration(subjects.get(i).getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+				courseTypeDTO.setDuration(subjects.get(i).getDegreeCourse().getTypeDegreeCourse().getCourseType().getDuration());
 				typeDegreeCourseDTO.setCourseType(courseTypeDTO);
 				
 				DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
