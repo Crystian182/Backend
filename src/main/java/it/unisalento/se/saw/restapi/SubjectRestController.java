@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unisalento.se.saw.Iservices.ISubjectService;
-import it.unisalento.se.saw.Iservices.ITeacherService;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TypeSubjectDTO;
 import it.unisalento.se.saw.exceptions.SubjectNotFoundException;
@@ -23,9 +22,6 @@ public class SubjectRestController {
 	
 	@Autowired
 	ISubjectService subjectService;
-	
-	@Autowired
-	ITeacherService teacherService;
 	
 	public SubjectRestController() {
 		super();
