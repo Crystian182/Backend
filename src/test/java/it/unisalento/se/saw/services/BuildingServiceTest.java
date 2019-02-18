@@ -167,41 +167,41 @@ public class BuildingServiceTest {
         assertEquals(building1.getIdbuilding(),(Integer) buildingDTO.getId());
     }
 
+    @Test
     public void saveTest() throws BuildingNotFoundException {
-    	
-    	Set<ClassroomHasTool> chastools = new HashSet<ClassroomHasTool>();
-    	
-    	Tool tool = new Tool();
-		tool.setIdtool(1);
-		tool.setName("Proiettore");
 		
 		ClassroomHasToolId id = new ClassroomHasToolId();
 		id.setIdclassroom(1);
 		id.setIdtool(1);
 		
-		ClassroomHasTool chastool = new ClassroomHasTool();
-		chastool.setId(id);
-		chastool.setTool(tool);
-		chastool.setQuantity(2);
-		chastools.add(chastool);
+		Tool tool = new Tool();
+    	tool.setIdtool(1);
+    	tool.setName("Proiettore");
+    	
+    	List<ClassroomHasTool> classroomHasTools = new ArrayList<ClassroomHasTool>();
+    	ClassroomHasTool classroomHasTool = new ClassroomHasTool();
+    	classroomHasTool.setId(id);
+    	classroomHasTool.setQuantity(2);
+    	classroomHasTool.setTool(tool);
+    	classroomHasTools.add(classroomHasTool);
 		
-    	Set<Classroom> classrooms = new HashSet<Classroom>();
+    	List<Classroom> classrooms = new ArrayList<Classroom>();
     	Classroom classroom1 = new Classroom();
 		classroom1.setIdclassroom(1);
 		classroom1.setName("I1");
 		classroom1.setSeats(180);
 		classroom1.setLat((float) 17.9);
 		classroom1.setLng((float) 21.3);
-		classroom1.setClassroomHasTools(chastools);
 		classrooms.add(classroom1);
 		
+		List<Building> buildings = new ArrayList<Building>();
     	Building building1 = new Building();
 		building1.setIdbuilding(1);
 		building1.setName("Stecca");
 		building1.setAddress("Via Ecotekne");
 		building1.setLat((float) 17.9);
 		building1.setLng((float) 21.3);
-		building1.setClassrooms(classrooms);
+		buildings.add(building1);
 		
 		List<ToolDTO> toolDTOs = new ArrayList<ToolDTO>();
 		ToolDTO tool1 = new ToolDTO();
@@ -230,12 +230,16 @@ public class BuildingServiceTest {
 
         when(buildingRepository.save(any(Building.class))).thenReturn(building1);
         when(classroomRepository.save(any(Classroom.class))).thenReturn(classroom1);
+        when(buildingRepository.findById(1)).thenReturn(Optional.of(building1));
+        when(classroomRepository.findClassesByBuild(buildings.get(0).getIdbuilding())).thenReturn(classrooms);
+        when(classroomHasToolRepository.getToolByClassroomId(classrooms.get(0).getIdclassroom())).thenReturn(classroomHasTools);
 
         BuildingDTO b = buildingService.save(buildingDTO1);
         assertEquals(buildingDTO1.getId(), b.getId());
     	
     }
     
+    @Test
     public void deleteTest() throws BuildingNotFoundException {
     	
     	Building building1 = new Building();
@@ -249,89 +253,5 @@ public class BuildingServiceTest {
     	
     	buildingService.delete(1);
     }
-   
-    /*@Test
-    public void saveTest() {
-    	AcademicYear year1 = new AcademicYear();
-		year1.setIdacademicYear(1);
-		year1.setYear(2018);
-		
-		AcademicYearDTO yearDTO1 = new AcademicYearDTO();
-		yearDTO1.setIdacademicYear(1);
-		yearDTO1.setYear(2018);
-
-        when(academicYearRepository.save(any(AcademicYear.class))).thenReturn(year1);
-
-        AcademicYearDTO y = academicYearService.save(yearDTO1);
-        assertEquals(yearDTO1.getIdacademicYear(), y.getIdacademicYear());
-    	
-    }
-    
-    @Test
-    public void saveTermTest() {
-    	
-    	AcademicYear year1 = new AcademicYear();
-		year1.setIdacademicYear(1);
-		year1.setYear(2018);
-    	
-    	Date mockDate = new Date();
-    	Term term1 = new Term();
-		term1.setIdterm(1);
-		term1.setStart(mockDate);
-		term1.setEnd(mockDate);
-		term1.setAcademicYear(year1);
-		
-		AcademicYearDTO yearDTO1 = new AcademicYearDTO();
-		yearDTO1.setIdacademicYear(1);
-		yearDTO1.setYear(2018);
-		
-		TermDTO termDTO1 = new TermDTO();
-		termDTO1.setIdterm(1);
-		termDTO1.setStart(mockDate);
-		termDTO1.setEnd(mockDate);
-		termDTO1.setAcademicYear(yearDTO1);
-		
-        when(termRepository.save(any(Term.class))).thenReturn(term1);
-
-        TermDTO termDTO = academicYearService.saveTerm(termDTO1);
-        assertEquals(termDTO1.getIdterm(), termDTO.getIdterm());
-    	
-    }
-    
-    @Test
-    public void saveAllTermTest() {
-    	
-    	AcademicYear year1 = new AcademicYear();
-		year1.setIdacademicYear(1);
-		year1.setYear(2018);
-    	
-    	List<Term> terms = new ArrayList<Term>();
-    	Date mockDate = new Date();
-    	Term term1 = new Term();
-		term1.setIdterm(1);
-		term1.setStart(mockDate);
-		term1.setEnd(mockDate);
-		term1.setAcademicYear(year1);
-		term1.setNumber(1);
-		terms.add(term1);
-		
-		AcademicYearDTO yearDTO1 = new AcademicYearDTO();
-		yearDTO1.setIdacademicYear(1);
-		yearDTO1.setYear(2018);
-		
-		List<TermDTO> termDTOs = new ArrayList<TermDTO>();
-		TermDTO termDTO1 = new TermDTO();
-		termDTO1.setIdterm(1);
-		termDTO1.setStart(mockDate);
-		termDTO1.setEnd(mockDate);
-		termDTO1.setAcademicYear(yearDTO1);
-		termDTOs.add(termDTO1);
-		
-        when(termRepository.saveAll(Matchers.anyListOf(Term.class))).thenReturn(terms);
-
-        List<TermDTO> termDTOsres = academicYearService.saveAllTerm(termDTOs);
-        assertEquals(termDTO1.getIdterm(), termDTOsres.get(0).getIdterm());
-    	
-    }*/
     
 }

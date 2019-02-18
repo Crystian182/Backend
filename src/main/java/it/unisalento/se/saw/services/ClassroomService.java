@@ -52,14 +52,15 @@ public class ClassroomService implements IClassroomService{
 			List<ToolDTO> toolDTOs = new ArrayList<ToolDTO>();
 			List<ClassroomHasTool> toolsInClassroom = classroomHasToolRepository.getToolByClassroomId(classrooms.get(i).getIdclassroom());
 			
-			for(int j=0; j<toolsInClassroom.size(); j++) {
-				ToolDTO toolDTO = new ToolDTO();
-				toolDTO.setId(toolsInClassroom.get(j).getId().getIdtool());
-				toolDTO.setName(toolsInClassroom.get(j).getTool().getName());
-				toolDTO.setQuantity(toolsInClassroom.get(j).getQuantity());
-				toolDTOs.add(toolDTO);
+			if(toolsInClassroom != null) {
+				for(int j=0; j<toolsInClassroom.size(); j++) {
+					ToolDTO toolDTO = new ToolDTO();
+					toolDTO.setId(toolsInClassroom.get(j).getId().getIdtool());
+					toolDTO.setName(toolsInClassroom.get(j).getTool().getName());
+					toolDTO.setQuantity(toolsInClassroom.get(j).getQuantity());
+					toolDTOs.add(toolDTO);
+				}
 			}
-			
 			ClassroomDTO classroomDTO = new ClassroomDTO();
 			classroomDTO.setId(classrooms.get(i).getIdclassroom());
 			classroomDTO.setName(classrooms.get(i).getName());
@@ -89,12 +90,14 @@ public class ClassroomService implements IClassroomService{
 			List<ToolDTO> toolDTOs = new ArrayList<ToolDTO>();
 			List<ClassroomHasTool> toolsInClassroom = classroomHasToolRepository.getToolByClassroomId(classroom.getIdclassroom());
 			
-			for(int j=0; j<toolsInClassroom.size(); j++) {
-				ToolDTO toolDTO = new ToolDTO();
-				toolDTO.setId(toolsInClassroom.get(j).getId().getIdtool());
-				toolDTO.setName(toolsInClassroom.get(j).getTool().getName());
-				toolDTO.setQuantity(toolsInClassroom.get(j).getQuantity());
-				toolDTOs.add(toolDTO);
+			if(toolsInClassroom != null) {
+				for(int j=0; j<toolsInClassroom.size(); j++) {
+					ToolDTO toolDTO = new ToolDTO();
+					toolDTO.setId(toolsInClassroom.get(j).getId().getIdtool());
+					toolDTO.setName(toolsInClassroom.get(j).getTool().getName());
+					toolDTO.setQuantity(toolsInClassroom.get(j).getQuantity());
+					toolDTOs.add(toolDTO);
+				}
 			}
 			
 			ClassroomDTO classroomDTO = new ClassroomDTO();
@@ -128,14 +131,15 @@ public class ClassroomService implements IClassroomService{
 				List<ToolDTO> toolDTOs = new ArrayList<ToolDTO>();
 				List<ClassroomHasTool> toolsInClassroom = classroomHasToolRepository.getToolByClassroomId(classrooms.get(i).getIdclassroom());
 				
-				for(int j=0; j<toolsInClassroom.size(); j++) {
-					ToolDTO toolDTO = new ToolDTO();
-					toolDTO.setId(toolsInClassroom.get(j).getId().getIdtool());
-					toolDTO.setName(toolsInClassroom.get(j).getTool().getName());
-					toolDTO.setQuantity(toolsInClassroom.get(j).getQuantity());
-					toolDTOs.add(toolDTO);
+				if(toolsInClassroom != null) {
+					for(int j=0; j<toolsInClassroom.size(); j++) {
+						ToolDTO toolDTO = new ToolDTO();
+						toolDTO.setId(toolsInClassroom.get(j).getId().getIdtool());
+						toolDTO.setName(toolsInClassroom.get(j).getTool().getName());
+						toolDTO.setQuantity(toolsInClassroom.get(j).getQuantity());
+						toolDTOs.add(toolDTO);
+					}
 				}
-				
 				ClassroomDTO classroomDTO = new ClassroomDTO();
 				classroomDTO.setId(classrooms.get(i).getIdclassroom());
 				classroomDTO.setName(classrooms.get(i).getName());
@@ -169,14 +173,15 @@ public class ClassroomService implements IClassroomService{
 				List<ToolDTO> toolDTOs = new ArrayList<ToolDTO>();
 				List<ClassroomHasTool> toolsInClassroom = classroomHasToolRepository.getToolByClassroomId(classrooms.get(i).getIdclassroom());
 				
-				for(int j=0; j<toolsInClassroom.size(); j++) {
-					ToolDTO toolDTO = new ToolDTO();
-					toolDTO.setId(toolsInClassroom.get(j).getId().getIdtool());
-					toolDTO.setName(toolsInClassroom.get(j).getTool().getName());
-					toolDTO.setQuantity(toolsInClassroom.get(j).getQuantity());
-					toolDTOs.add(toolDTO);
+				if(toolsInClassroom != null) {
+					for(int j=0; j<toolsInClassroom.size(); j++) {
+						ToolDTO toolDTO = new ToolDTO();
+						toolDTO.setId(toolsInClassroom.get(j).getId().getIdtool());
+						toolDTO.setName(toolsInClassroom.get(j).getTool().getName());
+						toolDTO.setQuantity(toolsInClassroom.get(j).getQuantity());
+						toolDTOs.add(toolDTO);
+					}
 				}
-				
 				ClassroomDTO classroomDTO = new ClassroomDTO();
 				classroomDTO.setId(classrooms.get(i).getIdclassroom());
 				classroomDTO.setName(classrooms.get(i).getName());
@@ -210,14 +215,15 @@ public class ClassroomService implements IClassroomService{
 				List<ToolDTO> toolDTOs = new ArrayList<ToolDTO>();
 				List<ClassroomHasTool> toolsInClassroom = classroomHasToolRepository.getToolByClassroomId(classrooms.get(i).getIdclassroom());
 				
-				for(int j=0; j<toolsInClassroom.size(); j++) {
-					ToolDTO toolDTO = new ToolDTO();
-					toolDTO.setId(toolsInClassroom.get(j).getId().getIdtool());
-					toolDTO.setName(toolsInClassroom.get(j).getTool().getName());
-					toolDTO.setQuantity(toolsInClassroom.get(j).getQuantity());
-					toolDTOs.add(toolDTO);
+				if(toolsInClassroom != null) {
+					for(int j=0; j<toolsInClassroom.size(); j++) {
+						ToolDTO toolDTO = new ToolDTO();
+						toolDTO.setId(toolsInClassroom.get(j).getId().getIdtool());
+						toolDTO.setName(toolsInClassroom.get(j).getTool().getName());
+						toolDTO.setQuantity(toolsInClassroom.get(j).getQuantity());
+						toolDTOs.add(toolDTO);
+					}
 				}
-				
 				ClassroomDTO classroomDTO = new ClassroomDTO();
 				classroomDTO.setId(classrooms.get(i).getIdclassroom());
 				classroomDTO.setName(classrooms.get(i).getName());
@@ -291,13 +297,15 @@ public class ClassroomService implements IClassroomService{
 
 		List<ClassroomHasTool> newToolsInClassroom = classroomHasToolRepository.getToolByClassroomId(newClassroom.getIdclassroom());
 		
-		for(int j=0; j<newToolsInClassroom.size(); j++) {
-			ToolDTO toolDTO = new ToolDTO();
-			toolDTO.setId(newToolsInClassroom.get(j).getId().getIdtool());
-			toolDTO.setName(newToolsInClassroom.get(j).getTool().getName());
-			toolDTO.setQuantity(newToolsInClassroom.get(j).getQuantity());
-
-			toolDTOs.add(toolDTO);
+		if(newToolsInClassroom != null) {
+			for(int j=0; j<newToolsInClassroom.size(); j++) {
+				ToolDTO toolDTO = new ToolDTO();
+				toolDTO.setId(newToolsInClassroom.get(j).getId().getIdtool());
+				toolDTO.setName(newToolsInClassroom.get(j).getTool().getName());
+				toolDTO.setQuantity(newToolsInClassroom.get(j).getQuantity());
+	
+				toolDTOs.add(toolDTO);
+			}
 		}
 		
 		ClassroomDTO newClassroomDTO = new ClassroomDTO();
