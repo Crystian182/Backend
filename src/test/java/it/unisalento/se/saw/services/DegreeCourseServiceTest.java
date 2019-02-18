@@ -27,6 +27,7 @@ import it.unisalento.se.saw.dto.CourseTypeDTO;
 import it.unisalento.se.saw.dto.DegreeCourseDTO;
 import it.unisalento.se.saw.dto.SubjectDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
+import it.unisalento.se.saw.dto.TermDTO;
 import it.unisalento.se.saw.dto.TypeDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TypeSubjectDTO;
 import it.unisalento.se.saw.dto.UserDTO;
@@ -126,6 +127,7 @@ public class DegreeCourseServiceTest {
     	subject.setTypeSubject(typeSubject);
     	subject.setCfu(12);
     	subject.setTeacher(teacher);
+    	subjects.add(subject);
 		
         when(degreeCourseRepository.findAll()).thenReturn(courses);
         when(termRepository.getByAcademicYear(1)).thenReturn(terms);
@@ -246,6 +248,7 @@ public class DegreeCourseServiceTest {
     	subject.setTypeSubject(typeSubject);
     	subject.setCfu(12);
     	subject.setTeacher(teacher);
+    	subjects.add(subject);
 		
         when(degreeCourseRepository.findById(1)).thenReturn(Optional.of(course1));
         when(termRepository.getByAcademicYear(1)).thenReturn(terms);
@@ -434,6 +437,111 @@ public class DegreeCourseServiceTest {
     
     @Test()
     public void saveTest() throws IOException, DegreeCourseNotFoundException {
+    	
+    	Date mockDate = new Date();
+    	
+    	CourseTypeDTO courseTypeDTO = new CourseTypeDTO();
+    	courseTypeDTO.setIdcourseType(1);
+    	courseTypeDTO.setDescription("Triennale");
+    	courseTypeDTO.setDuration(3);
+    	courseTypeDTO.setCfu(180);
+    	
+    	TypeDegreeCourseDTO typeDegreeCourseDTO = new TypeDegreeCourseDTO();
+    	typeDegreeCourseDTO.setIdtypeDegreeCourse(1);
+    	typeDegreeCourseDTO.setName("Analisi 1");
+    	typeDegreeCourseDTO.setCourseType(courseTypeDTO);
+    	
+    	AcademicYearDTO yearDTO1 = new AcademicYearDTO();
+    	yearDTO1.setIdacademicYear(1);
+    	yearDTO1.setYear(2018);
+    	
+    	TermDTO termDTO = new TermDTO();
+    	termDTO.setIdterm(1);
+    	termDTO.setStart(mockDate);
+    	termDTO.setEnd(mockDate);
+    	
+    	TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
+    	typeSubjectDTO.setIdtypeSubject(1);
+    	typeSubjectDTO.setName("Analisi 1");
+    	
+    	TeacherDTO teacherDTO = new TeacherDTO();
+    	teacherDTO.setIdteacher(1);
+    	teacherDTO.setName("Antonio");
+    	teacherDTO.setSurname("Leaci");
+    	
+    	List<SubjectDTO> subjectDTOs = new ArrayList<SubjectDTO>();
+    	SubjectDTO subjectDTO = new SubjectDTO();
+    	subjectDTO.setId(1);
+    	subjectDTO.setTypeSubjectDTO(typeSubjectDTO);
+    	subjectDTO.setCfu(12);
+    	subjectDTO.setTeacherDTO(teacherDTO);
+    	subjectDTO.setTerm(termDTO);
+    	subjectDTOs.add(subjectDTO);
+    	
+    	DegreeCourseDTO courseDTO = new DegreeCourseDTO();
+    	courseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
+    	courseDTO.setAcademicYear(yearDTO1);
+    	courseDTO.setSubjects(subjectDTOs);
+    	courseDTO.setName("Analisi 1");
+    	
+    	CourseType courseType = new CourseType();
+    	courseType.setIdcourseType(1);
+    	courseType.setDescription("Triennale");
+    	courseType.setDuration(3);
+    	courseType.setCfu(180);
+    	
+    	TypeDegreeCourse typeDegreeCourse = new TypeDegreeCourse();
+    	typeDegreeCourse.setIdtypeDegreeCourse(1);
+    	typeDegreeCourse.setName("Analisi 1");
+    	typeDegreeCourse.setCourseType(courseType);
+    	
+    	AcademicYear year1 = new AcademicYear();
+    	year1.setIdacademicYear(1);
+    	year1.setYear(2018);
+    	
+    	Term term = new Term();
+    	term.setIdterm(1);
+    	term.setStart(mockDate);
+    	term.setEnd(mockDate);
+    	
+    	TypeSubject typeSubject = new TypeSubject();
+    	typeSubject.setIdtypeSubject(1);
+    	typeSubject.setName("Analisi 1");
+    	
+    	User user = new User();
+    	user.setIduser(1);
+    	user.setName("Antonio");
+    	user.setSurname("Leaci");
+    	
+    	Teacher teacher = new Teacher();
+    	teacher.setIduser(1);
+    	teacher.setUser(user);
+    	
+    	List<Subject> subjects = new ArrayList<Subject>();
+    	Subject subject = new Subject();
+    	subject.setIdsubject(1);
+    	subject.setTypeSubject(typeSubject);
+    	subject.setCfu(12);
+    	subject.setTeacher(teacher);
+    	subject.setTerm(term);
+    	subjects.add(subject);
+    	
+    	DegreeCourse course = new DegreeCourse();
+    	course.setIddegreeCourse(1);
+    	course.setTypeDegreeCourse(typeDegreeCourse);
+    	course.setAcademicYear(year1);
+    	
+    	
+		
+        when(degreeCourseRepository.save(any(DegreeCourse.class))).thenReturn(course);
+        when(subjectRepository.saveAll(Matchers.anyListOf(Subject.class))).thenReturn(subjects);
+
+        DegreeCourseDTO savedCourseDTO = degreeCourseService.save(courseDTO);
+        assertEquals(courseDTO.getName(),savedCourseDTO.getName());
+    }
+    
+    @Test()
+    public void save2Test() throws IOException, DegreeCourseNotFoundException {
     	
     	Date mockDate = new Date();
     	
