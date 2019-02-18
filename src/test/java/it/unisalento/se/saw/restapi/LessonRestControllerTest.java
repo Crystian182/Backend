@@ -8,11 +8,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -55,9 +57,6 @@ public class LessonRestControllerTest {
 	
 	@Mock
 	private ILessonService lessonServiceMock;
-	
-	@Mock
-	private LessonRepository lessonRepository;
 	
 	@Before
 	public void setUp() {
@@ -428,6 +427,7 @@ public class LessonRestControllerTest {
 		verifyNoMoreInteractions(lessonServiceMock);
 	}
 	
+	@Test
 	public void saveTest() throws Exception {
 		Date mockDate = new Date();
 		
@@ -441,7 +441,7 @@ public class LessonRestControllerTest {
 		lesson1.setEnd(mockDate);
 		lesson1.setClassroom(classroom1);
 		
-		when(lessonServiceMock.save(lesson1)).thenReturn(lesson1);
+		when(lessonServiceMock.save(any(LessonDTO.class))).thenReturn(lesson1);
 		
 		mockMvc.perform(post("/lesson/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(lesson1)))
 			.andExpect(status().isOk())
@@ -451,10 +451,11 @@ public class LessonRestControllerTest {
 			.andExpect(jsonPath("$.classroom.id", is(1)))
 			.andExpect(jsonPath("$.classroom.name", is("I1")));
 		
-		verify(lessonServiceMock, times(1)).save(lesson1);
+		verify(lessonServiceMock, times(1)).save(any(LessonDTO.class));
 		verifyNoMoreInteractions(lessonServiceMock);
 	}
 	
+	@Test
 	public void editTest() throws Exception {
 		Date mockDate = new Date();
 		
@@ -462,7 +463,7 @@ public class LessonRestControllerTest {
 		classroom1.setId(1);
 		classroom1.setName("I1");
 		
-		ArrayList<LessonDTO> lessons = new ArrayList<LessonDTO>();
+		List<LessonDTO> lessons = new ArrayList<LessonDTO>();
 
 		LessonDTO lesson1 = new LessonDTO();
 		lesson1.setIdlesson(1);
@@ -474,10 +475,11 @@ public class LessonRestControllerTest {
 		mockMvc.perform(post("/lesson/edit").contentType(MediaType.APPLICATION_JSON).content(asJsonString(lessons)))
 			.andExpect(status().isOk());
 		
-		verify(lessonServiceMock, times(1)).edit(lessons);
+		verify(lessonServiceMock, times(1)).edit(Matchers.anyListOf(LessonDTO.class));
 		verifyNoMoreInteractions(lessonServiceMock);
 	}
 	
+	@Test
 	public void saveFeedBackTest() throws Exception {
 		Date mockDate = new Date();
 		
@@ -496,7 +498,7 @@ public class LessonRestControllerTest {
 		mockMvc.perform(post("/lesson/saveFeedback/{idlesson}", 1).contentType(MediaType.APPLICATION_JSON).content(asJsonString(feedback1)))
 			.andExpect(status().isOk());
 		
-		verify(lessonServiceMock, times(1)).saveFeedback(1, feedback1);
+		verify(lessonServiceMock, times(1)).saveFeedback(any(Integer.class), any(FeedbackDTO.class));
 		verifyNoMoreInteractions(lessonServiceMock);
 	}
 	

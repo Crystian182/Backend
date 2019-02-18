@@ -13,6 +13,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -38,6 +39,7 @@ import it.unisalento.se.saw.dto.EnrollmentStatusDTO;
 import it.unisalento.se.saw.dto.StudentDTO;
 import it.unisalento.se.saw.dto.StudentHasDegreeCourseDTO;
 import it.unisalento.se.saw.dto.TeacherDTO;
+import it.unisalento.se.saw.dto.ToolDTO;
 import it.unisalento.se.saw.dto.TypeSubjectDTO;
 import it.unisalento.se.saw.dto.UserDTO;
 
@@ -207,6 +209,7 @@ public class UserRestControllerTest {
 		verifyNoMoreInteractions(userServiceMock);
 	}
 	
+	@Test
 	public void saveTest() throws Exception {
 		
 		Date mockDate = new Date();
@@ -227,7 +230,7 @@ public class UserRestControllerTest {
 		user.setType("student");
 		user.setPropic("123");
 		
-		when(userServiceMock.save(user)).thenReturn(user);
+		when(userServiceMock.save(any(UserDTO.class))).thenReturn(user);
 		
 		mockMvc.perform(post("/user/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
 			.andExpect(status().isOk())
@@ -246,7 +249,7 @@ public class UserRestControllerTest {
 			.andExpect(jsonPath("$.type", is("student")))
 			.andExpect(jsonPath("$.propic", is("123")));
 		
-		verify(userServiceMock, times(1)).save(user);
+		verify(userServiceMock, times(1)).save(any(UserDTO.class));
 		verifyNoMoreInteractions(userServiceMock);
 	}
 	

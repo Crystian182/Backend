@@ -54,16 +54,11 @@ public class SchedulerRestControllerTest {
 
 	private MockMvc mockMvc;
 	
-	private MockMvc mockMvc2;
-	
 	@Mock
 	private ILessonService lessonServiceMock;
 	
 	@Mock
 	private ISchedulerService schedulerServiceMock;
-	
-	@Mock
-	private LessonRepository lessonRepository;
 	
 	@Before
 	public void setUp() {

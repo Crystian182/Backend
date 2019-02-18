@@ -13,6 +13,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.refEq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -245,6 +247,7 @@ public class ClassroomRestControllerTest {
 		verifyNoMoreInteractions(classroomServiceMock);
 	}
 	
+	@Test
 	public void saveTest() throws Exception {
 		BuildingDTO building1 = new BuildingDTO();
 		building1.setId(1);
@@ -260,18 +263,18 @@ public class ClassroomRestControllerTest {
 		classroom1.setLng((float) 21.3);
 		classroom1.setBuilding(building1);
 		
-		when(classroomServiceMock.save(classroom1)).thenReturn(classroom1);
+		when(classroomServiceMock.save(any(ClassroomDTO.class))).thenReturn(classroom1);
 		
 		mockMvc.perform(post("/classroom/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(classroom1)))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.id", is(1)))
 			.andExpect(jsonPath("$.name", is("I1")))
 			.andExpect(jsonPath("$.seats", is(180)));
 		
-		verify(classroomServiceMock, times(1)).save(classroom1);
+		verify(classroomServiceMock, times(1)).save(any(ClassroomDTO.class));
 		verifyNoMoreInteractions(classroomServiceMock);
 	}
 	
+	@Test
 	public void getAvailableClassroomByIdBuildingTest() throws Exception {
 		List<ClassroomDTO> classrooms = new ArrayList<ClassroomDTO>();
 		
@@ -294,7 +297,7 @@ public class ClassroomRestControllerTest {
 		TypeLessonDTO typeLesson = new TypeLessonDTO();
 		typeLesson.setIdtypeLesson(1);
 		
-		when(classroomServiceMock.getAvailableByIdBuilding(1, typeLesson)).thenReturn(classrooms);
+		when(classroomServiceMock.getAvailableByIdBuilding(any(Integer.class), any(TypeLessonDTO.class))).thenReturn(classrooms);
 		
 		mockMvc.perform(post("/classroom/getAvailableByIdBuilding/{id}", 1).contentType(MediaType.APPLICATION_JSON).content(asJsonString(typeLesson)))
 			.andExpect(status().isOk())
@@ -302,7 +305,7 @@ public class ClassroomRestControllerTest {
 			.andExpect(jsonPath("$[0].name", is("I1")))
 			.andExpect(jsonPath("$[0].seats", is(180)));
 		
-		verify(classroomServiceMock, times(1)).getAvailableByIdBuilding(1, typeLesson);
+		verify(classroomServiceMock, times(1)).getAvailableByIdBuilding(any(Integer.class), any(TypeLessonDTO.class));
 		verifyNoMoreInteractions(classroomServiceMock);
 	}
 	

@@ -796,7 +796,7 @@ public List<LessonDTO> getTeacherTodayLessons(int iduser) {
 }
 	
 	@Transactional
-	public void edit(ArrayList<LessonDTO> lessonDTOs) {
+	public void edit(List<LessonDTO> lessonDTOs) {
 		SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
 		for(int i=0; i<lessonDTOs.size(); i++) {

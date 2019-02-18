@@ -8,11 +8,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -53,9 +55,6 @@ public class ExamRestControllerTest {
 	
 	@Mock
 	private IExamService examServiceMock;
-	
-	@Mock
-	private ExamRepository examRepository;
 	
 	@Before
 	public void setUp() {
@@ -340,6 +339,7 @@ public class ExamRestControllerTest {
 		verifyNoMoreInteractions(examServiceMock);
 	}
 	
+	@Test
 	public void saveTest() throws Exception {
 		Date mockDate = new Date();
 		
@@ -358,10 +358,11 @@ public class ExamRestControllerTest {
 		mockMvc.perform(post("/exam/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(exams)))
 			.andExpect(status().isOk());
 		
-		verify(examServiceMock, times(1)).save(exams);
+		verify(examServiceMock, times(1)).save(Matchers.anyListOf(ExamDTO.class));
 		verifyNoMoreInteractions(examServiceMock);
 	}
 	
+	@Test
 	public void insertGradeTest() throws Exception {
 Date mockDate = new Date();
 		
@@ -391,7 +392,7 @@ Date mockDate = new Date();
 		mockMvc.perform(post("/exam/insertGrade/{idexam}", 1).contentType(MediaType.APPLICATION_JSON).content(asJsonString(examEnrollments)))
 			.andExpect(status().isOk());
 		
-		verify(examServiceMock, times(1)).insertGrade(examEnrollments, 1);
+		verify(examServiceMock, times(1)).insertGrade(Matchers.anyListOf(ExamEnrollmentDTO.class), any(Integer.class));
 		verifyNoMoreInteractions(examServiceMock);
 	}
 	

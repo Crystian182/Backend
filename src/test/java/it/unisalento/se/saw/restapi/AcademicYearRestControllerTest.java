@@ -8,11 +8,14 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.refEq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -45,9 +48,6 @@ public class AcademicYearRestControllerTest {
 	
 	@Mock
 	private IAcademicYearService academicYearServiceMock;
-	
-	@Mock
-	private AcademicYearRepository AcademicYearRepository;
 	
 	@Before
 	public void setUp() {
@@ -218,22 +218,24 @@ public class AcademicYearRestControllerTest {
 		verifyNoMoreInteractions(academicYearServiceMock);
 	}
 	
+	@Test
 	public void saveTest() throws Exception {
 		AcademicYearDTO year1 = new AcademicYearDTO();
 		year1.setIdacademicYear(1);
 		year1.setYear(2018);
 		
-		when(academicYearServiceMock.save(year1)).thenReturn(year1);
+		when(academicYearServiceMock.save(any(AcademicYearDTO.class))).thenReturn(year1);
 		
 		mockMvc.perform(post("/academicyear/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(year1)))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.idacademicYear", is(1)))
 			.andExpect(jsonPath("$.year", is(2018)));
 		
-		verify(academicYearServiceMock, times(1)).save(year1);
+		verify(academicYearServiceMock, times(1)).save(refEq(year1));
 		verifyNoMoreInteractions(academicYearServiceMock);
 	}
 	
+	@Test
 	public void saveTermTest() throws Exception {
 		Date mockDate = new Date();
 		AcademicYearDTO year1 = new AcademicYearDTO();
@@ -246,15 +248,16 @@ public class AcademicYearRestControllerTest {
 		term1.setEnd(mockDate);
 		term1.setAcademicYear(year1);
 		
-		when(academicYearServiceMock.saveTerm(term1)).thenReturn(term1);
+		when(academicYearServiceMock.saveTerm(any(TermDTO.class))).thenReturn(term1);
 		
 		mockMvc.perform(post("/academicyear/saveTerm").contentType(MediaType.APPLICATION_JSON).content(asJsonString(term1)))
 			.andExpect(status().isOk());
 		
-		verify(academicYearServiceMock, times(1)).saveTerm(term1);
+		verify(academicYearServiceMock, times(1)).saveTerm(any(TermDTO.class));
 		verifyNoMoreInteractions(academicYearServiceMock);
 	}
 	
+	@Test
 	public void saveAllTermTest() throws Exception {
 		Date mockDate = new Date();
 		
@@ -278,12 +281,12 @@ public class AcademicYearRestControllerTest {
 		term2.setAcademicYear(year1);
 		terms.add(term2);
 		
-		when(academicYearServiceMock.saveAllTerm(terms)).thenReturn(terms);
+		when(academicYearServiceMock.saveAllTerm(Matchers.anyListOf(TermDTO.class))).thenReturn(terms);
 		
 		mockMvc.perform(post("/academicyear/saveAllTerm").contentType(MediaType.APPLICATION_JSON).content(asJsonString(terms)))
 			.andExpect(status().isOk());
 		
-		verify(academicYearServiceMock, times(1)).saveAllTerm(terms);
+		verify(academicYearServiceMock, times(1)).saveAllTerm(refEq(terms));
 		verifyNoMoreInteractions(academicYearServiceMock);
 	}
 	

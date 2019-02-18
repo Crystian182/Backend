@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -92,6 +93,7 @@ public class ToolRestControllerTest {
 		verifyNoMoreInteractions(toolServiceMock);
 	}
 	
+	@Test
 	public void saveTest() throws Exception {
 		
 		ToolDTO tool1 = new ToolDTO();
@@ -99,7 +101,7 @@ public class ToolRestControllerTest {
 		tool1.setName("Proiettore");
 		tool1.setQuantity(2);
 		
-		when(toolServiceMock.save(tool1)).thenReturn(tool1);
+		when(toolServiceMock.save(any(ToolDTO.class))).thenReturn(tool1);
 		
 		mockMvc.perform(post("/tool/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(tool1)))
 			.andExpect(status().isOk())
@@ -107,7 +109,7 @@ public class ToolRestControllerTest {
 			.andExpect(jsonPath("$.name", is("Proiettore")))
 			.andExpect(jsonPath("$.quantity", is(2)));;
 		
-		verify(toolServiceMock, times(1)).save(tool1);
+		verify(toolServiceMock, times(1)).save(any(ToolDTO.class));
 		verifyNoMoreInteractions(toolServiceMock);
 	}
 	

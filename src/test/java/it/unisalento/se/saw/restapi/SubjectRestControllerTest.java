@@ -8,11 +8,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -54,9 +56,6 @@ public class SubjectRestControllerTest {
 	
 	@Mock
 	private ISubjectService subjectServiceMock;
-	
-	@Mock
-	private SubjectRepository subjectRepository;
 	
 	@Before
 	public void setUp() {
@@ -310,6 +309,7 @@ public class SubjectRestControllerTest {
 		verifyNoMoreInteractions(subjectServiceMock);
 	}
 	
+	@Test
 	public void saveTest() throws Exception {
 		
 		SubjectDTO subject1 = new SubjectDTO();
@@ -318,7 +318,7 @@ public class SubjectRestControllerTest {
 		subject1.setDescription("Bella");
 		subject1.setCfu(12);
 		
-		when(subjectServiceMock.save(subject1)).thenReturn(subject1);
+		when(subjectServiceMock.save(any(SubjectDTO.class))).thenReturn(subject1);
 		
 		mockMvc.perform(post("/subject/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(subject1)))
 			.andExpect(status().isOk())
@@ -327,10 +327,11 @@ public class SubjectRestControllerTest {
 			.andExpect(jsonPath("$.cfu", is(12)))
 			.andExpect(jsonPath("$.description", is("Bella")));
 		
-		verify(subjectServiceMock, times(1)).save(subject1);
+		verify(subjectServiceMock, times(1)).save(any(SubjectDTO.class));
 		verifyNoMoreInteractions(subjectServiceMock);
 	}
 	
+	@Test
 	public void saveAllTest() throws Exception {
 		
 		List<SubjectDTO> subjects = new ArrayList<SubjectDTO>();
@@ -342,7 +343,7 @@ public class SubjectRestControllerTest {
 		subject1.setCfu(12);
 		subjects.add(subject1);
 		
-		when(subjectServiceMock.saveAll(subjects)).thenReturn(subjects);
+		when(subjectServiceMock.saveAll(Matchers.anyListOf(SubjectDTO.class))).thenReturn(subjects);
 		
 		mockMvc.perform(post("/subject/saveAll").contentType(MediaType.APPLICATION_JSON).content(asJsonString(subjects)))
 			.andExpect(status().isOk())
@@ -351,10 +352,11 @@ public class SubjectRestControllerTest {
 			.andExpect(jsonPath("$[0].cfu", is(12)))
 			.andExpect(jsonPath("$[0].description", is("Bella")));
 		
-		verify(subjectServiceMock, times(1)).saveAll(subjects);
+		verify(subjectServiceMock, times(1)).saveAll(Matchers.anyListOf(SubjectDTO.class));
 		verifyNoMoreInteractions(subjectServiceMock);
 	}
 	
+	@Test
 	public void saveTypeSubjectTest() throws Exception {
 		
 		TypeSubjectDTO typeSubject1 = new TypeSubjectDTO();
@@ -362,7 +364,7 @@ public class SubjectRestControllerTest {
 		typeSubject1.setName("Analisi 1");
 		typeSubject1.setDescription("Bella");
 		
-		when(subjectServiceMock.saveType(typeSubject1)).thenReturn(typeSubject1);
+		when(subjectServiceMock.saveType(any(TypeSubjectDTO.class))).thenReturn(typeSubject1);
 		
 		mockMvc.perform(post("/subject/saveTypeSubject").contentType(MediaType.APPLICATION_JSON).content(asJsonString(typeSubject1)))
 			.andExpect(status().isOk())
@@ -370,7 +372,7 @@ public class SubjectRestControllerTest {
 			.andExpect(jsonPath("$.name", is("Analisi 1")))
 			.andExpect(jsonPath("$.description", is("Bella")));
 		
-		verify(subjectServiceMock, times(1)).saveType(typeSubject1);
+		verify(subjectServiceMock, times(1)).saveType(any(TypeSubjectDTO.class));
 		verifyNoMoreInteractions(subjectServiceMock);
 	}
 	

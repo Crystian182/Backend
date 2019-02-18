@@ -13,6 +13,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.refEq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -310,13 +312,14 @@ public class DegreeCourseRestControllerTest {
 		verifyNoMoreInteractions(degreeCourseServiceMock);
 	}
 	
+	@Test
 	public void saveTest() throws Exception {
 		DegreeCourseDTO course1 = new DegreeCourseDTO();
 		course1.setIdcourse(1);
 		course1.setName("Ingegneria dell'Informazione");
 		course1.setCfu(180);
 		
-		when(degreeCourseServiceMock.save(course1)).thenReturn(course1);
+		when(degreeCourseServiceMock.save(any(DegreeCourseDTO.class))).thenReturn(course1);
 		
 		mockMvc.perform(post("/course/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(course1)))
 			.andExpect(status().isOk())
@@ -324,23 +327,24 @@ public class DegreeCourseRestControllerTest {
 			.andExpect(jsonPath("$.name", is("Ingegneria dell'Informazione")))
 			.andExpect(jsonPath("$.cfu", is(180)));
 		
-		verify(degreeCourseServiceMock, times(1)).save(course1);
+		verify(degreeCourseServiceMock, times(1)).save(refEq(course1));
 		verifyNoMoreInteractions(degreeCourseServiceMock);
 	}
 	
+	@Test
 	public void saveTypeTest() throws Exception {
 		TypeDegreeCourseDTO typeCourse1 = new TypeDegreeCourseDTO();
 		typeCourse1.setIdtypeDegreeCourse(1);
 		typeCourse1.setName("Ingegneria dell'Informazione");
 		
-		when(degreeCourseServiceMock.saveType(typeCourse1)).thenReturn(typeCourse1);
+		when(degreeCourseServiceMock.saveType(any(TypeDegreeCourseDTO.class))).thenReturn(typeCourse1);
 		
 		mockMvc.perform(post("/course/saveType").contentType(MediaType.APPLICATION_JSON).content(asJsonString(typeCourse1)))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.idtypeDegreeCourse", is(1)))
 			.andExpect(jsonPath("$.name", is("Ingegneria dell'Informazione")));
 		
-		verify(degreeCourseServiceMock, times(1)).saveType(typeCourse1);
+		verify(degreeCourseServiceMock, times(1)).saveType(refEq(typeCourse1));
 		verifyNoMoreInteractions(degreeCourseServiceMock);
 	}
 	

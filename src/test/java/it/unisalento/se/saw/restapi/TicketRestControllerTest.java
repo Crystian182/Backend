@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -54,9 +55,6 @@ public class TicketRestControllerTest {
 	
 	@Mock
 	private ITicketService ticketServiceMock;
-	
-	@Mock
-	private TicketRepository ticketRepository;
 	
 	@Before
 	public void setUp() {
@@ -501,6 +499,7 @@ public class TicketRestControllerTest {
 		verifyNoMoreInteractions(ticketServiceMock);
 	}
 	
+	@Test
 	public void saveTest() throws Exception {
 		Date mockDate = new Date();
 		
@@ -523,26 +522,27 @@ public class TicketRestControllerTest {
 		ticket1.setTitle("Problema");
 		ticket1.setTeacher(teacher);
 		
-		when(ticketServiceMock.save(ticket1)).thenReturn(ticket1);
+		when(ticketServiceMock.save(any(TicketDTO.class))).thenReturn(ticket1);
 		
 		mockMvc.perform(post("/ticket/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(ticket1)))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$[0].id", is(1)))
-			.andExpect(jsonPath("$[0].title", is("Problema")))
-			.andExpect(jsonPath("$[0].date", is(mockDate.getTime())))
-			.andExpect(jsonPath("$[0].teacher.idteacher", is(1)))
-			.andExpect(jsonPath("$[0].teacher.name", is("Antonio")))
-			.andExpect(jsonPath("$[0].teacher.surname", is("Leaci")))
-			.andExpect(jsonPath("$[0].classroom.id", is(1)))
-			.andExpect(jsonPath("$[0].classroom.name", is("I1")))
-			.andExpect(jsonPath("$[0].classroom.seats", is(100)))
-			.andExpect(jsonPath("$[0].classroom.lat", is(17.3)))
-			.andExpect(jsonPath("$[0].classroom.lng", is(21.9)));
+			.andExpect(jsonPath("$.id", is(1)))
+			.andExpect(jsonPath("$.title", is("Problema")))
+			.andExpect(jsonPath("$.date", is(mockDate.getTime())))
+			.andExpect(jsonPath("$.teacher.idteacher", is(1)))
+			.andExpect(jsonPath("$.teacher.name", is("Antonio")))
+			.andExpect(jsonPath("$.teacher.surname", is("Leaci")))
+			.andExpect(jsonPath("$.classroom.id", is(1)))
+			.andExpect(jsonPath("$.classroom.name", is("I1")))
+			.andExpect(jsonPath("$.classroom.seats", is(100)))
+			.andExpect(jsonPath("$.classroom.lat", is(17.3)))
+			.andExpect(jsonPath("$.classroom.lng", is(21.9)));
 		
-		verify(ticketServiceMock, times(1)).save(ticket1);
+		verify(ticketServiceMock, times(1)).save(any(TicketDTO.class));
 		verifyNoMoreInteractions(ticketServiceMock);
 	}
 	
+	@Test
 	public void saveStaffTest() throws Exception {
 		Date mockDate = new Date();
 		
@@ -577,26 +577,27 @@ public class TicketRestControllerTest {
 		message1.setDate(mockDate);
 		message1.setUser(user);
 		
-		when(ticketServiceMock.saveMessages(ticket1, message1)).thenReturn(ticket1);
+		when(ticketServiceMock.saveMessages(any(TicketDTO.class), any(TicketMessageDTO.class))).thenReturn(ticket1);
 		
 		mockMvc.perform(post("/ticket/savestaff").contentType(MediaType.APPLICATION_JSON).content(asJsonString(ticket1)))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$[0].id", is(1)))
-			.andExpect(jsonPath("$[0].title", is("Problema")))
-			.andExpect(jsonPath("$[0].date", is(mockDate.getTime())))
-			.andExpect(jsonPath("$[0].teacher.idteacher", is(1)))
-			.andExpect(jsonPath("$[0].teacher.name", is("Antonio")))
-			.andExpect(jsonPath("$[0].teacher.surname", is("Leaci")))
-			.andExpect(jsonPath("$[0].classroom.id", is(1)))
-			.andExpect(jsonPath("$[0].classroom.name", is("I1")))
-			.andExpect(jsonPath("$[0].classroom.seats", is(100)))
-			.andExpect(jsonPath("$[0].classroom.lat", is(17.3)))
-			.andExpect(jsonPath("$[0].classroom.lng", is(21.9)));
+			.andExpect(jsonPath("$.id", is(1)))
+			.andExpect(jsonPath("$.title", is("Problema")))
+			.andExpect(jsonPath("$.date", is(mockDate.getTime())))
+			.andExpect(jsonPath("$.teacher.idteacher", is(1)))
+			.andExpect(jsonPath("$.teacher.name", is("Antonio")))
+			.andExpect(jsonPath("$.teacher.surname", is("Leaci")))
+			.andExpect(jsonPath("$.classroom.id", is(1)))
+			.andExpect(jsonPath("$.classroom.name", is("I1")))
+			.andExpect(jsonPath("$.classroom.seats", is(100)))
+			.andExpect(jsonPath("$.classroom.lat", is(17.3)))
+			.andExpect(jsonPath("$.classroom.lng", is(21.9)));
 		
-		verify(ticketServiceMock, times(1)).saveMessages(ticket1, message1);
+		verify(ticketServiceMock, times(1)).saveMessages(any(TicketDTO.class), any(TicketMessageDTO.class));
 		verifyNoMoreInteractions(ticketServiceMock);
 	}
 	
+	@Test
 	public void saveMessageTest() throws Exception {
 		Date mockDate = new Date();
 		
@@ -612,7 +613,7 @@ public class TicketRestControllerTest {
 		message1.setDate(mockDate);
 		message1.setUser(user);
 		
-		when(ticketServiceMock.saveMessage(message1)).thenReturn(message1);
+		when(ticketServiceMock.saveMessage(any(TicketMessageDTO.class))).thenReturn(message1);
 		
 		mockMvc.perform(post("/ticket/savemessage").contentType(MediaType.APPLICATION_JSON).content(asJsonString(message1)))
 			.andExpect(status().isOk())
@@ -624,7 +625,7 @@ public class TicketRestControllerTest {
 			.andExpect(jsonPath("$.user.name", is("Antonio")))
 			.andExpect(jsonPath("$.user.surname", is("Leaci")));
 		
-		verify(ticketServiceMock, times(1)).saveMessage(message1);
+		verify(ticketServiceMock, times(1)).saveMessage(any(TicketMessageDTO.class));
 		verifyNoMoreInteractions(ticketServiceMock);
 	}
 	

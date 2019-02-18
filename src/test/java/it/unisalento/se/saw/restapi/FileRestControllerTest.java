@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -187,6 +188,7 @@ public class FileRestControllerTest {
 		verifyNoMoreInteractions(fileServiceMock);
 	}
 	
+	@Test
 	public void saveFeedBackTest() throws Exception {
 		Date mockDate = new Date();
 		
@@ -205,7 +207,7 @@ public class FileRestControllerTest {
 		mockMvc.perform(post("/file/saveFeedback/idfile={idfile}&idlesson={idlesson}", 1, 1).contentType(MediaType.APPLICATION_JSON).content(asJsonString(feedback1)))
 			.andExpect(status().isOk());
 		
-		verify(fileServiceMock, times(1)).saveFeedback(1, 1, feedback1);
+		verify(fileServiceMock, times(1)).saveFeedback(any(Integer.class), any(Integer.class), any(FeedbackDTO.class));
 		verifyNoMoreInteractions(fileServiceMock);
 	}
 	

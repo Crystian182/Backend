@@ -13,6 +13,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.refEq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -47,9 +49,6 @@ public class BuildingRestControllerTest {
 	
 	@Mock
 	private IBuildingService buildingServiceMock;
-	
-	@Mock
-	private BuildingRepository buildingRepository;
 	
 	@Before
 	public void setUp() {
@@ -142,6 +141,7 @@ public class BuildingRestControllerTest {
 		verifyNoMoreInteractions(buildingServiceMock);
 	}
 	
+	@Test
 	public void saveTest() throws Exception {
 		BuildingDTO building1 = new BuildingDTO();
 		building1.setName("Stecca");
@@ -149,12 +149,12 @@ public class BuildingRestControllerTest {
 		building1.setLat((float) 17.9);
 		building1.setLng((float) 21.3);
 		
-		when(buildingServiceMock.save(building1)).thenReturn(building1);
+		when(buildingServiceMock.save(any(BuildingDTO.class))).thenReturn(building1);
 		
 		mockMvc.perform(post("/building/save").contentType(MediaType.APPLICATION_JSON).content(asJsonString(building1)))
 			.andExpect(status().isOk());
 		
-		verify(buildingServiceMock, times(1)).save(building1);
+		verify(buildingServiceMock, times(1)).save(refEq(building1));
 		verifyNoMoreInteractions(buildingServiceMock);
 	}
 	
