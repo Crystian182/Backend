@@ -3,6 +3,7 @@ import java.util.List;
 
 import it.unisalento.se.saw.dto.TicketDTO;
 import it.unisalento.se.saw.dto.TicketMessageDTO;
+import it.unisalento.se.saw.dto.TicketStatusDTO;
 import it.unisalento.se.saw.exceptions.TicketNotFoundException;
 
 
@@ -16,5 +17,6 @@ public interface ITicketService {
 	public TicketMessageDTO saveMessage(TicketMessageDTO ticketMessageDTO);
 	public List<TicketDTO> getAllTeacherTickets(int idteacher);
 	public List<TicketDTO> getAllClassroomTickets(int idclassroom);
+	public List<TicketStatusDTO> getAllTicketStatus();
 
 }

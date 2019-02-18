@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import it.unisalento.se.saw.Iservices.ITicketService;
 import it.unisalento.se.saw.dto.TicketDTO;
 import it.unisalento.se.saw.dto.TicketMessageDTO;
+import it.unisalento.se.saw.dto.TicketStatusDTO;
 import it.unisalento.se.saw.exceptions.TicketNotFoundException;
 
 
@@ -81,6 +82,11 @@ public class TicketRestController {
 	@GetMapping(value="/getAllClassroomTickets/{idclassroom}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<TicketDTO> getAllClassroomTickets(@PathVariable("idclassroom")int idclassroom){
 		return ticketService.getAllClassroomTickets(idclassroom);
+	}
+	
+	@GetMapping(value="/getAllTicketStatus", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<TicketStatusDTO> getAllTicketStatus(){
+		return ticketService.getAllTicketStatus();
 	}
 	
 }

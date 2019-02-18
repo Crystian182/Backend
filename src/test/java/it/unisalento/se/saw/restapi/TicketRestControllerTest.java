@@ -460,6 +460,38 @@ public class TicketRestControllerTest {
 	}
 	
 	@Test
+	public void getAllTicketStatusTest() throws Exception {
+		
+		Date mockDate = new Date();
+		
+		List<TicketStatusDTO> ticketStatuses = new ArrayList<TicketStatusDTO>();
+		
+		TicketStatusDTO ticketStatus1 = new TicketStatusDTO();
+		ticketStatus1.setIdstatus(1);
+		ticketStatus1.setDescription("In lavorazione");
+		ticketStatuses.add(ticketStatus1);
+		
+		TicketStatusDTO ticketStatus2 = new TicketStatusDTO();
+		ticketStatus2.setIdstatus(2);
+		ticketStatus2.setDescription("Risolto");
+		ticketStatuses.add(ticketStatus2);
+		
+		
+		when(ticketServiceMock.getAllTicketStatus()).thenReturn(ticketStatuses);
+		
+		mockMvc.perform(get("/ticket/getAllTicketStatus"))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(APPLICATION_JSON_UTF8))
+			.andExpect(jsonPath("$[0].idstatus", is(1)))
+			.andExpect(jsonPath("$[0].description", is("In lavorazione")))
+			.andExpect(jsonPath("$[1].idstatus", is(2)))
+			.andExpect(jsonPath("$[1].description", is("Risolto")));
+		
+		verify(ticketServiceMock, times(1)).getAllTicketStatus();
+		verifyNoMoreInteractions(ticketServiceMock);
+	}
+	
+	@Test
 	public void deleteTest() throws Exception {
 			
 		mockMvc.perform(post("/ticket/delete/{id}", 1))

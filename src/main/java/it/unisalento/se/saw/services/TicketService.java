@@ -28,6 +28,7 @@ import it.unisalento.se.saw.dto.TicketMessageDTO;
 import it.unisalento.se.saw.exceptions.TicketNotFoundException;
 import it.unisalento.se.saw.repositories.TicketMessageRepository;
 import it.unisalento.se.saw.repositories.TicketRepository;
+import it.unisalento.se.saw.repositories.TicketStatusRepository;
 import it.unisalento.se.saw.repositories.UserRepository;
 
 
@@ -42,6 +43,9 @@ public class TicketService implements ITicketService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	TicketStatusRepository statusRepository;
 	
 	@Autowired
 	IFCMService fcmService;
@@ -489,5 +493,18 @@ public class TicketService implements ITicketService {
 		}
 		
 		return newTicketMessageDTO;
+	}
+	
+	@Transactional(readOnly = true)
+	public List<TicketStatusDTO> getAllTicketStatus() {
+		List<TicketStatus> ticketStati =  statusRepository.findAll();
+		List<TicketStatusDTO> ticketStatusDTOs = new ArrayList<TicketStatusDTO>();
+		for(int i=0; i<ticketStati.size(); i++) {
+			TicketStatusDTO ticketStatusDTO = new TicketStatusDTO();
+			ticketStatusDTO.setIdstatus(ticketStati.get(i).getIdticketStatus());
+			ticketStatusDTO.setDescription(ticketStati.get(i).getDescription());
+			ticketStatusDTOs.add(ticketStatusDTO);
+		}
+		return ticketStatusDTOs;
 	}
 }

@@ -70,6 +70,7 @@ import it.unisalento.se.saw.repositories.FeedbackRepository;
 import it.unisalento.se.saw.repositories.LessonRepository;
 import it.unisalento.se.saw.repositories.TicketMessageRepository;
 import it.unisalento.se.saw.repositories.TicketRepository;
+import it.unisalento.se.saw.repositories.TicketStatusRepository;
 import it.unisalento.se.saw.repositories.TypeLessonRepository;
 import it.unisalento.se.saw.repositories.UserRepository;
 
@@ -98,6 +99,9 @@ public class TicketServiceTest {
 	
 	@Mock
 	UserRepository userRepository;
+	
+	@Mock
+	TicketStatusRepository statusRepository;
 
     @InjectMocks
     TicketService ticketService;
@@ -589,5 +593,22 @@ public class TicketServiceTest {
 
         TicketMessageDTO savedTicketMessageDTO = ticketService.saveMessage(ticketMessageDTO);
         assertEquals(ticketMessageDTO.getText(), savedTicketMessageDTO.getText());
+    }
+    
+    @Test()
+    public void getAllTicketStatusTest() throws IOException {
+    	
+    	Date mockDate = new Date();
+		
+    	List<TicketStatus> ticketStatuses = new ArrayList<TicketStatus>();
+		TicketStatus ticketStatus = new TicketStatus();
+		ticketStatus.setIdticketStatus(1);
+		ticketStatus.setDescription("In lavorazione");
+		ticketStatuses.add(ticketStatus);
+
+        when(statusRepository.findAll()).thenReturn(ticketStatuses);
+
+        List<TicketStatusDTO> ticketStatusDTOs = ticketService.getAllTicketStatus();
+        assertEquals(ticketStatus.getDescription(), ticketStatusDTOs.get(0).getDescription());
     }
 }
