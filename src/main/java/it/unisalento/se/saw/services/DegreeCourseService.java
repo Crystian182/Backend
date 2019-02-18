@@ -89,17 +89,19 @@ public class DegreeCourseService implements IDegreeCourseService {
 			degreeCourseDTO.setName(typeDegreeCourse.getName());
 			List<SubjectDTO> subjectDTOs= new ArrayList<SubjectDTO>();
 			List<Subject> subjects = subjectRepository.getSubjectsByIdDegreeCourse(degreeCourses.get(i).getIddegreeCourse());
-			for(int j=0; j<subjects.size(); j++) {
-				SubjectDTO subjectDTO = new SubjectDTO();
-				subjectDTO.setId(subjects.get(j).getIdsubject());
-				subjectDTO.setName(subjects.get(j).getTypeSubject().getName());
-				subjectDTO.setCfu(subjects.get(j).getCfu());
-				TeacherDTO teacherDTO = new TeacherDTO();
-				teacherDTO.setIdteacher(subjects.get(j).getTeacher().getIduser());
-				teacherDTO.setName(subjects.get(j).getTeacher().getUser().getName());
-				teacherDTO.setSurname(subjects.get(j).getTeacher().getUser().getSurname());
-				subjectDTO.setTeacherDTO(teacherDTO);
-				subjectDTOs.add(subjectDTO);
+			if(subjects != null) {
+				for(int j=0; j<subjects.size(); j++) {
+					SubjectDTO subjectDTO = new SubjectDTO();
+					subjectDTO.setId(subjects.get(j).getIdsubject());
+					subjectDTO.setName(subjects.get(j).getTypeSubject().getName());
+					subjectDTO.setCfu(subjects.get(j).getCfu());
+					TeacherDTO teacherDTO = new TeacherDTO();
+					teacherDTO.setIdteacher(subjects.get(j).getTeacher().getIduser());
+					teacherDTO.setName(subjects.get(j).getTeacher().getUser().getName());
+					teacherDTO.setSurname(subjects.get(j).getTeacher().getUser().getSurname());
+					subjectDTO.setTeacherDTO(teacherDTO);
+					subjectDTOs.add(subjectDTO);
+				}
 			}
 			degreeCourseDTO.setSubjects(subjectDTOs);
 			degreeCourseDTOs.add(degreeCourseDTO);
@@ -138,17 +140,19 @@ public class DegreeCourseService implements IDegreeCourseService {
 			degreeCourseDTO.setTypeDegreeCourse(typeDegreeCourse);
 			List<SubjectDTO> subjectDTOs= new ArrayList<SubjectDTO>();
 			List<Subject> subjects = subjectRepository.getSubjectsByIdDegreeCourse(degreeCourse.getIddegreeCourse());
-			for(int j=0; j<subjects.size(); j++) {
-				SubjectDTO subjectDTO = new SubjectDTO();
-				subjectDTO.setId(subjects.get(j).getIdsubject());
-				subjectDTO.setName(subjects.get(j).getTypeSubject().getName());
-				subjectDTO.setCfu(subjects.get(j).getCfu());
-				TeacherDTO teacherDTO = new TeacherDTO();
-				teacherDTO.setIdteacher(subjects.get(j).getTeacher().getIduser());
-				teacherDTO.setName(subjects.get(j).getTeacher().getUser().getName());
-				teacherDTO.setSurname(subjects.get(j).getTeacher().getUser().getSurname());
-				subjectDTO.setTeacherDTO(teacherDTO);
-				subjectDTOs.add(subjectDTO);
+			if(subjects!= null) {
+				for(int j=0; j<subjects.size(); j++) {
+					SubjectDTO subjectDTO = new SubjectDTO();
+					subjectDTO.setId(subjects.get(j).getIdsubject());
+					subjectDTO.setName(subjects.get(j).getTypeSubject().getName());
+					subjectDTO.setCfu(subjects.get(j).getCfu());
+					TeacherDTO teacherDTO = new TeacherDTO();
+					teacherDTO.setIdteacher(subjects.get(j).getTeacher().getIduser());
+					teacherDTO.setName(subjects.get(j).getTeacher().getUser().getName());
+					teacherDTO.setSurname(subjects.get(j).getTeacher().getUser().getSurname());
+					subjectDTO.setTeacherDTO(teacherDTO);
+					subjectDTOs.add(subjectDTO);
+				}
 			}
 			degreeCourseDTO.setSubjects(subjectDTOs);
 			return degreeCourseDTO;
@@ -261,29 +265,30 @@ public List<DegreeCourseDTO> getTeacherCourses(int idteacher) throws DegreeCours
 		DegreeCourse newDegreeCourse = degreeCourseRepository.save(degreeCourse);
 
 		List<Subject> subjects = new ArrayList<Subject>();
-		for(int j=0; j<degreeCourseDTO.getSubjects().size(); j++) {
-			Subject subject = new Subject();
-			subject.setIdsubject(degreeCourseDTO.getSubjects().get(j).getId());
-			subject.setCfu(degreeCourseDTO.getSubjects().get(j).getCfu());
-			User user = new User();
-			user.setName(degreeCourseDTO.getSubjects().get(j).getTeacherDTO().getName());
-			user.setSurname(degreeCourseDTO.getSubjects().get(j).getTeacherDTO().getSurname());
-			Teacher teacher = new Teacher();
-			teacher.setIduser(degreeCourseDTO.getSubjects().get(j).getTeacherDTO().getIdteacher());
-			teacher.setUser(user);
-			subject.setTeacher(teacher);
-			Term term = new Term();
-			term.setIdterm(degreeCourseDTO.getSubjects().get(j).getTerm().getIdterm());
-			TypeSubject typeSubject = new TypeSubject();
-			typeSubject.setIdtypeSubject(degreeCourseDTO.getSubjects().get(j).getTypeSubjectDTO().getIdtypeSubject());
-			typeSubject.setName(degreeCourseDTO.getSubjects().get(j).getTypeSubjectDTO().getName());
-			subject.setTypeSubject(typeSubject);
-			subject.setDegreeCourse(newDegreeCourse);
-			subject.setTypeSubject(typeSubject);
-			subject.setTerm(term);
-			subjects.add(subject);
+		if(degreeCourseDTO.getSubjects() != null) {
+			for(int j=0; j<degreeCourseDTO.getSubjects().size(); j++) {
+				Subject subject = new Subject();
+				subject.setIdsubject(degreeCourseDTO.getSubjects().get(j).getId());
+				subject.setCfu(degreeCourseDTO.getSubjects().get(j).getCfu());
+				User user = new User();
+				user.setName(degreeCourseDTO.getSubjects().get(j).getTeacherDTO().getName());
+				user.setSurname(degreeCourseDTO.getSubjects().get(j).getTeacherDTO().getSurname());
+				Teacher teacher = new Teacher();
+				teacher.setIduser(degreeCourseDTO.getSubjects().get(j).getTeacherDTO().getIdteacher());
+				teacher.setUser(user);
+				subject.setTeacher(teacher);
+				Term term = new Term();
+				term.setIdterm(degreeCourseDTO.getSubjects().get(j).getTerm().getIdterm());
+				TypeSubject typeSubject = new TypeSubject();
+				typeSubject.setIdtypeSubject(degreeCourseDTO.getSubjects().get(j).getTypeSubjectDTO().getIdtypeSubject());
+				typeSubject.setName(degreeCourseDTO.getSubjects().get(j).getTypeSubjectDTO().getName());
+				subject.setTypeSubject(typeSubject);
+				subject.setDegreeCourse(newDegreeCourse);
+				subject.setTypeSubject(typeSubject);
+				subject.setTerm(term);
+				subjects.add(subject);
+			}
 		}
-			
 		List<Subject> subjectsOfNewDegreeCourse = subjectRepository.saveAll(subjects);	
 		
 		DegreeCourseDTO newDegreeCourseDTO = new DegreeCourseDTO();
@@ -322,25 +327,27 @@ public List<DegreeCourseDTO> getTeacherCourses(int idteacher) throws DegreeCours
 		newDegreeCourseDTO.setTypeDegreeCourse(typeDegreeCourseDTO);
 		
 		List<SubjectDTO> subjectDTOs = new ArrayList<SubjectDTO>();
-		for(int i=0; i<subjectsOfNewDegreeCourse.size(); i++) {
-			SubjectDTO subjectDTO = new SubjectDTO();
-			subjectDTO.setId(subjectsOfNewDegreeCourse.get(i).getIdsubject());
-			subjectDTO.setCfu(subjectsOfNewDegreeCourse.get(i).getCfu());
-			subjectDTO.setName(subjectsOfNewDegreeCourse.get(i).getTypeSubject().getName());
-			TeacherDTO teacherDTO = new TeacherDTO();
-			teacherDTO.setIdteacher(subjectsOfNewDegreeCourse.get(i).getTeacher().getIduser());
-			teacherDTO.setName(subjectsOfNewDegreeCourse.get(i).getTeacher().getUser().getName());
-			teacherDTO.setSurname(subjectsOfNewDegreeCourse.get(i).getTeacher().getUser().getSurname());
-			subjectDTO.setTeacherDTO(teacherDTO);
-			TermDTO termDTO = new TermDTO();
-			termDTO.setIdterm(subjectsOfNewDegreeCourse.get(i).getTerm().getIdterm());
-			TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
-			typeSubjectDTO.setIdtypeSubject(subjectsOfNewDegreeCourse.get(i).getTypeSubject().getIdtypeSubject());
-			typeSubjectDTO.setName(subjectsOfNewDegreeCourse.get(i).getTypeSubject().getName());
-			typeSubjectDTO.setDescription(subjectsOfNewDegreeCourse.get(i).getTypeSubject().getDescription());
-			subjectDTO.setTypeSubjectDTO(typeSubjectDTO);
-			subjectDTO.setTerm(termDTO);
-			subjectDTOs.add(subjectDTO);
+		if(subjectsOfNewDegreeCourse != null) {
+			for(int i=0; i<subjectsOfNewDegreeCourse.size(); i++) {
+				SubjectDTO subjectDTO = new SubjectDTO();
+				subjectDTO.setId(subjectsOfNewDegreeCourse.get(i).getIdsubject());
+				subjectDTO.setCfu(subjectsOfNewDegreeCourse.get(i).getCfu());
+				subjectDTO.setName(subjectsOfNewDegreeCourse.get(i).getTypeSubject().getName());
+				TeacherDTO teacherDTO = new TeacherDTO();
+				teacherDTO.setIdteacher(subjectsOfNewDegreeCourse.get(i).getTeacher().getIduser());
+				teacherDTO.setName(subjectsOfNewDegreeCourse.get(i).getTeacher().getUser().getName());
+				teacherDTO.setSurname(subjectsOfNewDegreeCourse.get(i).getTeacher().getUser().getSurname());
+				subjectDTO.setTeacherDTO(teacherDTO);
+				TermDTO termDTO = new TermDTO();
+				termDTO.setIdterm(subjectsOfNewDegreeCourse.get(i).getTerm().getIdterm());
+				TypeSubjectDTO typeSubjectDTO = new TypeSubjectDTO();
+				typeSubjectDTO.setIdtypeSubject(subjectsOfNewDegreeCourse.get(i).getTypeSubject().getIdtypeSubject());
+				typeSubjectDTO.setName(subjectsOfNewDegreeCourse.get(i).getTypeSubject().getName());
+				typeSubjectDTO.setDescription(subjectsOfNewDegreeCourse.get(i).getTypeSubject().getDescription());
+				subjectDTO.setTypeSubjectDTO(typeSubjectDTO);
+				subjectDTO.setTerm(termDTO);
+				subjectDTOs.add(subjectDTO);
+			}
 		}
 		newDegreeCourseDTO.setSubjects(subjectDTOs);
 		
