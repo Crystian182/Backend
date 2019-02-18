@@ -105,7 +105,7 @@ public class LessonService implements ILessonService{
 		    courseTypeDTO.setIdcourseType(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getIdcourseType());
 		    courseTypeDTO.setDescription(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getDescription());
 		    courseTypeDTO.setCfu(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
-		    courseTypeDTO.setDuration(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getCfu());
+		    courseTypeDTO.setDuration(lessons.get(i).getTypeLesson().getSubject().getDegreeCourse().getTypeDegreeCourse().getCourseType().getDuration());
 		    typeDegreeCourseDTO.setCourseType(courseTypeDTO);
 		    
 		    DegreeCourseDTO degreeCourseDTO = new DegreeCourseDTO();
