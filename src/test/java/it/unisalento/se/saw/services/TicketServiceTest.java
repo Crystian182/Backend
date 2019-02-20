@@ -169,7 +169,7 @@ public class TicketServiceTest {
     	ticketMessage.setText("Ho un problema");
     	ticketMessages.add(ticketMessage);
     	
-        when(ticketRepository.findAll()).thenReturn(tickets);
+        when(ticketRepository.getAllTickets()).thenReturn(tickets);
         when(ticketRepository.getMessages(1)).thenReturn(ticketMessages);
 
         List<TicketDTO> ticketDTOs = ticketService.getAll();

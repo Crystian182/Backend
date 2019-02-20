@@ -89,36 +89,10 @@ public class AuthenticationRestController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
         final String token = jwtTokenUtil.generateToken(userDetails, device);
         response.setHeader(tokenHeader,token);
-        String title = "My First Notification";
-        String message = "Hello, I'm push notification";
         // Ritorno il token
         return userService.login(authenticationRequest.getEmail(), token);
         //return ResponseEntity.ok(new JwtAuthenticationResponse(userDetails.getUsername(),userDetails.getAuthorities()));
     }
-    
-    /*public static void sendPushNotification(String title, String message) throws Exception {
-        String pushMessage = "{\"data\":{\"title\":\"" +
-                title +
-                "\",\"message\":\"" +
-                message +
-                "\"},\"to\":\"" +
-                DEVICE_TOKEN +
-                "\"}";
-        // Create connection to send FCM Message request.
-        URL url = new URL("https://fcm.googleapis.com/fcm/send");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestProperty("Authorization", "key=" + SERVER_KEY);
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setRequestMethod("POST");
-        conn.setDoOutput(true);
-
-        // Send FCM message content.
-        OutputStream outputStream = conn.getOutputStream();
-        outputStream.write(pushMessage.getBytes());
-
-        System.out.println(conn.getResponseCode());
-        System.out.println(conn.getResponseMessage());
-    }*/
 
     @RequestMapping(value = "refreshtoken", method = RequestMethod.GET)
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request, HttpServletResponse response) {

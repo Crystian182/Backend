@@ -116,9 +116,9 @@ public class FileRestController {
        return fileService.getFeedbackFile(idfile);
    }
    
-   @GetMapping("/getLastFiles/{idstudent}")
-   public List<FileLessonDTO> getLastFiles(@PathVariable("idstudent")int idstudent) {
-       return fileService.getLastFiles(idstudent);
+   @GetMapping("/getLastFiles/{iduser}")
+   public List<FileLessonDTO> getLastFiles(@PathVariable("iduser")int iduser) {
+       return fileService.getLastFiles(iduser);
    }
    
    @GetMapping("/getSubjectFiles/{idsubject}")

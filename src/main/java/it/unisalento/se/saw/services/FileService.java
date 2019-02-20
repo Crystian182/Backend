@@ -43,6 +43,7 @@ import it.unisalento.se.saw.repositories.FeedbackFileRepository;
 import it.unisalento.se.saw.repositories.FeedbackRepository;
 import it.unisalento.se.saw.repositories.FileLessonRepository;
 import it.unisalento.se.saw.repositories.FileRepository;
+import it.unisalento.se.saw.repositories.UserRepository;
 
 @Service
 public class FileService implements IFileService {
@@ -61,6 +62,9 @@ public class FileService implements IFileService {
 	
 	@Autowired
 	BuildingRepository buildingRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 	
 	@Autowired
 	IFCMService fcmService;
@@ -210,9 +214,15 @@ public class FileService implements IFileService {
 		
 	}
 	
-	public List<FileLessonDTO> getLastFiles(int idstudent) {
+	public List<FileLessonDTO> getLastFiles(int iduser) {
 		
-		List<FileLesson> files = fileLessonRepository.getLastFiles(idstudent);
+		List<FileLesson> files;
+		if(userRepository.isTeacher(iduser)) {
+			files = fileLessonRepository.getLastFilesTeacher(iduser);
+		} else {
+			files = fileLessonRepository.getLastFiles(iduser);
+		}
+		
 		List<FileLessonDTO> fileLessonDTOs = new ArrayList<FileLessonDTO>();
 		for(int i=0; i<files.size(); i++) {
 			FileDTO fileDTO = new FileDTO();

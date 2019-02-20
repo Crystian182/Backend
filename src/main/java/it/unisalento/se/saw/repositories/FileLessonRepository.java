@@ -19,6 +19,9 @@ public interface FileLessonRepository extends JpaRepository<FileLesson, Integer>
 	@Query("SELECT f FROM FileLesson f, Lesson l, Subject s, StudentHasDegreeCourse e WHERE f.lesson.idlesson=l.idlesson AND l.typeLesson.subject.idsubject=s.idsubject AND s.degreeCourse.iddegreeCourse=e.degreeCourse.iddegreeCourse AND e.student.iduser=:idstudent ORDER BY f.date DESC")
 	public List<FileLesson> getLastFiles(@Param("idstudent")int idstudent);
 	
+	@Query("SELECT f FROM FileLesson f WHERE f.lesson.typeLesson.subject.teacher.iduser=:iduser ORDER BY f.date DESC")
+	public List<FileLesson> getLastFilesTeacher(@Param("iduser")int iduser);
+	
 	@Query("SELECT f FROM FileLesson f WHERE f.lesson.typeLesson.subject.idsubject=:idsubject ORDER BY f.date DESC")
 	public List<FileLesson> getSubjectFiles(@Param("idsubject")int idsubject);
 	

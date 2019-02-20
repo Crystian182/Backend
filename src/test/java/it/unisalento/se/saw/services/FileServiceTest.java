@@ -71,6 +71,7 @@ import it.unisalento.se.saw.repositories.FileLessonRepository;
 import it.unisalento.se.saw.repositories.FileRepository;
 import it.unisalento.se.saw.repositories.LessonRepository;
 import it.unisalento.se.saw.repositories.TypeLessonRepository;
+import it.unisalento.se.saw.repositories.UserRepository;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -103,6 +104,9 @@ public class FileServiceTest {
 	
 	@Mock
 	BuildingRepository buildingRepository;
+	
+	@Mock
+	UserRepository userRepository;
 
     @InjectMocks
     FileService fileService;
@@ -237,6 +241,7 @@ public class FileServiceTest {
 
     	
         when(fileLessonRepository.getLastFiles(1)).thenReturn(fileLessons);
+        when(userRepository.isTeacher(1)).thenReturn(false);
 
         List<FileLessonDTO> fileLessonDTOs = fileService.getLastFiles(1);
         assertEquals(file.getIdfile(),(Integer) fileLessonDTOs.get(0).getFile().getIdFile());

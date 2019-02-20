@@ -17,7 +17,7 @@ public interface IFileService {
 	public FileDTO saveFileLesson(InputStream inputStream, String path, String filename, int idlesson);
 	public Resource getFileAsResource(String filename, String location) throws FileNotExistsException;
 	public List<FileDTO> getLessonFiles(int idlesson);
-	public List<FileLessonDTO> getLastFiles(int idstudent);
+	public List<FileLessonDTO> getLastFiles(int iduser);
 	public List<FileLessonDTO> getSubjectFiles(int idsubject);
 	public it.unisalento.se.saw.domain.File getBuildingImage(int idbuilding);
 	public it.unisalento.se.saw.domain.File getFile(int idfile);

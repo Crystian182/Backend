@@ -233,9 +233,12 @@ public class BuildingServiceTest {
         when(buildingRepository.findById(1)).thenReturn(Optional.of(building1));
         when(classroomRepository.findClassesByBuild(buildings.get(0).getIdbuilding())).thenReturn(classrooms);
         when(classroomHasToolRepository.getToolByClassroomId(classrooms.get(0).getIdclassroom())).thenReturn(classroomHasTools);
+        when(buildingRepository.getOne(any(Integer.class))).thenReturn(building1);
 
         BuildingDTO b = buildingService.save(buildingDTO1);
         assertEquals(buildingDTO1.getId(), b.getId());
+        assertEquals(buildingDTO1.getName(), b.getName());
+        assertEquals(buildingDTO1.getAddress(), b.getAddress());
     	
     }
     

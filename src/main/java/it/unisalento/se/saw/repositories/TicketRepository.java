@@ -30,4 +30,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	
 	@Query("SELECT t FROM Ticket t WHERE t.idticket=:idticket")
 	public Ticket getByID(@Param("idticket")int idticket);
+	
+	@Query("SELECT t FROM Ticket t ORDER BY t.date DESC")
+	public List<Ticket> getAllTickets();
 }

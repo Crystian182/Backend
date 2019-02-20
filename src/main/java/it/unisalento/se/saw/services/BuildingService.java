@@ -56,7 +56,11 @@ public class BuildingService implements IBuildingService{
 			buildingDTO.setAddress(buildings.get(i).getAddress());
 			buildingDTO.setLat(buildings.get(i).getLat());
 			buildingDTO.setLng(buildings.get(i).getLng());
-			buildingDTO.setPic(this.getImage(buildings.get(i).getFile().getIdfile()));
+			try {
+				buildingDTO.setPic(this.getImage(buildings.get(i).getFile().getIdfile()));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			
 			List<Classroom> classrooms = classroomRepository.findClassesByBuild(buildings.get(i).getIdbuilding());
 			if(classrooms != null) {
@@ -154,6 +158,7 @@ public class BuildingService implements IBuildingService{
 		Building building = new Building();
 		try {
 			building.setIdbuilding(buildingDTO.getId());
+			building.setFile(buildingRepository.getOne(buildingDTO.getId()).getFile());
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

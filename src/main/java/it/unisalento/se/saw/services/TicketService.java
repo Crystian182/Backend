@@ -52,7 +52,7 @@ public class TicketService implements ITicketService {
 	
 	@Transactional(readOnly = true)
 	public List<TicketDTO> getAll() {
-		List<Ticket> tickets = ticketRepository.findAll();
+		List<Ticket> tickets = ticketRepository.getAllTickets();
 		List<TicketDTO> ticketDTOs = new ArrayList<TicketDTO>();
 		
 		for(int i=0; i<tickets.size(); i++) {
