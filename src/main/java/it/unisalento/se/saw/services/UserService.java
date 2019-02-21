@@ -48,8 +48,8 @@ public class UserService implements IUserService{
 	@Autowired
 	TeacherRepository teacherRepository;
 
-	private static final String location = "C:\\Users\\Federico\\Desktop\\Computer Engineering\\Backend\\Backend\\src\\main\\resources\\users\\";
-
+	//private static final String location = "C:\\Users\\Federico\\Desktop\\Computer Engineering\\Backend\\Backend\\src\\main\\resources\\users\\";
+	private static final String location = "/home/Documents/users/";
 	@Autowired
 	StudentHasDegreeCourseRepository studentHasDegreeCourseRepository;
 	
