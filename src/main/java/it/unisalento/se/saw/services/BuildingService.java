@@ -34,8 +34,8 @@ import it.unisalento.se.saw.repositories.UserRepository;
 @Service
 public class BuildingService implements IBuildingService{
 	
-	private static final String location = "C:\\Users\\Federico\\Desktop\\Computer Engineering\\Backend\\Backend\\src\\main\\resources\\";
-	
+	//private static final String location = "C:\\Users\\Federico\\Desktop\\Computer Engineering\\Backend\\Backend\\src\\main\\resources\\";
+	private static final String location = "/home/Documents/buildings/";
 	@Autowired
 	BuildingRepository buildingRepository;
 	

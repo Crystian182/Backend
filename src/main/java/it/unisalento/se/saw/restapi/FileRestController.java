@@ -36,7 +36,7 @@ import it.unisalento.se.saw.exceptions.FileNotExistsException;
 public class FileRestController {
 	
 	//private static final String location = "C:\\Users\\Federico\\Desktop\\Computer Engineering\\Backend\\Backend\\src\\main\\resources\\";
-	private static final String location = "/home/Documents";
+	private static final String location = "/home/Documents/";
 	@Autowired
 	IFileService fileService;
 
@@ -64,7 +64,7 @@ public class FileRestController {
 	public HttpStatus uploadBuilding(@PathVariable("idbuilding")int idbuilding, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
 		try {
 			String fileName = file.getOriginalFilename();
-			String path = location + "/buildings";
+			String path = location + "buildings/";
 			fileService.saveFileBuilding(file.getInputStream(), path, fileName, idbuilding);
 			return HttpStatus.ACCEPTED;
 		} catch (Exception e) {
@@ -85,7 +85,7 @@ public class FileRestController {
 
    @GetMapping("/download/{fileName:.+}")
     public ResponseEntity<Resource> download(@PathVariable String fileName, HttpServletRequest request, HttpServletResponse response) throws FileNotExistsException {
-        Resource file = fileService.getFileAsResource(fileName, location + "/file");
+        Resource file = fileService.getFileAsResource(fileName, location + "file/");
         response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
         return new ResponseEntity<Resource>(file, HttpStatus.OK);
     }
@@ -98,7 +98,7 @@ public class FileRestController {
    @GetMapping("/download/building/{idbuilding}")
    public ResponseEntity<Resource> downloadBuildingImage(@PathVariable("idbuilding")int idbuilding, HttpServletRequest request, HttpServletResponse response) throws FileNotExistsException {
 	   it.unisalento.se.saw.domain.File fil = fileService.getBuildingImage(idbuilding);
-	   Resource file = fileService.getFileAsResource(String.valueOf(fil.getIdfile()), location + "/buildings");
+	   Resource file = fileService.getFileAsResource(String.valueOf(fil.getIdfile()), location + "buildings/");
        response.setHeader("Content-Disposition", "attachment; filename=\"" + fil.getName() + "\"");
        return new ResponseEntity<Resource>(file, HttpStatus.OK);
    }
@@ -106,7 +106,7 @@ public class FileRestController {
    @GetMapping("/download/filelesson/{idfile}")
    public ResponseEntity<Resource> downloadFileLesson(@PathVariable("idfile")int idfile, HttpServletRequest request, HttpServletResponse response) throws FileNotExistsException {
 	   it.unisalento.se.saw.domain.File fil = fileService.getFile(idfile);
-	   Resource file = fileService.getFileAsResource(String.valueOf(fil.getIdfile()), location + "/file");
+	   Resource file = fileService.getFileAsResource(String.valueOf(fil.getIdfile()), location + "file/");
        response.setHeader("Content-Disposition", "attachment; filename=\"" + fil.getName() + "\"");
        return new ResponseEntity<Resource>(file, HttpStatus.OK);
    }
